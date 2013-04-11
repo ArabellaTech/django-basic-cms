@@ -1,0 +1,28 @@
+{% load i18n pages_tags %}
+
+<table cellspacing="0" id="page-table-dnd">
+    <thead>
+        <tr>
+            <th scope="col" class="action-checkbox-column">
+                <div class="text"><span><input id="action-toggle" type="checkbox" style="display: inline-block;" /></span></div>
+            </th>
+            <th class="title-cell" scope="col"><div class="text"><span>{% trans "title" %}</span></div></th>
+            <th class="language-cell" scope="col"><div class="text"><span>{% trans "languages" %}</span></div></th>
+            <th class="last-modification-cell" scope="col"><div class="text"><span>{% trans "last modification" %}</span></div></th>
+            <th><div class="text"><span>{% trans "published" %}</span></div></th>
+            <th class="template-cell" scope="col"><div class="text"><span>{% trans "template" %}</span></div></th>
+            <th class="author-cell" scope="col"><div class="text"><span>{% trans "author" %}</span></div></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for page in pages %}
+            {% pages_admin_menu page %}
+        {% endfor %}
+    </tbody>
+</table>
+
+<script type="text/javascript">
+$(document).ready(function() {
+
+});
+</script>
