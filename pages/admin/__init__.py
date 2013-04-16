@@ -276,8 +276,6 @@ class PageAdmin(admin.ModelAdmin):
                 initial = placeholder.get_content(obj, language, name)
             else:
                 initial = None
-            print placeholder.get_field(obj,
-                language, initial=initial)
             form.base_fields[name] = placeholder.get_field(obj,
                 language, initial=initial)
 
