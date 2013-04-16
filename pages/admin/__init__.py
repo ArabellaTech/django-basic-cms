@@ -16,6 +16,7 @@ from pages.permissions import PagePermission
 from pages.http import auto_render
 import pages.widgets
 
+from django import forms
 from django.contrib import admin
 from django.utils.translation import ugettext as _, ugettext_lazy
 from django.utils.encoding import force_unicode
@@ -81,6 +82,19 @@ class PageAdmin(admin.ModelAdmin):
     )
 
     actions = [export_pages_as_json]
+
+    metadata_fields = [
+        {'name': 'meta_description',
+        'field': forms.fields.CharField(required=False, widget=forms.widgets.Textarea()), },
+        {'name': 'meta_keywords',
+        'field': forms.fields.CharField(required=False, widget=forms.widgets.Textarea()), },
+        {'name': 'meta_author',
+        'field': forms.fields.CharField(required=False), },
+        {'name': 'fb_page_type',
+        'field': forms.fields.CharField(required=False), },
+        {'name': 'fb_image',
+        'field': forms.fields.CharField(required=False), },
+    ]
 
     class Media:
         css = {
@@ -168,6 +182,15 @@ class PageAdmin(admin.ModelAdmin):
                 placeholder.save(page, language, data, change,
                     extra_data=extra_data)
 
+        for placeholder in self.metadata_fields:
+            data = form.cleaned_data[placeholder['name']]
+            Content.objects.set_or_create_content(
+                    page,
+                    language,
+                    placeholder['name'],
+                    data
+                )
+
         page.invalidate()
 
     def get_fieldsets(self, request, obj=None):
@@ -200,6 +223,13 @@ class PageAdmin(admin.ModelAdmin):
                 placeholder_fieldsets.append(placeholder.name)
 
         additional_fieldsets = []
+
+        # meta fields
+        metadata_fieldsets = [f['name'] for f in self.metadata_fields]
+        additional_fieldsets.append((_('Metadata'), {
+            'fields': metadata_fieldsets,
+            'classes': ('module-content', 'collapse'),
+        }))
         additional_fieldsets.append((_('Content'), {
             'fields': placeholder_fieldsets,
             'classes': ('module-content',),
@@ -246,8 +276,21 @@ class PageAdmin(admin.ModelAdmin):
                 initial = placeholder.get_content(obj, language, name)
             else:
                 initial = None
+            print placeholder.get_field(obj,
+                language, initial=initial)
             form.base_fields[name] = placeholder.get_field(obj,
                 language, initial=initial)
+
+        for placeholder in self.metadata_fields:
+            name = placeholder['name']
+            initial = None
+            if obj:
+                try:
+                    initial = Content.objects.get(page=obj, language=language, type=name).body
+                except Content.DoesNotExist:
+                    pass
+            form.base_fields[name] = placeholder['field']
+            form.base_fields[name].initial = initial
 
         return form
 
@@ -397,7 +440,7 @@ class ContentAdmin(admin.ModelAdmin):
 
 class AliasAdmin(admin.ModelAdmin):
     list_display = ('page', 'url',)
-    list_editable = ('url', )
+    list_editable = ('url',)
 
 try:
     admin.site.register(PageAlias, AliasAdmin)

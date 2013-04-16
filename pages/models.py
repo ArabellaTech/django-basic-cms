@@ -477,6 +477,9 @@ class Page(MPTTModel):
                 if p.name in ('title', 'slug'):
                     continue # these were already included
                 out[p.name] = language_content(p.name)
+
+            for p in Content.objects.filter(type__in=['meta_description', 'meta_keywords', 'meta_author', 'fb_page_type', 'fb_image']):
+                out[p.type] = language_content(p.type)
             return out
 
         def isoformat(d):
