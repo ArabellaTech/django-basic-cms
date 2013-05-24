@@ -15,6 +15,7 @@ from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sites.models import Site
+from django.conf import settings as django_settings
 
 
 from mptt.models import MPTTModel
@@ -23,7 +24,7 @@ if settings.PAGE_TAGGING:
 
 PAGE_CONTENT_DICT_KEY = ContentManager.PAGE_CONTENT_DICT_KEY
 
-USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
+USER_MODEL = getattr(django_settings, 'AUTH_USER_MODEL', 'auth.User')
 
 
 class Page(MPTTModel):
