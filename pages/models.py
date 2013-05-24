@@ -7,7 +7,7 @@ from pages import settings
 
 from datetime import datetime
 from django.db import models
-from django.contrib.auth.models import User, SiteProfileNotAvailable
+from django.contrib.auth.models import SiteProfileNotAvailable
 from django.db.models import Max
 from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
@@ -22,6 +22,8 @@ if settings.PAGE_TAGGING:
     from taggit.managers import TaggableManager
 
 PAGE_CONTENT_DICT_KEY = ContentManager.PAGE_CONTENT_DICT_KEY
+
+USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
 
 class Page(MPTTModel):
@@ -66,7 +68,7 @@ class Page(MPTTModel):
     PAGE_URL_KEY = "page_%d_url"
     PAGE_BROKEN_LINK_KEY = "page_broken_link_%s"
 
-    author = models.ForeignKey(User, verbose_name=_('author'))
+    author = models.ForeignKey(USER_MODEL, verbose_name=_('author'))
 
     parent = models.ForeignKey('self', null=True, blank=True,
             related_name='children', verbose_name=_('parent'))
