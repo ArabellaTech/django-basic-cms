@@ -492,7 +492,7 @@ class Page(MPTTModel):
             """Allow a user's profile to return an email for the user."""
             try:
                 profile = user.get_profile()
-            except (SiteProfileNotAvailable, ObjectDoesNotExist):
+            except (SiteProfileNotAvailable, ObjectDoesNotExist, AttributeError):
                 return user.email
             get_email = getattr(profile, 'get_email', None)
             return get_email() if get_email else user.email
