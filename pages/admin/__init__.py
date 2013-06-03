@@ -84,6 +84,8 @@ class PageAdmin(admin.ModelAdmin):
     actions = [export_pages_as_json]
 
     metadata_fields = [
+        {'name': 'meta_title',
+        'field': forms.fields.CharField(required=False) },
         {'name': 'meta_description',
         'field': forms.fields.CharField(required=False, widget=forms.widgets.Textarea()), },
         {'name': 'meta_keywords',
