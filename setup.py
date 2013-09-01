@@ -3,7 +3,7 @@ from setuptools import setup, find_packages
 from pkg_resources import require, DistributionNotFound
 import basic_cms
 import os
-package_name = 'basic_cms'
+package_name = 'django-basic-cms'
 
 
 def local_open(fname):
