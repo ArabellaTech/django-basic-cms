@@ -1,11 +1,5 @@
-include INSTALL
 include LICENSE
-include AUTHORS
-include TODO
-include README
 include README.rst
-include THANKS
-include CHANGELOG
 include MANIFEST.in
 recursive-include doc *
 recursive-include basic_cms *
@@ -19,8 +13,6 @@ recursive-include basic_cms *.html
 recursive-include basic_cms *.mo
 recursive-include basic_cms *.po
 global-exclude *.pyc
-global-exclude coverage/*
 # this important to prune at the end
 prune example
 prune dist
-
