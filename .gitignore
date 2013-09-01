@@ -4,3 +4,4 @@
 .DS_Store
 build
 django_basic_cms.egg-info*
+doc/.build/*
