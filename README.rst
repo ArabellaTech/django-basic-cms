@@ -17,7 +17,7 @@ Documentation
 
 For more informations about the product:
 
-TODO
+http://django-basic-cms.readthedocs.org/
 
 
 TODO before 1.0
