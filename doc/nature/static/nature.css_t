@@ -59,7 +59,7 @@ div.related {
     color: #333;
     text-shadow: 0px 1px 0 #eee;
     font-size: 0.80em;
-    background:#fff url(gerbi.png) 30px center no-repeat;
+    background:#fff;
     padding:25px 20px 25px 260px;
     width:auto;
 }

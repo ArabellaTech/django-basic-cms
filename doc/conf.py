@@ -39,7 +39,7 @@ master_doc = 'index'
 
 # General information about the project.
 project = u'django-page-cms'
-copyright = u'2009, Batiste Bieler'
+copyright = u'2013, YD-Technology'
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
@@ -156,7 +156,7 @@ html_use_index = True
 #html_file_suffix = ''
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = 'django-page-cmsdoc'
+htmlhelp_basename = 'django-basic-cmsdoc'
 
 
 # Options for LaTeX output
@@ -171,8 +171,8 @@ htmlhelp_basename = 'django-page-cmsdoc'
 # Grouping the document tree into LaTeX files. List of tuples
 # (source start file, target name, title, author, document class [howto/manual]).
 latex_documents = [
-  ('index', 'django-page-cms.tex', ur'django-page-cms Documentation',
-   ur'Batiste Bieler', 'manual'),
+  ('index', 'django-page-cms.tex', ur'django-basic-cms Documentation',
+   ur'YD-Technology', 'manual'),
 ]
 
 # The name of an image file (relative to this directory) to place at the top of

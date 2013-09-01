@@ -1,9 +1,9 @@
 # -*- coding: utf-8 -*-
 from setuptools import setup, find_packages
 from pkg_resources import require, DistributionNotFound
-import pages
+import basic_cms
 import os
-package_name = 'pages'
+package_name = 'basic_cms'
 
 
 def local_open(fname):
@@ -21,36 +21,36 @@ for dist in requirements.readlines():
         required_to_install.append(dist)
 
 data_dirs = []
-for directory in os.walk('pages/templates'):
+for directory in os.walk('basic_cms/templates'):
     data_dirs.append(directory[0][6:] + '/*.*')
 
-for directory in os.walk('pages/media'):
+for directory in os.walk('basic_cms/media'):
     data_dirs.append(directory[0][6:] + '/*.*')
 
-for directory in os.walk('pages/static'):
+for directory in os.walk('basic_cms/static'):
     data_dirs.append(directory[0][6:] + '/*.*')
 
-for directory in os.walk('pages/locale'):
+for directory in os.walk('basic_cms/locale'):
     data_dirs.append(directory[0][6:] + '/*.*')
 
 url_schema = 'http://pypi.python.org/packages/source/d/%s/%s-%s.tar.gz'
-download_url = url_schema % (package_name, package_name, pages.__version__)
+download_url = url_schema % (package_name, package_name, basic_cms.__version__)
 
 setup(
     name=package_name,
-    test_suite='pages.test_runner.build_suite',
-    version=pages.__version__,
-    description=pages.__doc__,
-    author=pages.__author__,
-    author_email=pages.__contact__,
-    url=pages.__homepage__,
-    license=pages.__license__,
+    test_suite='basic_cms.test_runner.build_suite',
+    version=basic_cms.__version__,
+    description=basic_cms.__doc__,
+    author=basic_cms.__author__,
+    author_email=basic_cms.__contact__,
+    url=basic_cms.__homepage__,
+    license=basic_cms.__license__,
     long_description=local_open('README.rst').read(),
     download_url=download_url,
     install_requires=required_to_install,
     packages=find_packages(exclude=['example', 'example.*']),
     # very important for the binary distribution to include the templates.
-    package_data={'pages': data_dirs},
+    package_data={'basic_cms': data_dirs},
     #include_package_data=True, # include package data under svn source control
     zip_safe=False,
     classifiers=[

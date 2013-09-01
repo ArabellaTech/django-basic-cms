@@ -2,7 +2,7 @@
 Installation
 ============
 
-This document explain how to install Gerbi CMS into an existing Django project.
+This document explain how to install Django Basic CMS into an existing Django project.
 This document assume that you already know how to setup a Django project.
 
 If you have any problem installing this CMS, take a look at the example application that stands in the example directory.
@@ -17,11 +17,11 @@ Evaluate quickly the application
 
 After you have installed all the dependencies you can simply checkout the code with git::
 
-    git clone git://github.com/batiste/django-page-cms.git django-page-cms
+    git clone git://github.com/YD-Technology/django-basic-cms.git django-basic-cms
 
 And then, run the example project::
 
-    cd django-page-cms/example/
+    cd django-basic-cms/example/
     python manage.py syncdb
     python manage.py build_static pages
     python manage.py runserver
@@ -35,14 +35,14 @@ Install dependencies by using pip
 The pip install is the easiest and the recommended installation method. Use::
 
     $ sudo easy_install pip
-    $ wget -c http://github.com/batiste/django-page-cms/raw/master/requirements/external_apps.txt
+    $ wget -c http://github.com/YD-Technology/django-basic-cms/raw/master/requirements/external_apps.txt
     $ sudo pip install -r external_apps.txt
 
 Every package listed in the ``external_app.txt`` should be downloaded and installed.
 
 If you are not using the source code version of the application then install it using::
 
-    $ sudo pip install django-page-cms
+    $ sudo pip install django-basic-cms
 
 Install dependencies by using easy_install
 ==========================================
@@ -73,11 +73,11 @@ Basically you need to have something like this::
 
     urlpatterns = patterns('',
         ...
-        url(r'^pages/', include('pages.urls')),
+        url(r'^cms/', include('basic_cms.urls')),
         (r'^admin/', include(admin.site.urls)),
     )
 
-When you will visit the site the first time (``/pages/``), you will get a 404 error
+When you will visit the site the first time (``/cms/``), you will get a 404 error
 because there is no published page. Go to the admin first and create and publish some pages.
 
 You will certainly want to activate the static file serve view in your ``urls.py`` if you are in developement mode::
@@ -92,9 +92,9 @@ You will certainly want to activate the static file serve view in your ``urls.py
 Settings
 ========
 
-All the Gerbi CMS specific settings and options are listed and explained in the ``pages/settings.py`` file.
+All the Django Basic CMS specific settings and options are listed and explained in the ``pages/settings.py`` file.
 
-Gerbi CMS require several of these settings to be set. They are marked in this document with a bold "*must*".
+Django Basic CMS require several of these settings to be set. They are marked in this document with a bold "*must*".
 
 .. note::
 
@@ -187,7 +187,7 @@ You *must* have these context processors into your ``TEMPLATE_CONTEXT_PROCESSORS
         'django.core.context_processors.debug',
         'django.core.context_processors.media',
         'django.core.context_processors.request',
-        'pages.context_processors.media',
+        'basic_cms.context_processors.media',
         ...
     )
 
@@ -205,7 +205,7 @@ You *must* have these middleware into your ``MIDDLEWARE_CLASSES`` setting::
 Caching
 -------
 
-Gerbi CMS use the caching framework quite intensively. You should definitely
+Django Basic CMS use the caching framework quite intensively. You should definitely
 setting-up a cache-backend_ to have decent performance.
 
 .. _cache-backend: http://docs.djangoproject.com/en/dev/topics/cache/#setting-up-the-cache
@@ -218,7 +218,7 @@ The sites framework
 -------------------
 
 If you want to use the `Django sites framework <http://docs.djangoproject.com/en/dev/ref/contrib/sites/#ref-contrib-sites>`_
-with Gerbi CMS, you *must* define the ``SITE_ID`` and ``PAGE_USE_SITE_ID`` settings and create the appropriate Site object into the admin interface::
+with Django Basic CMS, you *must* define the ``SITE_ID`` and ``PAGE_USE_SITE_ID`` settings and create the appropriate Site object into the admin interface::
 
     PAGE_USE_SITE_ID = True
     SITE_ID = 1
@@ -241,6 +241,6 @@ If you want to use it set ``PAGE_TAGGING`` at ``True`` into your setting file an
         'django.contrib.sites',
         'mptt',
         'tagging',
-        'pages',
+        'basic_cms',
         ...
     )

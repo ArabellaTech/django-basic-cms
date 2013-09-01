@@ -3,7 +3,7 @@ How to use the various navigation template tags
 ===============================================
 
 Presenting a navigational structure to the user is an common task on every website.
-Django-pages-cms offers various template tags which can be used to create a site navigation menu.
+Django Basic CMS offers various template tags which can be used to create a site navigation menu.
 
 .. contents::
     :local:

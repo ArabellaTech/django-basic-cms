@@ -1,5 +1,5 @@
 ======================
-Page CMS reference API
+Django Basic CMS reference API
 ======================
 
 .. contents::
@@ -9,7 +9,7 @@ Page CMS reference API
 The application model
 ======================
 
-Gerbi CMS declare rather simple models: :class:`Page <pages.models.Page>`
+Django Basic CMS declare rather simple models: :class:`Page <pages.models.Page>`
 :class:`Content <pages.models.Content>` and :class:`PageAlias <pages.models.PageAlias>`.
 
 Those Django models have the following relations:

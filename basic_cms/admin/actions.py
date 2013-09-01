@@ -11,7 +11,7 @@ from pages.http import get_language_from_request
 from pages.utils import get_placeholders
 from pages.models import Page
 
-JSON_PAGE_EXPORT_NAME = 'gerbi_cms_page_export_version'
+JSON_PAGE_EXPORT_NAME = 'basic_cms_page_export_version'
 JSON_PAGE_EXPORT_VERSION = 4
 JSON_PAGE_EXPORT_FILENAME = 'cms_pages.json'
 

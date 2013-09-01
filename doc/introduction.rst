@@ -2,13 +2,13 @@
 Introduction
 ============
 
-Gerbi CMS enable you to create and administrate hierarchical pages in a simple and powerful way.
+Django Basic CMS enable you to create and administrate hierarchical pages in a simple and powerful way.
 
-Gerbi CMS is based around a placeholders concept. A placeholder is special template tag that
+Django Basic CMS is based around a placeholders concept. A placeholder is special template tag that
 you use in your page templates. Every time you add a placeholder in your template  a field
 dynamically appears in the page admin.
 
-The project code repository is found at this address: http://github.com/batiste/django-page-cms
+The project code repository is found at this address: http://github.com/YD-Technology/django-basic-cms
 
 .. contents::
     :local:
@@ -72,8 +72,8 @@ Dependencies & Compatibility
   * `django-taggit <http://http://github.com/alex/django-taggit>`_ (if PAGE_TAGGING = True)
   * `html5lib <http://code.google.com/p/html5lib/>`_ (if PAGE_SANITIZE_USER_INPUT = True)
   * `django-tinymce <http://code.google.com/p/django-tinymce/>`_ (if PAGE_TINYMCE = True)
-  * Gerbi CMS is shipped with jQuery.
-  * Gerbi CMS works well with `django-staticfiles <http://pypi.python.org/pypi/django-staticfiles/>`_
+  * Django Basic CMS is shipped with jQuery.
+  * Django Basic CMS works well with `django-staticfiles <http://pypi.python.org/pypi/django-staticfiles/>`_
   * Compatible with MySQL, PostgreSQL, SQLite3, some issues are known with Oracle.
 
 .. note::
@@ -83,10 +83,9 @@ Dependencies & Compatibility
 How to contribute
 ==================
 
-I recommend to `create a clone on github  <http://github.com/batiste/django-page-cms>`_ and
+I recommend to `create a clone on github  <http://github.com/YD-Technology/django-basic-cms>`_ and
 make your modifications in your branch. There is a things that is nice to do:
 
-  * Add your name to the AUTHORS file.
   * Follow the pep08, and the 79 characters rules.
   * Add new features in the `doc/changelog.rst` file.
   * Document how the user might use a new feature.
@@ -100,19 +99,19 @@ make your modifications in your branch. There is a things that is nice to do:
 Ask for help
 ============
 
-`Gerbi CMS Google Group <http://groups.google.com/group/django-page-cms>`_
+`Django Basic CMS Github <https://github.com/YD-Technology/django-basic-cms>`_
 
 Test it
 -------
 
 To test this CMS checkout the code with git::
 
-    $ git clone git://github.com/batiste/django-page-cms.git django-page-cms
+    $ git clone git://github.com/YD-Technology/django-basic-cms.git django-basic-cms
 
 Install the dependencies::
 
     $ sudo easy_install pip
-    $ wget -c http://github.com/batiste/django-page-cms/raw/master/requirements/external_apps.txt
+    $ wget -c http://github.com/YD-Technology/django-basic-cms/raw/master/requirements/external_apps.txt
     $ sudo pip install -r external_apps.txt
 
 And then, run the development server::
@@ -124,7 +123,7 @@ And then, run the development server::
     $ python manage.py manage.py runserver
 
 
-Gerbi CMS try to keep the code base stable. The test coverage is higher
+YD-Technology CMS try to keep the code base stable. The test coverage is higher
 than 80% and we try to keep it this way. To run the test suite::
 
     python setup.py test
@@ -137,7 +136,7 @@ than 80% and we try to keep it this way. To run the test suite::
 Handling images and files
 ---------------------------
 
-Gerbi include a image placeholder for basic needs. For a more advanced
+YD-Technology include a image placeholder for basic needs. For a more advanced
 files browser you could use django-filebrowser:
 
   * http://code.google.com/p/django-filebrowser/
