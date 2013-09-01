@@ -22,12 +22,12 @@ http://django-basic-cms.readthedocs.org/
 
 TODO before 1.0
 ===============
- - add travis and tox
- - add coverals
- - fix migration
- - fix version control
- - better import/export
- - add support for Custom User Model
- - update to current version on Haystack
- - fix admin with grapelli
- - update and publish Documentation
+- add travis and tox
+- add coverals
+- fix migration
+- fix version control
+- better import/export
+- add support for Custom User Model
+- update to current version on Haystack
+- fix admin with grapelli
+- update and publish Documentation
