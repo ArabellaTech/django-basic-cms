@@ -36,4 +36,5 @@ TODO before 1.0
 - fix admin with grapelli
 - support for Python 3.x
 - coverage > 90%
+- pep8
 - update documentation
