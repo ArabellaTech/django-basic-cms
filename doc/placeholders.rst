@@ -38,7 +38,7 @@ The **widget** option is used to change the placeholders widgets in the administ
 By default the CMS will use a simple `TextInput` widget. Otherwise the CMS will use the
 widget of your choice. Widgets need to be registered before you can use them in the CMS::
 
-    from pages.widgets_registry import register_widget
+    from basic_cms.widgets_registry import register_widget
     from django.forms import TextInput
 
     class NewWidget(TextInput):
@@ -156,8 +156,8 @@ Create your own placeholder
 If you want to create your own new type of placeholder,
 you can simply subclass the :class:`PlaceholderNode <pages.placeholders.PlaceholderNode>`::
 
-    from pages.placeholders import PlaceholderNode
-    from pages.templatetags.page_tags import parse_placeholder
+    from basic_cms.placeholders import PlaceholderNode
+    from basic_cms.templatetags.page_tags import parse_placeholder
     register = template.Library()
 
     class ContactFormPlaceholderNode(PlaceholderNode):
@@ -199,7 +199,7 @@ without subclassing it, you can just you create a valid Django Widget that take 
 
     from django.forms import Textarea
     from django.utils.safestring import mark_safe
-    from pages.widgets_registry import register_widget
+    from basic_cms.widgets_registry import register_widget
 
     class CustomTextarea(Textarea):
         class Media:

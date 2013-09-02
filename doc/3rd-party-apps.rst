@@ -13,8 +13,8 @@ to render a proper navigation.
 First you need a `urls.py` file that you can register to the CMS. It might look like this::
 
     from django.conf.urls.defaults import *
-    from pages.testproj.documents.views import document_view
-    from pages.http import pages_view
+    from basic_cms.testproj.documents.views import document_view
+    from basic_cms.http import pages_view
 
     urlpatterns = patterns('',
         url(r'^doc-(?P<document_id>[0-9]+)$', pages_view(document_view), name='document_details'),
@@ -31,7 +31,7 @@ First you need a `urls.py` file that you can register to the CMS. It might look 
 Then you need to register the urlconf module of your application to use it
 within the admin interface. Put this code in you urls.py `before` admin.autodiscover(). Here is an example for a document application.::
 
-    from pages.urlconf_registry import register_urlconf
+    from basic_cms.urlconf_registry import register_urlconf
 
     register_urlconf('Documents', 'pages.testproj.documents.urls',
         label='Display documents')
@@ -60,7 +60,7 @@ Here is an example of a valid view from the documents application::
 
     from django.shortcuts import render_to_response
     from django.template import RequestContext
-    from pages.testproj.documents.models import Document
+    from basic_cms.testproj.documents.models import Document
 
     def document_view(request, *args, **kwargs):
         context = RequestContext(request, kwargs)
@@ -133,7 +133,7 @@ Sitemaps
 
 Django Basic CMS provide 2 sitemaps classes to use with `Django sitemap framework <http://docs.djangoproject.com/en/dev/ref/contrib/sitemaps/>`_::
 
-    from pages.views import PageSitemap, MultiLanguagePageSitemap
+    from basic_cms.views import PageSitemap, MultiLanguagePageSitemap
 
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',
         {'sitemaps': {'pages':PageSitemap}}),

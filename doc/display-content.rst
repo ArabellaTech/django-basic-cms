@@ -129,7 +129,7 @@ New in 1.3.0: The default view is now a real class. That will
 help if you want to override some default behavior::
 
 
-    from pages.views import Details
+    from basic_cms.views import Details
     from news.models import News
 
     class NewsView(Details):
@@ -144,7 +144,7 @@ And don't forget to redefine the urls to point to your new view with something s
 
     from django.conf.urls.defaults import url, include, patterns
     from YOUR_APP.views import details
-    from pages import page_settings
+    from basic_cms import page_settings
 
     if page_settings.PAGE_USE_LANGUAGE_PREFIX:
         urlpatterns = patterns('',
