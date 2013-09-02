@@ -8,7 +8,8 @@ env:
   - DJANGO="django==1.4 --use-mirrors"
 
 install:
- - pip install -r requirements.txt --use-mirrors
+ - pip install -r requirements/external_apps.txt --use-mirrors
+ - pip install -r requirements/extra_apps.txt --use-mirrors
  - pip install coverage coveralls
  - pip install $DJANGO
 
