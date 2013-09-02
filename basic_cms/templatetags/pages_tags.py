@@ -192,8 +192,7 @@ def show_absolute_url(context, page, lang=None):
 
     Keyword arguments:
     :param page: the page object, slug or id
-    :param lang: the wanted language
-        (defaults to `settings.PAGE_DEFAULT_LANGUAGE`)
+    :param lang: the wanted language (defaults to `settings.PAGE_DEFAULT_LANGUAGE`)
     """
     if not lang:
         lang = context.get('lang', pages_settings.PAGE_DEFAULT_LANGUAGE)

@@ -9,8 +9,8 @@ Django Basic CMS reference API
 The application model
 ======================
 
-Django Basic CMS declare rather simple models: :class:`Page <pages.models.Page>`
-:class:`Content <pages.models.Content>` and :class:`PageAlias <pages.models.PageAlias>`.
+Django Basic CMS declare rather simple models: :class:`Page <basic_cms.models.Page>`
+:class:`Content <basic_cms.models.Content>` and :class:`PageAlias <basic_cms.models.PageAlias>`.
 
 Those Django models have the following relations:
 
@@ -53,87 +53,87 @@ Those Django models have the following relations:
 Placeholders
 ============
 
-.. automodule:: pages.placeholders
+.. automodule:: basic_cms.placeholders
     :members:
     :undoc-members:
 
 Template tags
 =============
 
-.. automodule:: pages.templatetags.pages_tags
+.. automodule:: basic_cms.templatetags.pages_tags
     :members:
 
 Widgets
 =======
 
-.. automodule:: pages.widgets
+.. automodule:: basic_cms.widgets
     :members:
     :undoc-members:
 
 Page Model
 ==========
 
-.. autoclass:: pages.models.Page
+.. autoclass:: basic_cms.models.Page
     :members:
 
 Page Manager
 ============
 
-.. autoclass:: pages.managers.PageManager
+.. autoclass:: basic_cms.managers.PageManager
     :members:
     :undoc-members:
 
 Page view
 ==========
 
-.. autoclass:: pages.views.Details
+.. autoclass:: basic_cms.views.Details
     :members:
 
 Content Model
 =============
 
-.. autoclass:: pages.models.Content
+.. autoclass:: basic_cms.models.Content
     :members:
     :undoc-members:
 
 Content Manager
 ===============
 
-.. autoclass:: pages.managers.ContentManager
+.. autoclass:: basic_cms.managers.ContentManager
     :members:
     :undoc-members:
 
 PageAlias Model
 ===============
 
-.. autoclass:: pages.models.PageAlias
+.. autoclass:: basic_cms.models.PageAlias
     :members:
     :undoc-members:
 
 PageAlias Manager
 =================
 
-.. autoclass:: pages.managers.PageAliasManager
+.. autoclass:: basic_cms.managers.PageAliasManager
     :members:
     :undoc-members:
 
 Utils
 =====
 
-.. automodule:: pages.utils
+.. automodule:: basic_cms.utils
     :members:
     :undoc-members:
 
 Http
 ====
 
-.. automodule:: pages.http
+.. automodule:: basic_cms.http
     :members:
     :undoc-members:
 
 Admin views
 ===========
 
-.. automodule:: pages.admin.views
+.. automodule:: basic_cms.admin.views
     :members:
     :undoc-members:
