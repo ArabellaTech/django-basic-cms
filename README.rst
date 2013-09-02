@@ -2,6 +2,12 @@
 django-basic-cms
 ================
 
+.. image:: https://travis-ci.org/YD-Technology/django-basic-cms.png?branch=master
+   :target: http://travis-ci.org/YD-Technology/django-basic-cms
+
+.. image:: https://coveralls.io/repos/YD-Technology/django-basic-cms/badge.png?branch=master
+   :target: https://coveralls.io/r/YD-Technology/django-basic-cms/
+
 This Django Basic CMS (based on Django Page CMS) enable you to create and administrate hierarchical pages in a simple and powerful way.
 
 Django Basic CMS is based around a placeholders concept. A placeholder is special template tag that
