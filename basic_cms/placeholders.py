@@ -1,9 +1,9 @@
 """Placeholder module, that's where the smart things happen."""
 
-from pages.widgets_registry import get_widget
-from pages import settings
-from pages.models import Content
-from pages.widgets import ImageInput, VideoWidget, FileInput
+from basic_cms.widgets_registry import get_widget
+from basic_cms import settings
+from basic_cms.models import Content
+from basic_cms.widgets import ImageInput, VideoWidget, FileInput
 
 from django import forms
 from django.core.mail import send_mail
@@ -328,13 +328,13 @@ class FilePlaceholderNode(PlaceholderNode):
 
 
 class ContactForm(forms.Form):
-  
+
     email = forms.EmailField(label=_('Your email'))
-    subject = forms.CharField(label=_('Subject'), 
+    subject = forms.CharField(label=_('Subject'),
       max_length=150)
     message = forms.CharField(widget=forms.Textarea(),
       label=_('Your message'))
-    
+
 
 class ContactPlaceholderNode(PlaceholderNode):
     """A contact `PlaceholderNode` example."""
@@ -350,7 +350,7 @@ class ContactPlaceholderNode(PlaceholderNode):
                 data = form.cleaned_data
                 recipients = [adm[1] for adm in global_settings.ADMINS]
                 try:
-                    send_mail(data['subject'], data['message'], 
+                    send_mail(data['subject'], data['message'],
                         data['email'], recipients, fail_silently=False)
                     return _("Your email has been sent. Thank you.")
                 except:

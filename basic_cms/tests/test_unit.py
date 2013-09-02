@@ -1,17 +1,17 @@
 # -*- coding: utf-8 -*-
 """Django page CMS unit test suite module."""
-from pages.models import Page, Content
-from pages.placeholders import PlaceholderNode
-from pages.tests.testcase import TestCase, MockRequest
-from pages import urlconf_registry as reg
-from pages.http import get_language_from_request, get_slug
-from pages.http import get_request_mock, remove_slug
-from pages.utils import export_po_files, import_po_files, now_utc
-from pages.views import details
-from pages.templatetags.pages_tags import get_page_from_string_or_id
+from basic_cms.models import Page, Content
+from basic_cms.placeholders import PlaceholderNode
+from basic_cms.tests.testcase import TestCase, MockRequest
+from basic_cms import urlconf_registry as reg
+from basic_cms.http import get_language_from_request, get_slug
+from basic_cms.http import get_request_mock, remove_slug
+from basic_cms.utils import export_po_files, import_po_files, now_utc
+from basic_cms.views import details
+from basic_cms.templatetags.pages_tags import get_page_from_string_or_id
 
 import django
-import unittest
+from django.utils import unittest
 from django.http import Http404
 from django.contrib.auth.models import User
 from django.conf import settings
@@ -64,7 +64,7 @@ class UnitTestCase(TestCase):
 
     def test_widgets_registry(self):
         """Test the widget registry module."""
-        from pages import widgets_registry as wreg
+        from basic_cms import widgets_registry as wreg
         for widget in wreg.registry:
             w = widget()
             w.render('name', 'value')
@@ -141,7 +141,7 @@ class UnitTestCase(TestCase):
 
         pl2 = """{% load pages_tags %}{% placeholder wrong parsed %}"""
         template = get_template_from_string(pl2)
-        from pages.placeholders import PLACEHOLDER_ERROR
+        from basic_cms.placeholders import PLACEHOLDER_ERROR
         error = PLACEHOLDER_ERROR % {
             'name': 'wrong',
             'error': "Invalid block tag: 'wrong'",
@@ -242,7 +242,7 @@ class UnitTestCase(TestCase):
     def test_permissions(self):
         """Test the permissions lightly."""
 
-        from pages.permissions import PagePermission
+        from basic_cms.permissions import PagePermission
         admin = User.objects.get(username='admin')
         page = self.new_page()
         pp = PagePermission(user=page.author)
@@ -449,7 +449,7 @@ class UnitTestCase(TestCase):
         """
         self.set_setting("PAGE_USE_LANGUAGE_PREFIX", True)
 
-        from pages.views import details
+        from basic_cms.views import details
         req = get_request_mock()
         self.assertRaises(Http404, details, req, '/pages/')
 
@@ -581,8 +581,8 @@ class UnitTestCase(TestCase):
         a suitable sub path with delegation."""
         page1 = self.new_page(content={'slug':'page1'})
         page2 = self.new_page(content={'slug':'page2'})
-        from pages import urlconf_registry as reg
-        reg.register_urlconf('test', 'pages.testproj.documents.urls',
+        from basic_cms import urlconf_registry as reg
+        reg.register_urlconf('test', 'basic_cms.testproj.documents.urls',
             label='test')
         page2.delegate_to = 'test'
         page1.delegate_to = 'test'
@@ -591,7 +591,7 @@ class UnitTestCase(TestCase):
         page2.parent = page1
         page2.save()
 
-        from pages.testproj.documents.models import Document
+        from basic_cms.testproj.documents.models import Document
         doc = Document(title='doc title 1', text='text', page=page1)
         doc.save()
 
@@ -619,7 +619,7 @@ class UnitTestCase(TestCase):
         try:
             import polib
         except ImportError:
-            raise unittest.SkipTest("Polib is not installed")
+            return unittest.skip("Polib is not installed")
 
         page1 = self.new_page(content={'slug':'page1', 'title':'english title'})
         page1.save()
@@ -670,7 +670,7 @@ class UnitTestCase(TestCase):
 
     def test_context_processor(self):
         """Test that the page's context processor is properly activated."""
-        from pages.views import details
+        from basic_cms.views import details
         req = get_request_mock()
         page1 = self.new_page(content={'slug': 'page1', 'title': 'hello'})
         page1.save()

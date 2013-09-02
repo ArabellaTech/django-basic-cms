@@ -1,6 +1,6 @@
 """Django haystack `SearchIndex` module."""
-from pages.models import Page
-from pages import settings
+from basic_cms.models import Page
+from basic_cms import settings
 
 from haystack.indexes import (
         SearchIndex, CharField, DateTimeField, RealTimeSearchIndex,

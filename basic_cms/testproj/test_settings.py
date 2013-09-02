@@ -3,7 +3,7 @@
 import os
 PROJECT_DIR = os.path.dirname(__file__)
 
-TEST_PROJ = 'pages.testproj'
+TEST_PROJ = 'basic_cms.testproj'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -65,7 +65,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.debug",
     "django.core.context_processors.request",
     "django.core.context_processors.media",
-    "pages.context_processors.media",
+    "basic_cms.context_processors.media",
     #"staticfiles.context_processors.static_url",
 )
 
@@ -100,7 +100,7 @@ INSTALLED_APPS = (
     'django.contrib.sitemaps',
     TEST_PROJ + '.documents',
     #'tagging',
-    'pages',
+    'basic_cms',
     'mptt',
     #'staticfiles',
     #'tinymce',
@@ -177,12 +177,12 @@ HAYSTACK_SEARCH_ENGINE = 'dummy'
 #HAYSTACK_WHOOSH_PATH = os.path.join(PROJECT_DIR, 'whoosh_index')
 
 COVERAGE_EXCLUDE_MODULES = (
-    "pages.migrations.*",
-    "pages.tests.*",
-    "pages.urls",
-    "pages.__init__",
-    "pages.search_indexes",
-    "pages.management.commands.*",
+    "basic_cms.migrations.*",
+    "basic_cms.tests.*",
+    "basic_cms.urls",
+    "basic_cms.__init__",
+    "basic_cms.search_indexes",
+    "basic_cms.management.commands.*",
 )
 
 COVERAGE_HTML_REPORT = True

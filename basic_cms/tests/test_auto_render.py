@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """Auto render test suite"""
 from django.test import TestCase
-from pages.http import auto_render, AutoRenderHttpError, get_request_mock
+from basic_cms.http import auto_render, AutoRenderHttpError, get_request_mock
 from django.http import HttpResponse, HttpResponseRedirect
 
 class AutoRenderTestCase(TestCase):

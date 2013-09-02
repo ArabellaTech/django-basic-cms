@@ -1,6 +1,6 @@
 from django.db import models
 from django.forms import ModelForm
-from pages.models import Page
+from basic_cms.models import Page
 from django.utils.translation import ugettext_lazy as _
 
 class Document(models.Model):

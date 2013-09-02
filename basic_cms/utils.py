@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 """A collection of functions for Page CMS"""
-from pages import settings
-from pages.http import get_request_mock
+from . import settings
+from .http import get_request_mock
 
 from django.template import TemplateDoesNotExist
 from django.template import loader, Context
@@ -102,7 +102,7 @@ def export_po_files(path='poexport', stdout=None):
         path += '/'
     import polib
     import os
-    from pages.models import Page, Content
+    from basic_cms.models import Page, Content
     source_language = settings.PAGE_DEFAULT_LANGUAGE
     source_list = []
     for page in Page.objects.published():
@@ -151,7 +151,7 @@ def import_po_files(path='poexport', stdout=None):
     """
     import polib
     import os
-    from pages.models import Page, Content
+    from basic_cms.models import Page, Content
     source_language = settings.PAGE_DEFAULT_LANGUAGE
     source_list = []
     pages_to_invalidate = []
@@ -242,7 +242,7 @@ def filter_link(content, page, language, content_type):
             if result and result.group:
                 try:
                     # TODO: try the cache before fetching the Page object
-                    from pages.models import Page
+                    from basic_cms.models import Page
                     target_page = Page.objects.get(pk=int(result.group(1)))
                     tag['href'] = target_page.get_url_path(language)
                 except Page.DoesNotExist:

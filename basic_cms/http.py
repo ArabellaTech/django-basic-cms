@@ -1,5 +1,6 @@
 """Page CMS functions related to the ``request`` object."""
-from pages import settings
+from . import settings
+
 from django.core.handlers.base import BaseHandler
 from django.core.handlers.wsgi import WSGIRequest
 from django.http import HttpResponse
@@ -108,7 +109,7 @@ def pages_view(view):
         path = kwargs.pop('path', None)
         lang = kwargs.pop('lang', None)
         if path:
-            from pages.views import details
+            from basic_cms.views import details
             response = details(request, path=path, lang=lang,
                 only_context=True, delegation=False)
             context = response

@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Django page CMS ``managers``."""
-from pages import settings
-from pages.utils import normalize_url, filter_link
-from pages.http import get_slug
+from basic_cms import settings
+from basic_cms.utils import normalize_url, filter_link
+from basic_cms.http import get_slug
 
 from django.db import models, connection
 from django.db.models import Q
@@ -34,7 +34,7 @@ class PageManager(models.Manager):
     def populate_pages(self, parent=None, child=5, depth=5):
         """Create a population of :class:`Page <pages.models.Page>`
         for testing purpose."""
-        from pages.models import Content
+        from basic_cms.models import Content
         author = User.objects.all()[0]
         if depth == 0:
             return
@@ -126,7 +126,7 @@ class PageManager(models.Manager):
                 return None
 
         slug = get_slug(complete_path)
-        from pages.models import Content
+        from basic_cms.models import Content
         page_ids = Content.objects.get_page_ids_by_slug(slug)
         pages_list = self.on_site().filter(id__in=page_ids)
         if exclude_drafts:
@@ -240,7 +240,7 @@ class PageManager(models.Manager):
             if not page.sites.count(): # need at least one site
                 page.sites.add(Site.objects.get(pk=global_settings.SITE_ID))
 
-        from pages.models import Content
+        from basic_cms.models import Content
         def create_content(lang, ctype, body):
             Content.objects.create_content_if_changed(page, lang, ctype, body)
 
@@ -427,7 +427,7 @@ class PageAliasManager(models.Manager):
         :param path: the complete path to the page
         :param lang: not used
         """
-        from pages.models import PageAlias
+        from basic_cms.models import PageAlias
 
         url = normalize_url(path)
         # §1: try with complete query string

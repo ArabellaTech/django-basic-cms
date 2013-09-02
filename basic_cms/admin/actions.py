@@ -6,10 +6,10 @@ from django.db import transaction
 from django.shortcuts import redirect, render_to_response
 from django.template import RequestContext
 
-from pages import settings
-from pages.http import get_language_from_request
-from pages.utils import get_placeholders
-from pages.models import Page
+from basic_cms import settings
+from basic_cms.http import get_language_from_request
+from basic_cms.utils import get_placeholders
+from basic_cms.models import Page
 
 JSON_PAGE_EXPORT_NAME = 'basic_cms_page_export_version'
 JSON_PAGE_EXPORT_VERSION = 4

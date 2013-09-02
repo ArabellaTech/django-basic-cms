@@ -4,10 +4,10 @@ from django import forms
 from django.template.defaultfilters import slugify
 from django.utils.translation import ugettext_lazy as _
 
-from pages import settings
-from pages.models import Page, Content
-from pages.urlconf_registry import get_choices
-from pages.widgets import LanguageChoiceWidget
+from basic_cms import settings
+from basic_cms.models import Page, Content
+from basic_cms.urlconf_registry import get_choices
+from basic_cms.widgets import LanguageChoiceWidget
 
 # error messages
 another_page_error = _('Another page with this slug already exists')

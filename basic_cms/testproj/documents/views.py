@@ -1,6 +1,6 @@
 from django.template import RequestContext
-from pages.testproj.documents.models import Document
-from pages.http import auto_render
+from basic_cms.testproj.documents.models import Document
+from basic_cms.http import auto_render
 
 def document_view(request, *args, **kwargs):
     context = RequestContext(request, kwargs)

@@ -6,7 +6,7 @@ try:
 except ImportError:
     coverage = None
 
-os.environ['DJANGO_SETTINGS_MODULE'] = 'pages.testproj.test_settings'
+os.environ['DJANGO_SETTINGS_MODULE'] = 'basic_cms.testproj.test_settings'
 current_dirname = os.path.dirname(__file__)
 sys.path.insert(0, current_dirname)
 sys.path.insert(0, os.path.join(current_dirname, '..'))
@@ -17,14 +17,14 @@ import fnmatch
 
 # necessary for "python setup.py test"
 patterns = (
-    "pages.migrations.*",
-    "pages.tests.*",
-    "pages.testproj.*",
-    "pages.urls",
-    "pages.__init__",
-    "pages.search_indexes",
-    "pages.test_runner",
-    "pages.management.commands.*",
+    "basic_cms.migrations.*",
+    "basic_cms.tests.*",
+    "basic_cms.testproj.*",
+    "basic_cms.urls",
+    "basic_cms.__init__",
+    "basic_cms.search_indexes",
+    "basic_cms.test_runner",
+    "basic_cms.management.commands.*",
 )
 
 
@@ -65,7 +65,7 @@ def get_all_coverage_modules(app_module, exclude_patterns=[]):
 
 class PageTestSuiteRunner(DjangoTestSuiteRunner):
 
-    def run_tests(self, test_labels=('pages',), extra_tests=None):
+    def run_tests(self, test_labels=('basic_cms',), extra_tests=None):
 
         if coverage:
             cov = coverage()
@@ -77,7 +77,7 @@ class PageTestSuiteRunner(DjangoTestSuiteRunner):
 
         if coverage:
             cov.stop()
-            app = get_app('pages')
+            app = get_app('basic_cms')
             modules = get_all_coverage_modules(app)
             cov.html_report(modules, directory='coverage')
 
@@ -88,7 +88,7 @@ def build_suite():
     runner = PageTestSuiteRunner()
     runner.setup_test_environment()
     runner.setup_databases()
-    return runner.build_suite(test_labels=('pages',), extra_tests=None)
+    return runner.build_suite(test_labels=('basic_cms',), extra_tests=None)
 
 
 if __name__ == '__main__':

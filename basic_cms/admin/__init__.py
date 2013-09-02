@@ -1,20 +1,20 @@
 # -*- coding: utf-8 -*-
 """Page Admin module."""
-from pages import settings
-from pages.models import Page, Content, PageAlias
-from pages.http import get_language_from_request, get_template_from_request
-from pages.utils import get_placeholders
-from pages.templatetags.pages_tags import PlaceholderNode
-from pages.admin.utils import get_connected, make_inline_admin
-from pages.admin.forms import PageForm
-from pages.admin.views import traduction, get_content, sub_menu
-from pages.admin.views import list_pages_ajax
-from pages.admin.views import change_status, modify_content, delete_content
-from pages.admin.views import move_page
-from pages.admin.actions import export_pages_as_json, import_pages_from_json
-from pages.permissions import PagePermission
-from pages.http import auto_render
-import pages.widgets
+from basic_cms import settings
+from basic_cms.models import Page, Content, PageAlias
+from basic_cms.http import get_language_from_request, get_template_from_request
+from basic_cms.utils import get_placeholders
+from basic_cms.templatetags.pages_tags import PlaceholderNode
+from basic_cms.admin.utils import get_connected, make_inline_admin
+from basic_cms.admin.forms import PageForm
+from basic_cms.admin.views import traduction, get_content, sub_menu
+from basic_cms.admin.views import list_pages_ajax
+from basic_cms.admin.views import change_status, modify_content, delete_content
+from basic_cms.admin.views import move_page
+from basic_cms.admin.actions import export_pages_as_json, import_pages_from_json
+from basic_cms.permissions import PagePermission
+from basic_cms.http import auto_render
+import basic_cms.widgets
 
 from django import forms
 from django.contrib import admin
@@ -59,7 +59,7 @@ class PageAdmin(admin.ModelAdmin):
     if settings.PAGE_SHOW_START_DATE:
         general_fields.insert(insert_point, 'publication_date')
 
-    from pages.urlconf_registry import registry
+    from basic_cms.urlconf_registry import registry
     if(len(registry)):
         general_fields.append('delegate_to')
         insert_point = general_fields.index('status') + 1

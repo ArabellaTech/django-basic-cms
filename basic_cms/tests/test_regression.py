@@ -5,8 +5,8 @@ from django.template import RequestContext, TemplateDoesNotExist
 from django.template import loader
 import django
 
-from pages.models import Page, Content
-from pages.tests.testcase import TestCase
+from basic_cms.models import Page, Content
+from basic_cms.tests.testcase import TestCase
 
 class RegressionTestCase(TestCase):
     """Django page CMS test suite class"""
@@ -22,7 +22,7 @@ class RegressionTestCase(TestCase):
         page_data = self.get_new_page_data()
         page_data['slug'] = 'page1'
         # create a page for the example otherwise you will get a Http404 error
-        response = c.post('/admin/pages/page/add/', page_data)
+        response = c.post('/admin/basic_cms/page/add/', page_data)
         page1 = Content.objects.get_content_slug_by_slug('page1').page
 
         page1.status = Page.DRAFT
@@ -40,7 +40,7 @@ class RegressionTestCase(TestCase):
         page_data = self.get_new_page_data()
         page_data['slug'] = 'page1'
         # create a page for the example otherwise you will get a Http404 error
-        response = c.post('/admin/pages/page/add/', page_data)
+        response = c.post('/admin/basic_cms/page/add/', page_data)
 
         response = c.get('/pages/page1/')
         self.assertEqual(response.status_code, 200)
@@ -54,7 +54,7 @@ class RegressionTestCase(TestCase):
     def test_bug_152(self):
         """Test bug 152
         http://code.google.com/p/django-page-cms/issues/detail?id=152"""
-        from pages.utils import get_placeholders
+        from basic_cms.utils import get_placeholders
         self.assertEqual(
             str(get_placeholders('pages/tests/test1.html')),
             "[<Placeholder Node: body>]"
@@ -68,9 +68,9 @@ class RegressionTestCase(TestCase):
         page_data = self.get_new_page_data()
         page_data['title'] = 'test-162-title'
         page_data['slug'] = 'test-162-slug'
-        response = c.post('/admin/pages/page/add/', page_data)
-        self.assertRedirects(response, '/admin/pages/page/')
-        from pages.utils import get_request_mock
+        response = c.post('/admin/basic_cms/page/add/', page_data)
+        self.assertRedirects(response, '/admin/basic_cms/page/')
+        from basic_cms.utils import get_request_mock
         request = get_request_mock()
         temp = loader.get_template('pages/tests/test2.html')
         render = temp.render(RequestContext(request, {}))
@@ -84,12 +84,12 @@ class RegressionTestCase(TestCase):
         page_data = self.get_new_page_data()
         page_data['title'] = 'title-en-us'
         page_data['slug'] = 'slug'
-        response = c.post('/admin/pages/page/add/', page_data)
+        response = c.post('/admin/basic_cms/page/add/', page_data)
         page = Content.objects.get_content_slug_by_slug('slug').page
         Content(page=page, type='title', language='fr-ch',
             body="title-fr-ch").save()
 
-        from pages.utils import get_request_mock
+        from basic_cms.utils import get_request_mock
         request = get_request_mock()
         temp = loader.get_template('pages/tests/test3.html')
         render = temp.render(RequestContext(request, {'page':page}))
@@ -105,7 +105,7 @@ class RegressionTestCase(TestCase):
     def test_page_id_in_template(self):
         """Get a page in the templates via the page id."""
         page = self.create_new_page()
-        from pages.utils import get_request_mock
+        from basic_cms.utils import get_request_mock
         request = get_request_mock()
         temp = loader.get_template('pages/tests/test4.html')
         render = temp.render(RequestContext(request, {}))
@@ -113,7 +113,7 @@ class RegressionTestCase(TestCase):
 
     def test_bug_178(self):
         """http://code.google.com/p/django-page-cms/issues/detail?id=178"""
-        from pages.utils import get_request_mock
+        from basic_cms.utils import get_request_mock
         request = get_request_mock()
         temp = loader.get_template('pages/tests/test5.html')
         render = temp.render(RequestContext(request, {'page':None}))
@@ -144,7 +144,7 @@ class RegressionTestCase(TestCase):
         page_data = self.get_new_page_data()
         page_data['slug'] = 'page1'
         page_data['title'] = 'title &amp;'
-        response = c.post('/admin/pages/page/add/', page_data)
+        response = c.post('/admin/basic_cms/page/add/', page_data)
         page1 = Content.objects.get_content_slug_by_slug('page1').page
         page1.invalidate()
         c = Content.objects.get_content(page1, 'en-us', 'title')
@@ -157,7 +157,7 @@ class RegressionTestCase(TestCase):
         page_data['slug'] = 'page1'
 
         # create a draft page and ensure we can view it
-        response = c.post('/admin/pages/page/add/', page_data)
+        response = c.post('/admin/basic_cms/page/add/', page_data)
         response = c.get(self.get_page_url('page1/'))
         self.assertEqual(response.status_code, 200)
 
@@ -177,7 +177,7 @@ class RegressionTestCase(TestCase):
     def test_urls_in_templates(self):
         """Test different ways of displaying urls in templates."""
         page = self.create_new_page()
-        from pages.http import get_request_mock
+        from basic_cms.http import get_request_mock
         request = get_request_mock()
         temp = loader.get_template('pages/tests/test7.html')
         temp = loader.get_template('pages/tests/test6.html')
@@ -193,7 +193,7 @@ class RegressionTestCase(TestCase):
     def test_placeholder_cache_bug(self):
         """There was an bad bug caused when the page cache was filled
         the first time."""
-        from pages.placeholders import PlaceholderNode
+        from basic_cms.placeholders import PlaceholderNode
         page = self.new_page()
         placeholder = PlaceholderNode('test', page=page)
         placeholder.save(page, 'fr-ch', 'fr', True)
@@ -226,7 +226,7 @@ class RegressionTestCase(TestCase):
         self.assertTrue('one' in renderer)
         self.assertTrue('two' in renderer)
 
-        from pages.utils import get_placeholders
+        from basic_cms.utils import get_placeholders
         self.assertEqual(
             str(get_placeholders('pages/tests/extends.html')),
             '[<Placeholder Node: one>, <Placeholder Node: two>]')

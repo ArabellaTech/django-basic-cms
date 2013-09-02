@@ -1,5 +1,5 @@
 from django.core.management.base import BaseCommand, CommandError
-from pages.utils import import_po_files
+from basic_cms.utils import import_po_files
 
 class Command(BaseCommand):
     args = '<path>'

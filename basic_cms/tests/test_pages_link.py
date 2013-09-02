@@ -1,8 +1,8 @@
 # -*- coding: utf-8 -*-
 """Django page CMS test suite module for page links"""
 
-from pages.tests.testcase import TestCase
-from pages.models import Content
+from basic_cms.tests.testcase import TestCase
+from basic_cms.models import Content
 import unittest
 
 class LinkTestCase(TestCase):

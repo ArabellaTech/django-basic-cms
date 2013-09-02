@@ -1,5 +1,5 @@
 # -*- coding: utf-8 -*-
-from pages import settings
+from basic_cms import settings
 from django.contrib import admin
 from django.forms import ModelForm
 from django.core.urlresolvers import get_mod_func
@@ -24,7 +24,7 @@ def get_connected():
             mod_name, form_name = get_mod_func(capp['form'])
             f = getattr(__import__(mod_name, {}, {}, ['']), form_name)
             model['options'].update({'form': f})
-            
+
         admin_class = admin.StackedInline
         if 'admin' in capp:
             mod_name, admin_class_name = get_mod_func(capp['admin'])
@@ -43,7 +43,7 @@ def make_inline_admin(admin_class, model_class, options):
         form = options.get('form', ModelForm)
         extra = options.get('extra', 3)
 
-        # Since Django 1.2, max_num=None sets unlimited inlines, 
+        # Since Django 1.2, max_num=None sets unlimited inlines,
         # see https://docs.djangoproject.com/en/1.2/topics/forms/modelforms/#model-formsets-max-num
         max_num = options.get('max_num', 0 if django.VERSION < (1, 2) else None)
     return ModelOptions

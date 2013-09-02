@@ -1,7 +1,7 @@
 from django.test import TestCase
-from pages.models import Page, Content
-from pages import settings as pages_settings
-from pages.testproj import test_settings
+from basic_cms.models import Page, Content
+from basic_cms import settings as pages_settings
+from basic_cms.testproj import test_settings
 from django.conf import settings
 from django.contrib.auth.models import User
 from django.core.urlresolvers import reverse
@@ -40,7 +40,7 @@ class TestCase(TestCase):
             test_settings.PAGE_DEFAULT_TEMPLATE)
 
         self.old_url_conf = getattr(settings, 'ROOT_URLCONF')
-        setattr(settings, 'ROOT_URLCONF', 'pages.testproj.urls')
+        setattr(settings, 'ROOT_URLCONF', 'basic_cms.testproj.urls')
         clear_url_caches()
 
     def tearDown(self):
@@ -83,8 +83,8 @@ class TestCase(TestCase):
         url_conf = getattr(settings, 'ROOT_URLCONF', False)
         if url_conf:
             reload(import_module(url_conf))
-        reload(import_module('pages.urls'))
-        reload(import_module('pages.testproj.urls'))
+        reload(import_module('basic_cms.urls'))
+        reload(import_module('basic_cms.testproj.urls'))
         clear_url_caches()
 
 
@@ -117,8 +117,8 @@ class TestCase(TestCase):
         if not client:
             client = self.get_admin_client()
         page_data = self.get_new_page_data(draft=draft)
-        response = client.post('/admin/pages/page/add/', page_data)
-        self.assertRedirects(response, '/admin/pages/page/')
+        response = client.post('/admin/basic_cms/page/add/', page_data)
+        self.assertRedirects(response, '/admin/basic_cms/page/')
         slug_content = Content.objects.get_content_slug_by_slug(
             page_data['slug'])
         return slug_content.page

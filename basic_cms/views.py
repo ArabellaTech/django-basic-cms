@@ -1,8 +1,8 @@
 """Default example views"""
-from pages import settings
-from pages.models import Page, PageAlias
-from pages.http import auto_render, get_language_from_request, remove_slug
-from pages.urlconf_registry import get_urlconf
+from basic_cms import settings
+from basic_cms.models import Page, PageAlias
+from basic_cms.http import auto_render, get_language_from_request, remove_slug
+from basic_cms.urlconf_registry import get_urlconf
 
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.contrib.sitemaps import Sitemap
@@ -30,7 +30,7 @@ class Details(object):
 
         if path is None:
             raise ValueError(
-                "pages.views.Details class view requires the path argument. "
+                "basic_cms.views.Details class view requires the path argument. "
                 "Check your urls.py file.")
 
         # for the ones that might have forgotten to pass the language
@@ -98,7 +98,7 @@ class Details(object):
             exclude_drafts=(not is_staff))
         if page:
             return page
-        # if the complete path didn't worked out properly 
+        # if the complete path didn't worked out properly
         # and if didn't used PAGE_USE_STRICT_URL setting we gonna
         # try to see if it might be a delegation page.
         # To do that we remove the right part of the url and try again
@@ -113,7 +113,7 @@ class Details(object):
                     if page.delegate_to:
                         return page
                 path = remove_slug(path)
-                
+
         return None
 
     def resolve_alias(self, request, path, lang):

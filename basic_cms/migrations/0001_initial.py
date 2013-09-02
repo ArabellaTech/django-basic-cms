@@ -3,13 +3,13 @@
 from south.db import db
 from django.db import models
 
-from pages import settings
-from pages.models import *
+from basic_cms import settings
+from basic_cms.models import *
 
 class Migration:
-    
+
     def forwards(self, orm):
-        
+
         # Adding model 'Page'
         pages_page = [
                ('id', orm['pages.Page:id']),
@@ -33,7 +33,7 @@ class Migration:
             pages_page.append(('tags', orm['pages.Page:tags']))
         db.create_table('pages_page', pages_page)
         db.send_create_signal('pages', ['Page'])
-        
+
         # Adding model 'Content'
         db.create_table('pages_content', (
             ('id', orm['pages.Content:id']),
@@ -44,7 +44,7 @@ class Migration:
             ('creation_date', orm['pages.Content:creation_date']),
         ))
         db.send_create_signal('pages', ['Content'])
-        
+
         # Adding model 'PageAlias'
         db.create_table('pages_pagealias', (
             ('id', orm['pages.PageAlias:id']),
@@ -52,7 +52,7 @@ class Migration:
             ('url', orm['pages.PageAlias:url']),
         ))
         db.send_create_signal('pages', ['PageAlias'])
-        
+
         # Adding model 'PagePermission'
         db.create_table('pages_pagepermission', (
             ('id', orm['pages.PagePermission:id']),
@@ -61,7 +61,7 @@ class Migration:
             ('type', orm['pages.PagePermission:type']),
         ))
         db.send_create_signal('pages', ['PagePermission'])
-        
+
         if settings.PAGE_USE_SITE_ID:
             # Adding ManyToManyField 'Page.sites'
             db.create_table('pages_page_sites', (
@@ -69,28 +69,28 @@ class Migration:
                 ('page', models.ForeignKey(orm.Page, null=False)),
                 ('site', models.ForeignKey(orm['sites.Site'], null=False))
             ))
-        
-    
-    
+
+
+
     def backwards(self, orm):
-        
+
         # Deleting model 'Page'
         db.delete_table('pages_page')
-        
+
         # Deleting model 'Content'
         db.delete_table('pages_content')
-        
+
         # Deleting model 'PageAlias'
         db.delete_table('pages_pagealias')
-        
+
         # Deleting model 'PagePermission'
         db.delete_table('pages_pagepermission')
-        
+
         if settings.PAGE_USE_SITE_ID:
             # Dropping ManyToManyField 'Page.sites'
             db.delete_table('pages_page_sites')
-        
-    
+
+
     page = {
             'author': ('django.db.models.fields.related.ForeignKey', [], {'to': "orm['auth.User']"}),
             'creation_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
@@ -113,7 +113,7 @@ class Migration:
         page['tags'] = ('tagging.fields.TagField', [], {'null': 'True'})
     if settings.PAGE_USE_SITE_ID:
         page['sites'] = ('django.db.models.fields.related.ManyToManyField', [], {'default': '[1]', 'to': "orm['sites.Site']"})
-        
+
     models = {
         'auth.group': {
             'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
@@ -176,5 +176,5 @@ class Migration:
             'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
         }
     }
-    
+
     complete_apps = ['pages']

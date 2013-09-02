@@ -1,9 +1,9 @@
 """Django page CMS ``models``."""
 
-from pages.utils import get_placeholders, normalize_url, now_utc
-from pages.managers import PageManager, ContentManager
-from pages.managers import PageAliasManager, ISODATE_FORMAT
-from pages import settings
+from .utils import get_placeholders, normalize_url, now_utc
+from .managers import PageManager, ContentManager
+from .managers import PageAliasManager, ISODATE_FORMAT
+from . import settings
 
 from datetime import datetime
 from django.db import models

@@ -2,10 +2,10 @@
 """Django CMS come with a set of ready to use widgets that you can enable
 in the admin via a placeholder tag in your template."""
 
-from pages.settings import PAGES_MEDIA_URL, PAGE_TAGGING
-from pages.settings import PAGE_TINYMCE, PAGE_LANGUAGES
-from pages.models import Page
-from pages.widgets_registry import register_widget
+from basic_cms.settings import PAGES_MEDIA_URL, PAGE_TAGGING
+from basic_cms.settings import PAGE_TINYMCE, PAGE_LANGUAGES
+from basic_cms.models import Page
+from basic_cms.widgets_registry import register_widget
 
 from django.conf import settings
 from django.forms import TextInput, Textarea, HiddenInput

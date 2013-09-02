@@ -2,8 +2,8 @@
 
 import authority
 
-from pages.models import Page
-from pages import settings
+from basic_cms.models import Page
+from basic_cms import settings
 
 permission_checks = []
 for perm_lang in settings.PAGE_LANGUAGES:

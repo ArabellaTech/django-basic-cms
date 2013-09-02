@@ -6,11 +6,11 @@ from django.template import TemplateSyntaxError
 import urllib
 from django.conf import settings
 
-from pages import settings as pages_settings
-from pages.models import Content, Page
-from pages.placeholders import PlaceholderNode, ImagePlaceholderNode, FilePlaceholderNode
-from pages.placeholders import VideoPlaceholderNode, ContactPlaceholderNode
-from pages.placeholders import parse_placeholder
+from basic_cms import settings as pages_settings
+from basic_cms.models import Content, Page
+from basic_cms.placeholders import PlaceholderNode, ImagePlaceholderNode, FilePlaceholderNode
+from basic_cms.placeholders import VideoPlaceholderNode, ContactPlaceholderNode
+from basic_cms.placeholders import parse_placeholder
 
 register = template.Library()
 

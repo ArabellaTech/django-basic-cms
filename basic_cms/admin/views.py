@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """Pages admin views"""
-from pages import settings
-from pages.models import Page, Content
-from pages.utils import get_placeholders
-from pages.http import auto_render, get_language_from_request
-from pages.permissions import PagePermission
+from basic_cms import settings
+from basic_cms.models import Page, Content
+from basic_cms.utils import get_placeholders
+from basic_cms.http import auto_render, get_language_from_request
+from basic_cms.permissions import PagePermission
 
 from django.shortcuts import get_object_or_404
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -75,7 +75,7 @@ def delete_content(request, page_id, language_id):
         c.delete()
 
     destination = request.REQUEST.get('next', request.META.get('HTTP_REFERER',
-        '/admin/pages/page/%s/' % page_id))
+        '/admin/basic_cms/page/%s/' % page_id))
     return HttpResponseRedirect(destination)
 delete_content = staff_member_required(delete_content)
 

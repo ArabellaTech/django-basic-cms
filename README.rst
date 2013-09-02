@@ -31,3 +31,4 @@ TODO before 1.0
 - update to current version on Haystack
 - fix admin with grapelli
 - update and publish Documentation
+- support for Python 3.x

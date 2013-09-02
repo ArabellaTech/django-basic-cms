@@ -3,19 +3,20 @@
 # This file is distributed under the same license as the django-page-cms package.
 # Fantomas42 <fantomas42@gmail.com>, 2009.
 # , fuzzy
-# 
-# 
+#
+#
 msgid ""
 msgstr ""
 "Project-Id-Version: django-page-cms 1.0\n"
 "Report-Msgid-Bugs-To: \n"
 "POT-Creation-Date: 2009-04-07 17:34+0200\n"
-"PO-Revision-Date: 2009-04-07 17:55+0200\n"
+"PO-Revision-Date: 2013-09-02 01:26+0100\n"
 "Last-Translator: Fantomas42 <fantomas42@gmail.com>\n"
 "Language-Team: French <gnomefr@traduc.org>\n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
-"Content-Transfer-Encoding: 8bit"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.5.4\n"
 
 #: models.py:29
 msgid "Draft"
@@ -61,14 +62,15 @@ msgstr "Fin de publication"
 msgid ""
 "When to expire the page. Leave\n"
 "                    empty to never expire."
-msgstr " Quand la page doit expirer. Laissez\n"
+msgstr ""
+" Quand la page doit expirer. Laissez\n"
 "vide pour ne jamais expirer."
 
 #: models.py:52
 msgid "status"
 msgstr "Statut"
 
-#: models.py:53 templates/admin/pages/page/change_list_table.html:9
+#: models.py:53 templates/admin/basic_cms/page/change_list_table.html:9
 msgid "template"
 msgstr "Template"
 
@@ -212,80 +214,80 @@ msgstr "Un enfant avec ce slug existe déjà à la position désirée."
 msgid "A sibiling with this slug already exists"
 msgstr "Un frère avec ce slug existe déjà."
 
-#: templates/admin/pages/page/change_form.html:3
+#: templates/admin/basic_cms/page/change_form.html:3
 msgid "Change a page"
 msgstr "Changer une page"
 
-#: templates/admin/pages/page/change_form.html:17
+#: templates/admin/basic_cms/page/change_form.html:17
 msgid "View on site"
 msgstr "Voir sur le site"
 
-#: templates/admin/pages/page/change_form.html:29
+#: templates/admin/basic_cms/page/change_form.html:29
 msgid "Translation helper"
 msgstr "Aide de traduction"
 
-#: templates/admin/pages/page/change_form.html:31
+#: templates/admin/basic_cms/page/change_form.html:31
 msgid "Language:"
 msgstr "Langue:"
 
-#: templates/admin/pages/page/change_list.html:3
+#: templates/admin/basic_cms/page/change_list.html:3
 msgid "List of pages"
 msgstr "Liste des pages"
 
-#: templates/admin/pages/page/change_list.html:8
+#: templates/admin/basic_cms/page/change_list.html:8
 msgid "Home"
 msgstr "Accueil"
 
-#: templates/admin/pages/page/change_list.html:27
+#: templates/admin/basic_cms/page/change_list.html:27
 #, python-format
 msgid "Add %(name)s"
 msgstr "Ajouter %(name)s"
 
-#: templates/admin/pages/page/change_list_table.html:5
+#: templates/admin/basic_cms/page/change_list_table.html:5
 msgid "title"
 msgstr "Titre"
 
-#: templates/admin/pages/page/change_list_table.html:6
+#: templates/admin/basic_cms/page/change_list_table.html:6
 msgid "quick actions"
 msgstr "Actions rapides"
 
-#: templates/admin/pages/page/change_list_table.html:7
+#: templates/admin/basic_cms/page/change_list_table.html:7
 msgid "translations"
 msgstr "Traductions"
 
-#: templates/admin/pages/page/change_list_table.html:8
+#: templates/admin/basic_cms/page/change_list_table.html:8
 msgid "published"
 msgstr "Publié"
 
-#: templates/admin/pages/page/change_list_table.html:10
+#: templates/admin/basic_cms/page/change_list_table.html:10
 msgid "creator"
 msgstr "Créateur"
 
-#: templates/admin/pages/page/menu.html:7
+#: templates/admin/basic_cms/page/menu.html:7
 msgid "as left sibling"
 msgstr "comme frère à gauche."
 
-#: templates/admin/pages/page/menu.html:8
+#: templates/admin/basic_cms/page/menu.html:8
 msgid "as right sibling"
 msgstr "comme frère à droite."
 
-#: templates/admin/pages/page/menu.html:9
+#: templates/admin/basic_cms/page/menu.html:9
 msgid "as child"
 msgstr "comme enfant."
 
-#: templates/admin/pages/page/menu.html:20
+#: templates/admin/basic_cms/page/menu.html:20
 msgid "move"
 msgstr "Déplacer"
 
-#: templates/admin/pages/page/menu.html:21
+#: templates/admin/basic_cms/page/menu.html:21
 msgid "add"
 msgstr "Ajouter"
 
-#: templates/admin/pages/page/menu.html:22
+#: templates/admin/basic_cms/page/menu.html:22
 msgid "view"
 msgstr "Voir"
 
-#: templates/admin/pages/page/menu.html:23
+#: templates/admin/basic_cms/page/menu.html:23
 msgid "delete"
 msgstr "Supprimer"
 
@@ -305,4 +307,3 @@ msgstr "Le langage désiré n'a pas encore été traduit."
 #, python-format
 msgid "[Placeholder %(name)s had syntax error: %(error)s]"
 msgstr "[Placeholder %(name)s erreur de synthax: %(error)s]"
-
