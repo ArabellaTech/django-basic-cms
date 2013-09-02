@@ -5,7 +5,7 @@ python:
 
 env:
   - DJANGO="django==1.5 --use-mirrors"
-  - DJANGO="django==1.4 --use-mirrors"
+  - DJANGO="django==1.4.2 --use-mirrors"
 
 install:
  - pip install -r requirements/external_apps.txt --use-mirrors
@@ -19,7 +19,7 @@ script:
 matrix:
   exclude:
     - python: "3.3"
-      env: DJANGO="django==1.4 --use-mirrors"
+      env: DJANGO="django==1.4.2 --use-mirrors"
 
 after_success:
   - coverage report --omit="basic_cms/tests/*" -m
