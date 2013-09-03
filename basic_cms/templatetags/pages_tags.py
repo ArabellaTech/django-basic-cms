@@ -134,7 +134,7 @@ def pages_admin_menu(context, page):
                 expanded = True
     context.update({'expanded': expanded, 'page': page})
     return context
-pages_admin_menu = register.inclusion_tag('admin/pages/page/menu.html',
+pages_admin_menu = register.inclusion_tag('admin/basic_cms/page/menu.html',
                                         takes_context=True)(pages_admin_menu)
 
 
