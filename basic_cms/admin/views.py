@@ -34,7 +34,7 @@ def list_pages_ajax(request, invalid_move=False):
         'language': language,
         'pages': pages,
     }
-    return "admin/pages/page/change_list_table.html", context
+    return "admin/basic_cms/page/change_list_table.html", context
 list_pages_ajax = staff_member_required(list_pages_ajax)
 list_pages_ajax = auto_render(list_pages_ajax)
 
@@ -138,7 +138,7 @@ def sub_menu(request, page_id):
     page = Page.objects.get(id=page_id)
     pages = page.children.all()
     page_languages = settings.PAGE_LANGUAGES
-    return "admin/pages/page/sub_menu.html", {
+    return "admin/basic_cms/page/sub_menu.html", {
         'page':page,
         'pages':pages,
         'page_languages':page_languages,
