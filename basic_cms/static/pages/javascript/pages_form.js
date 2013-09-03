@@ -1,6 +1,12 @@
 /* Initialization of the change_form page - this script is run once everything is ready. */
+"use strict";
 
 $(function() {
+
+    if(!$("body").hasClass("change-form") && !$("body").hasClass("grp-change-form")) {
+      return;
+    }
+
     // Hide form rows containing only hidden inputs
     $('.form-row').each(function() {
         if (!$('p, label, select, input:not([type=hidden])', this).length) {
@@ -23,7 +29,7 @@ $(function() {
     // Set the publication status
     var select = $('#id_status');
     var opt = ({ 0: 'draft', 1: 'published', 2: 'expired', 3: 'hidden' })[select.val()];
-    var img = $('<img src="'+page_media_url+'/images/icons/'+opt+'.gif" alt="'+opt+'" />').insertAfter(select);
+    var img = $('<img src="'+static_url+'/pages/images/icons/'+opt+'.gif" alt="'+opt+'" />').insertAfter(select);
     // disable ajax post if page not already created (add view)
     var change_status = (typeof(add_form) !== 'undefined' && add_form) ? 0 : 1;
 
@@ -87,9 +93,18 @@ $(function() {
         if (val) {
             $.get(val, function (html) {
                 var formrow = select.closest('.form-row');
+
                 if ($('a.disable', formrow).length) {
                     $('iframe', formrow)[0].contentWindow.document.getElementsByTagName("body")[0].innerHTML = html;
                 } else {
+                    // support for multiple input widget
+                    if($('input, textarea', formrow).length > 1) {
+                      var values = html.split("\\");
+                      $('input, textarea', formrow).each(function(i, e) {
+                         $(e).val(values[i]);
+                      });
+                      return false;
+                    }
                     // support for TextInput
                     $('input', formrow).val(html);
                     // support for TextArea

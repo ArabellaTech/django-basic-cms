@@ -115,6 +115,18 @@ a.popup:hover .help,
     background: #ffb;
 }
 
+#changelist {
+    position: static;
+}
+
+.drag-indicator, .drag-dialog {
+  position:absolute;
+  display:none;
+  background:#ffb;
+  border:1px #000 solid;
+  padding:6px 10px;
+}
+
 /* Title cell theader */
 .change-list thead .title-cell {
     padding: 5px 10px;
@@ -172,6 +184,11 @@ html[dir=rtl] .change-list tbody .title-cell .title:hover {
 html[dir=rtl] .change-list .expand-collapse  {
     left: auto; right:4px;
 }
+
+#change-page-content {
+  margin-left:320px;
+}
+
 .change-list .expand,
 .change-list .expanded .collapse,
 .change-list .loading .expand-loading {
@@ -266,7 +283,7 @@ html[dir=rtl] .change-list .actions-pages a {
 
 /* Page Status links */
 .change-list td.publish-cell {
-    vertical-align: center;
+    vertical-align: middle;
     width: 200px;
 }
 .change-list .publish-cell span,
@@ -361,6 +378,7 @@ html[dir=rtl] .change-list .insert {
 .change-list .language-cell {
     width: 1%;
     white-space: nowrap;
+    vertical-align: middle;
     padding: 5px 0 5px 10px;
 }
 .change-list .language-cell ul {
@@ -429,6 +447,7 @@ html[dir=rtl] .change-list .insert {
 /* change-form page =========================================== */
 
 /* Global */
+.grp-change-form .sidebar,
 .change-form .sidebar {
 
     width: 305px;
@@ -436,26 +455,37 @@ html[dir=rtl] .change-list .insert {
     display: inline; /* IE6 fix */
     margin-right: 1em;
 }
+html[dir=rtl] .grp-change-form .sidebar,
 html[dir=rtl] .change-form .sidebar {
     float:right;
     margin-left:1em;
     margin-right: 0;
 }
 
+.grp-change-form .grp-module:not(.grp-submit-row) {
+    min-width: 0;
+}
+
+.grp-change-form label,
 .change-form label {
     width: 90px; /* IE6 fix */
     line-height: 20px;
 }
+.grp-change-form .sidebar input,
+.grp-change-form .sidebar select,
 .change-form .sidebar input,
 .change-form .sidebar select {
     width: 148px;
 }
 
+.grp-change-form .sidebar p.help,
+.grp-change-form .sidebar .form-row p.help ,
 .change-form .sidebar p.help,
 .change-form .sidebar .form-row p.help {
     margin-left: 0;
     padding: 2px 0 0;
 }
+.grp-change-form .sidebar div.description,
 .change-form .sidebar div.description {
     margin: 5px;
 }
@@ -489,6 +519,7 @@ html[dir=rtl] .change-form .sidebar {
 html[dir=rtl] .module-general .status img {margin-left:0; margin-right:4px;}
 
 /* Options */
+.grp-change-form .module-options .form-row,
 .change-form .module-options .form-row {
     float: left;
     width: 33.3333%;
@@ -497,6 +528,7 @@ html[dir=rtl] .module-general .status img {margin-left:0; margin-right:4px;}
     border-bottom: none;
     border-right: 1px solid #eee;
 }
+html[dir=rtl] .grp-change-form .module-options .form-row,
 html[dir=rtl] .change-form .module-options .form-row {
     float: right;
     margin-right:0;
@@ -505,12 +537,16 @@ html[dir=rtl] .change-form .module-options .form-row {
     border-right: 0px none;
 }
 
+.grp-change-form .module-options .form-row .field-box,
 .change-form .module-options .form-row .field-box {
     padding: 8px 12px;
+    background: red;
 }
+.grp-change-form .module-options select,
 .change-form .module-options select {
     width: 150px;
 }
+.grp-change-form .module-options .redirect_to,
 .change-form .module-options .redirect_to {
     border-right: none;
 }
@@ -527,6 +563,7 @@ html[dir=rtl] .change-form .module-options .form-row {
     width: 94px;
 }
 /* Languages */
+.grp-change-form .module-options .language ul,
 .change-form .module-options .language ul {
     margin: 0;
     padding: 3px 0;
@@ -537,6 +574,9 @@ html[dir=rtl] .change-form .module-options .form-row {
     margin: 0;
     padding: 0
 }
+.grp-change-form .module-options .language .editlink,
+.grp-change-form .module-options .language .addlink,
+.grp-change-form .module-options .language .current,
 .change-form .module-options .language .editlink,
 .change-form .module-options .language .addlink,
 .change-form .module-options .language .current {
@@ -549,16 +589,20 @@ html[dir=rtl] .change-form .module-options .form-row {
     text-transform: uppercase;
     background: none;
 }
+.grp-change-form .module-options .language .editlink:hover,
 .change-form .module-options .language .editlink:hover {
     background: url(../images/icons/edit.gif) right 0.2em no-repeat;
 }
+.grp-grp-change-form .module-options .language .addlink,
 .change-form .module-options .language .addlink {
     color: #ccc;
 }
+.grp-change-form .module-options .language .addlink:hover,
 .change-form .module-options .language .addlink:hover {
     color: #007418;
     background: url(../images/icons/add.gif) right 0.2em no-repeat;
 }
+.grp-change-form .module-options .language .current,
 .change-form .module-options .language .current {
     margin-right: 16px;
     padding: 0 2px;
@@ -567,21 +611,37 @@ html[dir=rtl] .change-form .module-options .form-row {
 }
 
 /* Content */
+.grp-change-form .module-content {
+    width: auto;
+    float: none;
+    clear: none;
+}
+.grp-change-form .module-content .form-row,
 .change-form .module-content .form-row {
     position: relative;
     padding: 0;
 }
+.grp-change-form .module-content .field-box,
 .change-form .module-content .field-box {
     position: relative;
     float: none;
     padding: 8px 12px;
 }
+.grp-change-form .module-content .revisions,
 .change-form .module-content .revisions {
-    position: absolute;
-    top: 8px;
-    right: 12px;
+    float:right;
     width: 150px;
 }
+.grp-change-form .module-content input[type=text],
+.change-form .module-content input[type=text] {
+  width:25em;
+}
+
+.grp-change-form .module-content textarea,
+.change-form .module-content textarea {
+  width:35em;
+}
+
 html[dir=rtl] .change-form .module-content .revisions {
     left: 12px;
     right: auto;

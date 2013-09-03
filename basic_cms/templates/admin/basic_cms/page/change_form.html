@@ -1,24 +1,20 @@
 {% extends "admin/change_form.html" %}
-{% load i18n admin_modify pages_tags %}
+{% load i18n admin_modify admin_static pages_tags %}
 
 {% block title %}{% trans "Edit" %}{% endblock %}
 
 {% block extrahead %}{{ block.super }}
-<script type="text/javascript" src="{{ STATIC_URL }}admin/js/urlify.js"></script>
-<script type="text/javascript">var media_url = "{{MEDIA_URL}}"; var page_media_url = "{{PAGES_MEDIA_URL}}"</script>
-<script type="text/javascript" src="{{ PAGES_MEDIA_URL }}javascript/pages_form.js"></script>
+<script type="text/javascript" src="{% static 'admin/js/urlify.js' %}"></script>
+<script type="text/javascript">
+    var media_url = "{{MEDIA_URL}}";
+    var static_url = "{{STATIC_URL}}";
+    var page_media_url = "{{PAGES_MEDIA_URL}}";
+    </script>
 {% endblock %}
 
 {% block content %}
 <!-- Content -->
 <div id="content-main">
-    {% block object-tools %}
-        {% if change and not is_popup %}
-            <ul class="object-tools">
-                {% if has_absolute_url %}<li><a href="{% show_absolute_url page %}" class="viewsitelink">{% trans "View on site" %}</a></li>{% endif %}
-            </ul>
-        {% endif %}
-    {% endblock %}
 
     <form id="page_form" {% if has_file_field %}enctype="multipart/form-data" {% endif %} action="?language={{ request.GET.language }}{%if request.GET.target %}&amp;target={{ request.GET.target }}{% endif %}&amp;{%if request.GET.target %}position={{ request.GET.position }}{% endif %}" method="post">
         {% csrf_token %}
@@ -28,9 +24,9 @@
 
             {% if forloop.first %}
                 {% if not add and traduction_languages %}
-                <fieldset class="module module-translation-helper aligned">
+                <fieldset class="module module-translation-helper aligned grp-module ">
                     <h2>{% trans "Translation helper" %}</h2>
-                    <div class="form-row">
+                    <div class="form-row grp-row">
                         <label for="translation-helper-select" class="required">{% trans "Language:" %}</label>
                         <select id="translation-helper-select">
                             <option value="" selected="selected">---------</option>

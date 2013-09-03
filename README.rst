@@ -33,7 +33,6 @@ TODO before 1.0
 - better import/export
 - add support for Custom User Model
 - update to current version on Haystack
-- fix admin with grapelli
 - support for Python 3.x
 - coverage > 90%
 - pep8
