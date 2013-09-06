@@ -14,6 +14,8 @@ settings.configure(DEBUG=True, TEMPLATE_DEBUG=True,
     PAGE_DEFAULT_TEMPLATE='index.html',
     PAGE_TEMPLATES=(),
     PAGE_LANGUAGES=(),
+    INSTALLED_APPS = ('taggit',
+        'django.contrib.auth'),
     TEMPLATE_DIRS=('/home/web-apps/myapp'))
 
 # General configuration

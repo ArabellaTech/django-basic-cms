@@ -1,6 +1,6 @@
-===============================
+====================================
 Django basic CMS's CMS documentation
-===============================
+====================================
 
 Welcome on the documentation of the simple multilingual Django Basic CMS (package name: django-basic-cms). You track the latest
 changes to the code base on the `github project page <http://github.com/YD-Technology/django-basic-cms>`_.
