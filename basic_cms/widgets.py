@@ -2,7 +2,7 @@
 """Django CMS come with a set of ready to use widgets that you can enable
 in the admin via a placeholder tag in your template."""
 
-from basic_cms.settings import PAGES_MEDIA_URL, PAGE_TAGGING
+from basic_cms.settings import PAGES_MEDIA_URL
 from basic_cms.settings import PAGE_TINYMCE, PAGE_LANGUAGES
 from basic_cms.models import Page
 from basic_cms.widgets_registry import register_widget

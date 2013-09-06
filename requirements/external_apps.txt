@@ -3,3 +3,5 @@ django-mptt>=0.4.1
 html5lib==0.95
 BeautifulSoup
 sphinxcontrib-aafig
+django-taggit
+django-authority

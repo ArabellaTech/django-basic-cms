@@ -5,7 +5,6 @@ from .managers import PageManager, ContentManager
 from .managers import PageAliasManager, ISODATE_FORMAT
 from . import settings
 
-from datetime import datetime
 from django.db import models
 from django.contrib.auth.models import SiteProfileNotAvailable
 from django.db.models import Max
@@ -15,16 +14,11 @@ from django.core.cache import cache
 from django.core.urlresolvers import reverse
 from django.core.exceptions import ObjectDoesNotExist
 from django.contrib.sites.models import Site
-from django.conf import settings as django_settings
-
 
 from mptt.models import MPTTModel
-if settings.PAGE_TAGGING:
-    from taggit.managers import TaggableManager
+from taggit.managers import TaggableManager
 
 PAGE_CONTENT_DICT_KEY = ContentManager.PAGE_CONTENT_DICT_KEY
-
-USER_MODEL = getattr(django_settings, 'AUTH_USER_MODEL', 'auth.User')
 
 
 class Page(MPTTModel):
@@ -69,7 +63,7 @@ class Page(MPTTModel):
     PAGE_URL_KEY = "page_%d_url"
     PAGE_BROKEN_LINK_KEY = "page_broken_link_%s"
 
-    author = models.ForeignKey(USER_MODEL, verbose_name=_('author'))
+    author = models.ForeignKey(settings.PAGE_USER_MODEL, verbose_name=_('author'), related_name='pages')
 
     parent = models.ForeignKey('self', null=True, blank=True,
             related_name='children', verbose_name=_('parent'))
@@ -98,18 +92,17 @@ class Page(MPTTModel):
     if settings.PAGE_USE_SITE_ID:
         sites = models.ManyToManyField(Site, default=[settings.SITE_ID],
                 help_text=_('The site(s) the page is accessible at.'),
-                verbose_name=_('sites'))
+                verbose_name=_('sites'), related_name='pages')
 
     redirect_to_url = models.CharField(max_length=200, null=True, blank=True)
 
     redirect_to = models.ForeignKey('self', null=True, blank=True,
             related_name='redirected_pages')
 
+    tags = TaggableManager(blank=True)
+
     # Managers
     objects = PageManager()
-
-    if settings.PAGE_TAGGING:
-        tags = TaggableManager(blank=True)
 
     class Meta:
         """Make sure the default page ordering is correct."""
@@ -583,7 +576,8 @@ class Content(models.Model):
 
 page_alias_keywords = {}
 if settings.PAGE_HIDE_SITES:
-    page_alias_keywords = {'limit_choices_to':{'sites':settings.SITE_ID}}
+    page_alias_keywords = {'limit_choices_to': {'sites': settings.SITE_ID}}
+
 
 class PageAlias(models.Model):
     """URL alias for a :class:`Page <pages.models.Page>`"""

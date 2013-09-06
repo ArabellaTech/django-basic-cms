@@ -4,6 +4,13 @@
 
 This file describe new features and incompatibilites between released version of the CMS.
 
+Release 0.1.2
+==============
+
+    * Set django-taggit as required
+    * Reset migrations
+
+
 Release 0.1.1
 ==============
 

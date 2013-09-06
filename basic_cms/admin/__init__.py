@@ -50,8 +50,7 @@ class PageAdmin(admin.ModelAdmin):
     # 'page' foreign key in all registered models
     inlines = []
 
-    if settings.PAGE_TAGGING:
-        general_fields.insert(insert_point, 'tags')
+    general_fields.insert(insert_point, 'tags')
 
     # Add support for future dating and expiration based on settings.
     if settings.PAGE_SHOW_END_DATE:
@@ -230,7 +229,7 @@ class PageAdmin(admin.ModelAdmin):
         metadata_fieldsets = [f['name'] for f in self.metadata_fields]
         additional_fieldsets.append((_('Metadata'), {
             'fields': metadata_fieldsets,
-            'classes': ('module-content', 'collapse'),
+            'classes': ('module-content', 'grp-collapse grp-closed'),
         }))
         additional_fieldsets.append((_('Content'), {
             'fields': placeholder_fieldsets,

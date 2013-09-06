@@ -99,7 +99,7 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.sitemaps',
     TEST_PROJ + '.documents',
-    #'tagging',
+    'taggit',
     'basic_cms',
     'mptt',
     #'staticfiles',
@@ -114,16 +114,15 @@ INSTALLED_APPS = (
 )
 
 PAGE_TINYMCE = False
-#PAGE_TAGGING = True
 
 PAGE_CONNECTED_MODELS = [{
-    'model':TEST_PROJ + '.documents.models.Document',
-    'form':TEST_PROJ + '.documents.models.DocumentForm',
-    'options':{
+    'model': TEST_PROJ + '.documents.models.Document',
+    'form': TEST_PROJ + '.documents.models.DocumentForm',
+    'options': {
             'extra': 3,
             'max_num': 10,
         },
-},]
+}]
 
 # Default language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -204,4 +203,3 @@ try:
     from local_settings import *
 except ImportError:
     pass
-

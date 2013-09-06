@@ -212,12 +212,6 @@ This ensure that even if you move a page within the CMS, the URLs pointing on it
 will remain correct.
 
 
-PAGE_TAGGING
-==================================
-
-Set ``PAGE_TAGGING`` to ``False`` if you do not wish to use the
-``django-taggit`` application.
-
 PAGE_TINYMCE
 ==================================
 

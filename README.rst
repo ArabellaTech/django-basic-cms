@@ -28,10 +28,8 @@ http://django-basic-cms.readthedocs.org/
 
 TODO before 1.0
 ===============
-- fix migration
 - fix version control
 - better import/export
-- add support for Custom User Model
 - update to current version on Haystack
 - support for Python 3.x
 - coverage > 90%

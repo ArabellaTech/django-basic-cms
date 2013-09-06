@@ -54,14 +54,10 @@ def get_page_templates():
     else:
         return PAGE_TEMPLATES
 
-# Set ``PAGE_TAGGING`` to ``False`` if you do not wish to use the
-# ``django-taggit application.
-PAGE_TAGGING = getattr(settings, 'PAGE_TAGGING', False)
-if PAGE_TAGGING and "taggit" not in getattr(settings, 'INSTALLED_APPS', []):
+if "taggit" not in getattr(settings, 'INSTALLED_APPS', []):
     raise ImproperlyConfigured('django-taggit could not be found.\n'
                                'Please make sure you\'ve installed it '
-                               'correctly or disable the tagging feature by '
-                               'setting PAGE_TAGGING to False.')
+                               'correctly.')
 
 # Set this to ``True`` if you wish to use the ``django-tinymce`` application.
 PAGE_TINYMCE = getattr(settings, 'PAGE_TINYMCE', False)
@@ -224,3 +220,5 @@ PAGE_REAL_TIME_SEARCH = getattr(settings, 'PAGE_REAL_TIME_SEARCH', False)
 # Disable the tests by default so they don't execute when the user
 # execute manage.py test
 PAGE_ENABLE_TESTS = getattr(settings, 'PAGE_ENABLE_TESTS', False)
+
+PAGE_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
