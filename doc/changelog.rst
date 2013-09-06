@@ -4,6 +4,13 @@
 
 This file describe new features and incompatibilites between released version of the CMS.
 
+
+Release 0.1.3
+==============
+
+    * Fix migrations for custom user model
+
+
 Release 0.1.2
 ==============
 
