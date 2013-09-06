@@ -31,16 +31,16 @@ for dist in test_requirements.readlines():
 
 data_dirs = []
 for directory in os.walk('basic_cms/templates'):
-    data_dirs.append(directory[0][6:] + '/*.*')
+    data_dirs.append(directory[0][10:] + '/*.*')
 
 for directory in os.walk('basic_cms/media'):
-    data_dirs.append(directory[0][6:] + '/*.*')
+    data_dirs.append(directory[0][10:] + '/*.*')
 
 for directory in os.walk('basic_cms/static'):
-    data_dirs.append(directory[0][6:] + '/*.*')
+    data_dirs.append(directory[0][10:] + '/*.*')
 
 for directory in os.walk('basic_cms/locale'):
-    data_dirs.append(directory[0][6:] + '/*.*')
+    data_dirs.append(directory[0][10:] + '/*.*')
 
 url_schema = 'http://pypi.python.org/packages/source/d/%s/%s-%s.tar.gz'
 download_url = url_schema % (package_name, package_name, basic_cms.__version__)
