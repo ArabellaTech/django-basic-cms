@@ -10,6 +10,7 @@ Release 0.1.6
 
     * File and Image placeholer now users the same filename scheme that preserve the original filename
     * Remove the dependency on BeautifulSoup
+    * Tiny MCE javascript is not included with this CMS anymore. Please use https://github.com/aljosa/django-tinymce
 
 
 Release 0.1.5
