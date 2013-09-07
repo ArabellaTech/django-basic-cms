@@ -5,6 +5,13 @@
 This file describe new features and incompatibilites between released version of the CMS.
 
 
+Release 0.1.6
+==============
+
+    * File and Image placeholer now users the same filename scheme that preserve the original filename
+    * Remove the dependency on BeautifulSoup
+
+
 Release 0.1.5
 ==============
 
