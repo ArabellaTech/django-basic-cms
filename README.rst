@@ -28,7 +28,6 @@ http://django-basic-cms.readthedocs.org/
 
 TODO before 1.0
 ===============
-- fix version control
 - better import/export
 - update to current version on Haystack
 - support for Python 3.x
