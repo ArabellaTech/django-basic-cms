@@ -5,6 +5,7 @@
 build
 *.egg*
 doc/.build/*
+dist/*
 .tox/*
 
 coverage.xml
