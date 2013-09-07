@@ -70,7 +70,7 @@ class RegressionTestCase(TestCase):
         page_data['slug'] = 'test-162-slug'
         response = c.post('/admin/basic_cms/page/add/', page_data)
         self.assertRedirects(response, '/admin/basic_cms/page/')
-        from basic_cms.utils import get_request_mock
+        from basic_cms.http import get_request_mock
         request = get_request_mock()
         temp = loader.get_template('pages/tests/test2.html')
         render = temp.render(RequestContext(request, {}))
@@ -89,7 +89,7 @@ class RegressionTestCase(TestCase):
         Content(page=page, type='title', language='fr-ch',
             body="title-fr-ch").save()
 
-        from basic_cms.utils import get_request_mock
+        from basic_cms.http import get_request_mock
         request = get_request_mock()
         temp = loader.get_template('pages/tests/test3.html')
         render = temp.render(RequestContext(request, {'page':page}))
@@ -105,7 +105,7 @@ class RegressionTestCase(TestCase):
     def test_page_id_in_template(self):
         """Get a page in the templates via the page id."""
         page = self.create_new_page()
-        from basic_cms.utils import get_request_mock
+        from basic_cms.http import get_request_mock
         request = get_request_mock()
         temp = loader.get_template('pages/tests/test4.html')
         render = temp.render(RequestContext(request, {}))
@@ -113,7 +113,7 @@ class RegressionTestCase(TestCase):
 
     def test_bug_178(self):
         """http://code.google.com/p/django-page-cms/issues/detail?id=178"""
-        from basic_cms.utils import get_request_mock
+        from basic_cms.http import get_request_mock
         request = get_request_mock()
         temp = loader.get_template('pages/tests/test5.html')
         render = temp.render(RequestContext(request, {'page':None}))

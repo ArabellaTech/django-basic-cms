@@ -539,14 +539,14 @@ class FunctionnalTestCase(TestCase):
         page1 = Content.objects.get_content_slug_by_slug('page1').page
 
         from basic_cms.views import details
-        from basic_cms.utils import get_request_mock
+        from basic_cms.http import get_request_mock
         request = get_request_mock()
         context = details(request, path='/page1/', only_context=True)
         self.assertEqual(context['current_page'], page1)
 
 
     def test_request_mockup(self):
-        from basic_cms.utils import get_request_mock
+        from basic_cms.http import get_request_mock
         request = get_request_mock()
         self.assertEqual(hasattr(request, 'session'), True)
 

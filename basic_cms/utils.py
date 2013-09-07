@@ -1,14 +1,11 @@
 # -*- coding: utf-8 -*-
 """A collection of functions for Page CMS"""
 from . import settings
-from .http import get_request_mock
 
 from django.template import TemplateDoesNotExist
 from django.template import loader, Context
-from django.core.cache import cache
 from django.utils import timezone
 
-import re
 from datetime import datetime
 
 
@@ -150,7 +147,6 @@ def import_po_files(path='poexport', stdout=None):
     the pages.
     """
     import polib
-    import os
     from basic_cms.models import Page, Content
     source_language = settings.PAGE_DEFAULT_LANGUAGE
     source_list = []
@@ -172,10 +168,6 @@ def import_po_files(path='poexport', stdout=None):
                 meta_data = entry.tcomment.split(do_not_msg)[1].split("\n")
                 placeholder_name = meta_data[1].split('=')[1]
                 page_id = int(meta_data[2].split('=')[1])
-                try:
-                    content_id = int(meta_data[3].split('=')[1])
-                except ValueError:
-                    content_id = None
 
                 page = Page.objects.get(id=page_id)
                 current_content = Content.objects.get_content(page, lang[0],
@@ -214,38 +206,3 @@ def normalize_url(url):
     if len(url) > 1 and url.endswith('/'):
         url = url[0:len(url) - 1]
     return url
-
-PAGE_CLASS_ID_REGEX = re.compile('page_([0-9]+)')
-
-
-def filter_link(content, page, language, content_type):
-    """Transform the HTML link href to point to the targeted page
-    absolute URL.
-
-     >>> filter_link('<a class="page_1">hello</a>', page, 'en-us', body)
-     '<a href="/pages/page-1" class="page_1">hello</a>'
-    """
-    if not settings.PAGE_LINK_FILTER:
-        return content
-    if content_type in ('title', 'slug'):
-        return content
-    from BeautifulSoup import BeautifulSoup
-    tree = BeautifulSoup(content)
-    tags = tree.findAll('a')
-    if len(tags) == 0:
-        return content
-    for tag in tags:
-        tag_class = tag.get('class', False)
-        if tag_class:
-            # find page link with class 'page_ID'
-            result = PAGE_CLASS_ID_REGEX.search(content)
-            if result and result.group:
-                try:
-                    # TODO: try the cache before fetching the Page object
-                    from basic_cms.models import Page
-                    target_page = Page.objects.get(pk=int(result.group(1)))
-                    tag['href'] = target_page.get_url_path(language)
-                except Page.DoesNotExist:
-                    cache.set(Page.PAGE_BROKEN_LINK_KEY % page.id, True)
-                    tag['class'] = 'pagelink_broken'
-    return unicode(tree)
