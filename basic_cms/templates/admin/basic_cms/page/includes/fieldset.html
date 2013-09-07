@@ -7,7 +7,6 @@
         <div class="form-row grp-row {% if line.errors %} errors{% endif %} {% for field in line %}{{ field.field.name }} {% endfor %} ">
             {{ line.errors }}
             {% for field in line %}
-                {{ field.errors }}
                 {% if field.field.is_hidden %}
                     {{ field.field }}
                 {% else %}

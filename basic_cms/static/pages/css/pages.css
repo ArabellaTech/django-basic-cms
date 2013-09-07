@@ -112,6 +112,11 @@ a.popup:hover .help,
 
 /* change-list page =========================================== */
 
+.addlink {
+    padding-left: 12px;
+    background: url(../../admin/img/icon_addlink.gif) 0 .2em no-repeat;
+}
+
 /* Table-wide */
 .change-list tbody tr:hover {
     background: #f0f2f8;

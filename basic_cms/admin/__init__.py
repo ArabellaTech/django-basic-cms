@@ -107,8 +107,9 @@ class PageAdmin(admin.ModelAdmin):
         js = [join(settings.PAGES_MEDIA_URL, path) for path in (
             'javascript/jquery.js',
             'javascript/jquery.rte.js',
-            'javascript/jquery.query.js',
             'javascript/pages.js',
+            'javascript/pages_list.js',
+            'javascript/pages_form.js',
         )]
 
     def urls(self):

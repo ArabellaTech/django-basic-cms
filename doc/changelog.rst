@@ -5,6 +5,11 @@
 This file describe new features and incompatibilites between released version of the CMS.
 
 
+Release 0.1.5
+==============
+
+    * Fix js
+
 
 Release 0.1.4
 ==============
