@@ -5,6 +5,12 @@
 This file describe new features and incompatibilites between released version of the CMS.
 
 
+Release 0.1.7
+==============
+
+    * Remove the dependency on django-staticfiles
+
+
 Release 0.1.6
 ==============
 

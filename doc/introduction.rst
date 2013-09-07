@@ -64,8 +64,8 @@ Here is the list of features you can enable/disable:
 Dependencies & Compatibility
 ============================
 
-  * Django 1.1.1, Django 1.0 with older release (1.0.5)
-  * Python 2.3.
+  * Django 1.4, 1.5
+  * Python 2.6, 2.7.
   * `django-haystack if used <http://haystacksearch.org/>`_
   * `django-authority for per object rights management <http://bitbucket.org/jezdez/django-authority/src/>`_.
   * `django-mptt-2 <http://github.com/batiste/django-mptt/>`_
@@ -73,7 +73,6 @@ Dependencies & Compatibility
   * `html5lib <http://code.google.com/p/html5lib/>`_ (if PAGE_SANITIZE_USER_INPUT = True)
   * `django-tinymce <http://code.google.com/p/django-tinymce/>`_ (if PAGE_TINYMCE = True)
   * Django Basic CMS is shipped with jQuery.
-  * Django Basic CMS works well with `django-staticfiles <http://pypi.python.org/pypi/django-staticfiles/>`_
   * Compatible with MySQL, PostgreSQL, SQLite3, some issues are known with Oracle.
 
 .. note::

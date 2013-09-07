@@ -66,7 +66,6 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
     "django.core.context_processors.media",
     "basic_cms.context_processors.media",
-    #"staticfiles.context_processors.static_url",
 )
 
 INTERNAL_IPS = ('127.0.0.1',)
@@ -102,7 +101,6 @@ INSTALLED_APPS = (
     'taggit',
     'basic_cms',
     'mptt',
-    #'staticfiles',
     #'tinymce',
     # disabled to make "setup.py test" to work properly
     #'south',
@@ -148,9 +146,12 @@ languages.append(('fr-be', gettext_noop('Belgium french')))
 languages.append(('it-it', gettext_noop('Italian')))
 LANGUAGES = languages
 
-# This enable you to map a language(s) to another one, these languages should
-# be in the LANGUAGES config
+
 def language_mapping(lang):
+    """
+    This enable you to map a language(s) to another one, these languages should
+    be in the LANGUAGES config
+    """
     if lang.startswith('fr'):
         # serve swiss french for everyone
         return 'fr-ch'
