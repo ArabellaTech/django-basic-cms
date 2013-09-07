@@ -23,6 +23,14 @@ import re
 
 PLACEHOLDER_ERROR = _("[Placeholder %(name)s had syntax error: %(error)s]")
 
+def get_filename(page, placeholder, data):
+    filename = os.path.join(
+        settings.PAGE_UPLOAD_ROOT,
+        'page_' + str(page.id),
+        placeholder.name + '-' + str(time.time()) + '-' + str(data)
+    )
+    return filename
+
 
 def parse_placeholder(parser, token):
     """Parse the `PlaceholderNode` parameters.
@@ -261,16 +269,8 @@ class ImagePlaceholderNode(PlaceholderNode):
             # the image URL is posted if not changed
             if type(data) is unicode:
                 return
-            filename = os.path.join(
-                settings.PAGE_UPLOAD_ROOT,
-                'page_' + str(page.id),
-                self.name + '-' + str(time.time())
-            )
 
-            m = re.search('\.[a-zA-Z]{1,4}$', str(data))
-            if m is not None:
-                filename += m.group(0).lower()
-
+            filename = get_filename(page, self, data)
             filename = default_storage.save(filename, data)
             return super(ImagePlaceholderNode, self).save(
                 page,
@@ -308,16 +308,8 @@ class FilePlaceholderNode(PlaceholderNode):
             # the image URL is posted if not changed
             if type(data) is unicode:
                 return
-            filename = os.path.join(
-                settings.PAGE_UPLOAD_ROOT,
-                'page_' + str(page.id),
-                self.name + '-' + str(time.time())
-            )
 
-            m = re.search('\.[a-zA-Z]{1,4}$', str(data))
-            if m is not None:
-                filename += m.group(0).lower()
-
+            filename = get_filename(page, self, data)
             filename = default_storage.save(filename, data)
             return super(FilePlaceholderNode, self).save(
                 page,

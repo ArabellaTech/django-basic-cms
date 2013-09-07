@@ -1,10 +1,10 @@
 # -*- coding: utf-8 -*-
 """Django page CMS unit test suite module."""
 from basic_cms.models import Page, Content
-from basic_cms.placeholders import PlaceholderNode
+from basic_cms.placeholders import PlaceholderNode, get_filename
 from basic_cms.tests.testcase import TestCase, MockRequest
 from basic_cms import urlconf_registry as reg
-from basic_cms.http import get_language_from_request, get_slug
+from basic_cms.http import get_language_from_request
 from basic_cms.http import get_request_mock, remove_slug
 from basic_cms.utils import export_po_files, import_po_files, now_utc
 from basic_cms.views import details
@@ -16,9 +16,8 @@ from django.http import Http404
 from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.urlresolvers import reverse
-from django.template import Template, RequestContext, Context
+from django.template import Template, RequestContext, Context, TemplateSyntaxError
 from django.template.loader import get_template_from_string
-from django.template import Template, TemplateSyntaxError
 
 import datetime
 
@@ -753,3 +752,11 @@ class UnitTestCase(TestCase):
         page = self.new_page({'slug': 'get-page-slug'})
         context = Context({'current_page': page})
         self.assertEqual(template.render(context), u'get-page-slug')
+
+    def test_get_filename(self):
+        placeholder = PlaceholderNode("placeholdername")
+        page = self.new_page({'slug': 'page1'})
+        data = "myfile.pdf"
+        self.assertTrue(data in get_filename(page, placeholder, data))
+        self.assertTrue("page_%d" % page.id in get_filename(page, placeholder, data))
+        self.assertTrue(placeholder.name in get_filename(page, placeholder, data))
