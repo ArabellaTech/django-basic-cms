@@ -21,6 +21,7 @@ from django.template.loader import get_template_from_string
 
 import datetime
 
+
 class UnitTestCase(TestCase):
     """Django page CMS unit test suite class."""
 
@@ -99,11 +100,10 @@ class UnitTestCase(TestCase):
     def test_placeholder_inherit_content(self):
         """Test placeholder content inheritance between pages."""
         self.set_setting("PAGE_USE_SITE_ID", False)
-        author = User.objects.all()[0]
-        p1 = self.new_page(content={'inher':'parent-content'})
+        p1 = self.new_page(content={'inher': 'parent-content'})
         p2 = self.new_page()
         template = django.template.loader.get_template('pages/tests/test7.html')
-        context = Context({'current_page': p2, 'lang':'en-us'})
+        context = Context({'current_page': p2, 'lang': 'en-us'})
         self.assertEqual(template.render(context), '')
 
         p2.move_to(p1, position='first-child')
@@ -115,7 +115,7 @@ class UnitTestCase(TestCase):
         pl1 = """{% load pages_tags %}{% get_page "get-page-slug" as toto %}{{ toto }}"""
         template = get_template_from_string(pl1)
         self.assertEqual(template.render(context), u'None')
-        page = self.new_page({'slug': 'get-page-slug'})
+        self.new_page({'slug': 'get-page-slug'})
         self.assertEqual(template.render(context), u'get-page-slug')
 
     def test_placeholder_all_syntaxes(self):
@@ -131,12 +131,11 @@ class UnitTestCase(TestCase):
         template = get_template_from_string(pl1)
         self.assertEqual(template.render(context), page.title())
 
-
         # to be sure to raise an errors in parse template content
         setattr(settings, "DEBUG", True)
 
         page = self.new_page({'wrong': '{% wrong %}'})
-        context = Context({'current_page': page, 'lang':'en-us'})
+        context = Context({'current_page': page, 'lang': 'en-us'})
 
         pl2 = """{% load pages_tags %}{% placeholder wrong parsed %}"""
         template = get_template_from_string(pl2)
@@ -169,30 +168,28 @@ class UnitTestCase(TestCase):
     def test_parsed_template(self):
         """Test the parsed template syntax."""
         setattr(settings, "DEBUG", True)
-        page = self.new_page({'title':'<b>{{ "hello"|capfirst }}</b>'})
+        page = self.new_page({'title': '<b>{{ "hello"|capfirst }}</b>'})
         page.save()
-        context = Context({'current_page': page, 'lang':'en-us'})
+        context = Context({'current_page': page, 'lang': 'en-us'})
         pl_parsed = """{% load pages_tags %}{% placeholder title parsed %}"""
         template = get_template_from_string(pl_parsed)
         self.assertEqual(template.render(context), '<b>Hello</b>')
         setattr(settings, "DEBUG", False)
-        page = self.new_page({'title':'<b>{{ "hello"|wrong_filter }}</b>'})
-        context = Context({'current_page': page, 'lang':'en-us'})
+        page = self.new_page({'title': '<b>{{ "hello"|wrong_filter }}</b>'})
+        context = Context({'current_page': page, 'lang': 'en-us'})
         self.assertEqual(template.render(context), u'')
-
 
     def test_video(self):
         """Test video placeholder."""
         page = self.new_page(content={
-            'title':'video-page',
-            'video':'http://www.youtube.com/watch?v=oHg5SJYRHA0\\\\'
+            'title': 'video-page',
+            'video': 'http://www.youtube.com/watch?v=oHg5SJYRHA0\\\\'
         })
-        context = Context({'current_page': page, 'lang':'en-us'})
+        context = Context({'current_page': page, 'lang': 'en-us'})
         pl1 = """{% load pages_tags %}{% videoplaceholder video %}"""
         template = get_template_from_string(pl1)
         self.assertNotEqual(template.render(context), '')
         self.assertTrue(len(template.render(context)) > 10)
-
 
     def test_placeholder_untranslated_content(self):
         """Test placeholder untranslated content."""
@@ -212,7 +209,7 @@ class UnitTestCase(TestCase):
         page = self.new_page()
         template = django.template.loader.get_template(
                 'pages/tests/untranslated.html')
-        context = Context({'current_page': page, 'lang':'en-us'})
+        context = Context({'current_page': page, 'lang': 'en-us'})
         self.assertEqual(template.render(context), '')
 
     def test_urlconf_registry(self):
@@ -242,7 +239,6 @@ class UnitTestCase(TestCase):
         """Test the permissions lightly."""
 
         from basic_cms.permissions import PagePermission
-        admin = User.objects.get(username='admin')
         page = self.new_page()
         pp = PagePermission(user=page.author)
         self.assertTrue(pp.check('change', page=page, method='GET'))
@@ -334,13 +330,13 @@ class UnitTestCase(TestCase):
         """
         Test the {% show_content %} template tag.
         """
-        page_data = {'title':'test', 'slug':'test'}
+        page_data = {'title': 'test', 'slug': 'test'}
         page = self.new_page(page_data)
         # cleanup the cache from previous tests
         page.invalidate()
 
-        context = RequestContext(MockRequest, {'page': page, 'lang':'en-us',
-            'path':'/page-1/'})
+        context = RequestContext(MockRequest, {'page': page, 'lang': 'en-us',
+            'path': '/page-1/'})
         template = Template('{% load pages_tags %}'
                             '{% show_content page "title" "en-us" %}')
         self.assertEqual(template.render(context), page_data['title'])
@@ -352,16 +348,16 @@ class UnitTestCase(TestCase):
         """
         Test the {% pages_siblings_menu %} template tag.
         """
-        page_data = {'title':'test', 'slug':'test'}
+        page_data = {'title': 'test', 'slug': 'test'}
         page = self.new_page(page_data)
         # cleanup the cache from previous tests
         page.invalidate()
 
-        context = RequestContext(MockRequest, {'page': page, 'lang':'en-us',
-            'path':'/page-1/'})
+        context = RequestContext(MockRequest, {'page': page, 'lang': 'en-us',
+            'path': '/page-1/'})
         template = Template('{% load pages_tags %}'
                             '{% pages_siblings_menu page %}')
-        renderer = template.render(context)
+        template.render(context)
 
     def test_show_absolute_url_with_language(self):
         """
@@ -391,7 +387,7 @@ class UnitTestCase(TestCase):
         """
         Test that get_page_ids_by_slug work as intented.
         """
-        page_data = {'title':'test1', 'slug':'test1'}
+        page_data = {'title': 'test1', 'slug': 'test1'}
         page1 = self.new_page(page_data)
 
         self.assertEqual(
@@ -399,7 +395,7 @@ class UnitTestCase(TestCase):
             [page1.id]
         )
 
-        page_data = {'title':'test1', 'slug':'test1'}
+        page_data = {'title': 'test1', 'slug': 'test1'}
         page2 = self.new_page(page_data)
 
         self.assertEqual(
@@ -448,7 +444,6 @@ class UnitTestCase(TestCase):
         """
         self.set_setting("PAGE_USE_LANGUAGE_PREFIX", True)
 
-        from basic_cms.views import details
         req = get_request_mock()
         self.assertRaises(Http404, details, req, '/pages/')
 
@@ -513,7 +508,7 @@ class UnitTestCase(TestCase):
         """
         Check that PAGE_CONTENT_REVISION_DEPTH works.
         """
-        page1 = self.new_page(content={'slug':'page1'})
+        page1 = self.new_page(content={'slug': 'page1'})
         self.set_setting("PAGE_CONTENT_REVISION_DEPTH", 3)
         Content.objects.create_content_if_changed(page1, 'en-us', 'rev-test', 'rev1')
         Content.objects.create_content_if_changed(page1, 'en-us', 'rev-test', 'rev2')
@@ -528,7 +523,7 @@ class UnitTestCase(TestCase):
         """
         Check that content_dict method works.
         """
-        page1 = self.new_page(content={'slug':'page1'})
+        page1 = self.new_page(content={'slug': 'page1'})
         page1.save()
         c = Content.objects.create_content_if_changed(page1, 'en-us', 'body', 'test')
         self.assertEqual(
@@ -541,8 +536,8 @@ class UnitTestCase(TestCase):
         Check that the strict handling of URLs work as
         intended.
         """
-        page1 = self.new_page(content={'slug':'page1'})
-        page2 = self.new_page(content={'slug':'page2'})
+        page1 = self.new_page(content={'slug': 'page1'})
+        page2 = self.new_page(content={'slug': 'page2'})
         page1.save()
         page2.save()
         page2.parent = page1
@@ -578,8 +573,8 @@ class UnitTestCase(TestCase):
     def test_path_too_long(self):
         """Test that the CMS try to resolve the whole page path to find
         a suitable sub path with delegation."""
-        page1 = self.new_page(content={'slug':'page1'})
-        page2 = self.new_page(content={'slug':'page2'})
+        page1 = self.new_page(content={'slug': 'page1'})
+        page2 = self.new_page(content={'slug': 'page2'})
         from basic_cms import urlconf_registry as reg
         reg.register_urlconf('test', 'basic_cms.testproj.documents.urls',
             label='test')
@@ -620,7 +615,7 @@ class UnitTestCase(TestCase):
         except ImportError:
             return unittest.skip("Polib is not installed")
 
-        page1 = self.new_page(content={'slug':'page1', 'title':'english title'})
+        page1 = self.new_page(content={'slug': 'page1', 'title': 'english title'})
         page1.save()
         #Content(page=page1, language='en-us', type='title', body='toto').save()
         Content(page=page1, language='fr-ch', type='title', body='french title').save()
@@ -648,7 +643,7 @@ class UnitTestCase(TestCase):
 
     def test_page_methods(self):
         """Test that some methods run properly."""
-        page1 = self.new_page(content={'slug': 'page1', 'title':'hello'})
+        page1 = self.new_page(content={'slug': 'page1', 'title': 'hello'})
         page2 = self.new_page(content={'slug': 'page2'})
         page1.save()
         page2.save()
@@ -659,7 +654,7 @@ class UnitTestCase(TestCase):
             u"hello"
         )
         self.assertEqual(
-             page2.slug_with_level(),
+            page2.slug_with_level(),
             u"&nbsp;&nbsp;&nbsp;page2"
         )
         p = Page(author=page1.author)
@@ -714,7 +709,7 @@ class UnitTestCase(TestCase):
         context = Context({})
         pl1 = """{% load pages_tags %}{% get_page 1 as toto %}{{ toto }}"""
         template = get_template_from_string(pl1)
-        page = self.new_page({'id': 1, 'slug': 'get-page-slug'})
+        self.new_page({'id': 1, 'slug': 'get-page-slug'})
         self.assertEqual(template.render(context), u'get-page-slug')
 
     def test_get_page_template_tag_with_variable_containing_page_id(self):
@@ -735,7 +730,7 @@ class UnitTestCase(TestCase):
             '{% get_page slug as toto %}{{ toto }}')
         template = get_template_from_string(pl1)
         page = self.new_page({'slug': 'get-page-slug', 'somepage':
-            'get-page-slug' })
+            'get-page-slug'})
         context = Context({'current_page': page})
         self.assertEqual(template.render(context), u'get-page-slug')
 
