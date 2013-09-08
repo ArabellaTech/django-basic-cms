@@ -9,6 +9,7 @@ Release 0.1.7
 ==============
 
     * Remove the dependency on django-staticfiles
+    * Upgraded to html5lib==1.0b3
 
 
 Release 0.1.6

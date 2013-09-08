@@ -143,7 +143,7 @@ class RegressionTestCase(TestCase):
         c.login(username= 'batiste', password='b')
         page_data = self.get_new_page_data()
         page_data['slug'] = 'page1'
-        page_data['title'] = 'title &amp;'
+        page_data['title'] = 'title &'
         response = c.post('/admin/basic_cms/page/add/', page_data)
         page1 = Content.objects.get_content_slug_by_slug('page1').page
         page1.invalidate()

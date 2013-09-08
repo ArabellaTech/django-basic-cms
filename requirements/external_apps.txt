@@ -1,6 +1,6 @@
 Django>=1.4.2
 django-mptt>=0.4.1
-html5lib==0.95
+html5lib==1.0b3
 sphinxcontrib-aafig
 django-taggit
 django-authority
