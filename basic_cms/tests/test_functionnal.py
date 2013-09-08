@@ -478,7 +478,7 @@ class FunctionnalTestCase(TestCase):
         # Make sure we're in french
         response = c.get('/admin/basic_cms/page/')
         self.assertEqual(response.status_code, 200)
-        self.assertTrue('Ajouter' in response.content)
+        self.assertContains(response, 'Ajouter')
 
         # Create some pages (taken from test_tree_admin_interface)
         page_data = self.get_new_page_data()
@@ -523,7 +523,7 @@ class FunctionnalTestCase(TestCase):
             {'position':'first-child', 'target':root_page.id})
 
         # Make sure the content response we got was in french
-        self.assertTrue('Auteur' in response.content)
+        self.assertContains(response, 'Auteur')
 
 
     def test_view_context(self):

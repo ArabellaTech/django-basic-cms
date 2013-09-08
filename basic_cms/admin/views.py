@@ -21,7 +21,7 @@ def change_status(request, page_id):
         page = Page.objects.get(pk=page_id)
         page.status = int(request.POST['status'])
         page.save()
-        return HttpResponse(unicode(page.status))
+        return HttpResponse(str(page.status))
     raise Http404
 change_status = staff_member_required(change_status)
 

@@ -47,7 +47,7 @@ class RegressionTestCase(TestCase):
 
         try:
             response = c.get(self.get_page_url('toto/page1/'))
-        except TemplateDoesNotExist, e:
+        except TemplateDoesNotExist as e:
             if e.args != ('404.html',):
                 raise
 

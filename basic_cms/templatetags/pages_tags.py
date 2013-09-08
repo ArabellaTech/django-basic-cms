@@ -1,6 +1,6 @@
 """Page CMS page_tags template tags"""
 from django import template
-from django.utils.safestring import SafeUnicode
+from django.utils.safestring import SafeText
 from django.template import TemplateSyntaxError
 #from django.forms import Widget, Textarea, ImageField, CharField
 import urllib
@@ -20,8 +20,14 @@ def get_page_from_string_or_id(page_string, lang=None):
     if type(page_string) == int:
         return Page.objects.get(pk=int(page_string))
     # if we have a string coming from some templates templates
-    if (isinstance(page_string, SafeUnicode) or
-        isinstance(page_string, unicode)):
+    is_text = isinstance(page_string, SafeText)
+    import sys
+    PY3 = sys.version > '3'
+    if PY3:
+        is_string = isinstance(page_string, str)
+    else:
+        is_string = isinstance(page_string, unicode) or isinstance(page_string, str)
+    if is_text or is_string:
         if page_string.isdigit():
             return Page.objects.get(pk=int(page_string))
         return Page.objects.from_path(page_string, lang)

@@ -21,20 +21,20 @@ class AutoRenderTestCase(TestCase):
         response = testview(request_mock)
         self.assertEqual(response.__class__, HttpResponse)
         self.assertEqual(response.content,
-                         "template_name: 'pages/tests/auto_render.txt', "
-                         "only_context: ''\n")
+                         b"template_name: 'pages/tests/auto_render.txt', "
+                         b"only_context: ''\n")
         self.assertEqual(testview(request_mock, only_context=True),
                          {'args': (), 'request': request_mock, 'kwargs': {}})
         response = testview(request_mock, only_context=False)
         self.assertEqual(response.__class__, HttpResponse)
         self.assertEqual(response.content,
-                         "template_name: 'pages/tests/auto_render.txt', "
-                         "only_context: ''\n")
+                         b"template_name: 'pages/tests/auto_render.txt', "
+                         b"only_context: ''\n")
         response = testview(request_mock, template_name='pages/tests/auto_render2.txt')
         self.assertEqual(response.__class__, HttpResponse)
         self.assertEqual(response.content,
-                         "alternate template_name: 'pages/tests/auto_render2.txt', "
-                         "only_context: ''\n")
+                         b"alternate template_name: 'pages/tests/auto_render2.txt', "
+                         b"only_context: ''\n")
 
     def test_auto_render_httpresponse(self):
         """
@@ -49,14 +49,14 @@ class AutoRenderTestCase(TestCase):
         response = testview(None)
         self.assertEqual(response.__class__, HttpResponse)
         self.assertEqual(response.content,
-                         "[('args', ()), ('kwargs', {}), ('request', None)]")
+                         b"[('args', ()), ('kwargs', {}), ('request', None)]")
         self.assertOnlyContextException(testview)
         self.assertEqual(testview(None, only_context=False).__class__,
                          HttpResponse)
         response = testview(None, template_name='pages/tests/auto_render2.txt')
         self.assertEqual(response.__class__, HttpResponse)
         self.assertEqual(response.content,
-                         "[('args', ()), ('kwargs', {}), ('request', None)]")
+                         b"[('args', ()), ('kwargs', {}), ('request', None)]")
 
     def test_auto_render_redirect(self):
         """Call an @auto_render decorated view which returns an
@@ -89,12 +89,12 @@ class AutoRenderTestCase(TestCase):
         response = testview(request_mock)
         self.assertEqual(response.__class__, MyResponse)
         self.assertOnlyContextException(testview)
-        self.assertEqual(response.content, "toto")
+        self.assertEqual(response.content, b"toto")
         self.assertEqual(testview(request_mock, only_context=False).__class__,
                          MyResponse)
         response = testview(None, template_name='pages/tests/auto_render2.txt')
         self.assertEqual(response.__class__, MyResponse)
-        self.assertEqual(response.content, "toto")
+        self.assertEqual(response.content, b"toto")
 
     def assertOnlyContextException(self, view):
         """If an @auto_render-decorated view returns an HttpResponse
@@ -103,7 +103,7 @@ class AutoRenderTestCase(TestCase):
 
         try:
             view(None, only_context=True)
-        except Exception, e:
+        except Exception as e:
             self.assertTrue(isinstance(e, AutoRenderHttpError))
         else:
             assert False, 'Exception expected'

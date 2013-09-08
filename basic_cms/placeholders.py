@@ -116,9 +116,12 @@ class PlaceholderNode(template.Node):
     def get_widget(self, page, language, fallback=Textarea):
         """Given the name of a placeholder return a `Widget` subclass
         like Textarea or TextInput."""
-        is_str = type(self.widget) == type(str())
-        is_unicode = type(self.widget) == type(unicode())
-        if is_str or is_unicode:
+        import sys
+        PY3 = sys.version > '3'
+        is_string = type(self.widget) == type(str())
+        if not PY3:
+            is_string = type(self.widget) == type(str()) or type(self.widget) == type(unicode())
+        if is_string:
             widget = get_widget(self.widget)
         else:
             widget = self.widget
@@ -223,7 +226,7 @@ class PlaceholderNode(template.Node):
             try:
                 t = template.Template(content, name=self.name)
                 content = mark_safe(t.render(context))
-            except TemplateSyntaxError, error:
+            except TemplateSyntaxError as error:
                 if global_settings.DEBUG:
                     content = PLACEHOLDER_ERROR % {
                         'name': self.name,

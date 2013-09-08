@@ -539,6 +539,10 @@ class Page(MPTTModel):
                 " '%s'") % (s,))
         return messages
 
+    def __str__(self):
+        """Representation of the page, saved or not."""
+        return self.__unicode__()
+
     def __unicode__(self):
         """Representation of the page, saved or not."""
         if self.id:

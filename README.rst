@@ -14,7 +14,7 @@ Django Basic CMS is based around a placeholders concept. A placeholder is specia
 you use in your page templates. Every time you add a placeholder in your template  a field
 dynamically appears in the page admin.
 
-This CMS is know to work on Django 1.4 and 1.5
+This CMS is know to work on Django 1.4 and 1.5 with Python 2.6+ and 3.3
 
 .. image:: https://github.com/YD-Technology/django-basic-cms/raw/master/doc/admin-screenshot1.png
 
@@ -30,7 +30,6 @@ TODO before 1.0
 ===============
 - better import/export
 - update to current version on Haystack
-- support for Python 3.x
 - coverage > 90%
 - pep8
 - update documentation

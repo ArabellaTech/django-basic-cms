@@ -65,7 +65,7 @@ Dependencies & Compatibility
 ============================
 
   * Django 1.4, 1.5
-  * Python 2.6, 2.7.
+  * Python 2.6, 2.7, 3.3
   * `django-haystack if used <http://haystacksearch.org/>`_
   * `django-authority for per object rights management <http://bitbucket.org/jezdez/django-authority/src/>`_.
   * `django-mptt-2 <http://github.com/batiste/django-mptt/>`_

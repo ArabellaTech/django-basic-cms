@@ -41,7 +41,7 @@ def import_pages_from_json(request,
 
     try:
         errors = validate_pages_json_data(d, get_language_from_request(request))
-    except KeyError, e:
+    except KeyError as e:
         errors = [_('JSON file is invalid: %s') % (e.args[0],)]
 
     pages_created = []

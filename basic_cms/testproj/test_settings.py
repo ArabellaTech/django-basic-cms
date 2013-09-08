@@ -20,13 +20,10 @@ MANAGERS = ADMINS
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': 'test.db'
+        'NAME': ':memory:',
     }
 }
 
-# We still want to be ale to test with 1.1.X
-DATABASE_ENGINE = 'sqlite3'
-DATABASE_NAME = 'test.db'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name

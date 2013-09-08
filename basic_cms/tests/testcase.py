@@ -10,6 +10,8 @@ from django.contrib.sites.models import Site
 from django.utils.importlib import import_module
 from django.core.urlresolvers import clear_url_caches
 
+from imp import reload
+
 
 class MockRequest:
     REQUEST = {'language': 'en'}
