@@ -11,6 +11,7 @@ Release 0.1.7
     * Remove the dependency on django-staticfiles
     * Upgraded html5lib to 1.0b3
     * Python 3.3 compatibility
+    * Fix actions on grapelli
 
 
 Release 0.1.6
