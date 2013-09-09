@@ -12,6 +12,7 @@ Release 0.1.7
     * Upgraded html5lib to 1.0b3
     * Python 3.3 compatibility
     * Fix actions on grapelli
+    * import/export fixes
 
 
 Release 0.1.6
