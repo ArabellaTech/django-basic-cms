@@ -8,11 +8,19 @@ from django.db import models, connection
 from django.db.models import Q
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.models import User, SiteProfileNotAvailable
+from django.contrib.auth.models import SiteProfileNotAvailable
 from django.db.models import Avg, Max, Min, Count
 from django.contrib.sites.models import Site
 from django.conf import settings as global_settings
 from django.utils.translation import ugettext_lazy as _
+
+import django
+
+if django.VERSION >= (1, 5):
+    from django.contrib.auth import get_user_model
+    User = get_user_model()
+else:
+    from django.contrib.auth.models import User
 
 from datetime import datetime
 
@@ -197,7 +205,7 @@ class PageManager(models.Manager):
             # code in get_profile() here
             try:
                 profile = user.get_profile()
-            except (SiteProfileNotAvailable, ObjectDoesNotExist):
+            except (SiteProfileNotAvailable, ObjectDoesNotExist, AttributeError):
                 return User.objects.get(email=email)
             get_user_by_email = getattr(profile, 'get_user_by_email', None)
             if get_user_by_email:
