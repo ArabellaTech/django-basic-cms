@@ -490,6 +490,8 @@ class Page(MPTTModel):
             get_email = getattr(profile, 'get_email', None)
             return get_email() if get_email else user.email
 
+        tags = [tag.name for tag in self.tags.all()]
+
         return {
             'complete_slug': dict(
                 (lang, self.get_complete_slug(lang, hideroot=False))
@@ -516,6 +518,7 @@ class Page(MPTTModel):
                 ) if self.redirect_to is not None else None,
             'content': placeholder_content(),
             'content_language_updated_order': languages,
+            'tags': tags
         }
 
     def update_redirect_to_from_json(self, redirect_to_complete_slugs):

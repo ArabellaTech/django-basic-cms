@@ -23,6 +23,7 @@ else:
     from django.contrib.auth.models import User
 
 from datetime import datetime
+from taggit.models import Tag
 
 ISODATE_FORMAT = '%Y-%m-%dT%H:%M:%S.%f' # for parsing dates from JSON
 
@@ -234,8 +235,16 @@ class PageManager(models.Manager):
             }[d['status']]
         page.template = d['template']
         page.redirect_to_url = d['redirect_to_url']
-
         page.save()
+
+        # Add tags
+        tags = d.get('tags', [])
+        page.tags.clear()
+        if tags:
+            for tag in tags:
+                Tag.objects.get_or_create(name=tag)
+                page.tags.add(tag)
+            page.save()
 
         if settings.PAGE_USE_SITE_ID and not settings.PAGE_HIDE_SITES:
             if d['sites']:

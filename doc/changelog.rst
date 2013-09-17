@@ -5,6 +5,12 @@
 This file describe new features and incompatibilites between released version of the CMS.
 
 
+Release 0.1.8
+==============
+
+    * Added tags in export/import
+
+
 Release 0.1.7
 ==============
 
