@@ -5,6 +5,12 @@
 This file describe new features and incompatibilites between released version of the CMS.
 
 
+Release 0.1.9
+==============
+
+    * Added preview near textarea
+
+
 Release 0.1.8
 ==============
 
