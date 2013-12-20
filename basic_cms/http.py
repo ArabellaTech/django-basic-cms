@@ -3,10 +3,6 @@ from . import settings
 
 from django.core.handlers.base import BaseHandler
 from django.core.handlers.wsgi import WSGIRequest
-from django.http import HttpResponse
-from django.shortcuts import render_to_response
-from django.template import RequestContext
-from django.core.urlresolvers import reverse
 
 from io import StringIO
 
@@ -41,8 +37,8 @@ def get_request_mock():
         'wsgi.version': (1, 0),
         'wsgi.url_scheme': 'http',
         'wsgi.multiprocess': True,
-        'wsgi.multithread':  False,
-        'wsgi.run_once':     False,
+        'wsgi.multithread': False,
+        'wsgi.run_once': False,
         'wsgi.input': StringIO()
     })
     # Apply request middleware
@@ -50,47 +46,9 @@ def get_request_mock():
         # LocaleMiddleware should never be applied a second time because
         # it would broke the current real request language
         if 'LocaleMiddleware' not in str(middleware_method.__class__):
-            response = middleware_method(request)
+            middleware_method(request)
 
     return request
-
-
-class AutoRenderHttpError(Exception):
-    """Cannot return context dictionary because a view returned an
-    ``HttpResponse`` when a (template_name, context) tuple was expected."""
-    pass
-
-
-def auto_render(func):
-    """
-    This view decorator automatically calls the ``render_to_response``
-    shortcut. A view that use this decorator should return a tuple of this
-    form : (template name, context) instead of a ``HttpRequest`` object.
-    """
-    import warnings
-    warnings.warn(DeprecationWarning("auto_render decorator is a deprecated."))
-    def auto_render_decorator(request, *args, **kwargs):
-        template_override = kwargs.pop('template_name', None)
-        only_context = kwargs.pop('only_context', False)
-        only_response = kwargs.pop('only_response', False)
-        if only_context or only_response:
-            # return only context dictionary or response
-            response = func(request, *args, **kwargs)
-            if only_response:
-                return response
-            if isinstance(response, HttpResponse):
-                raise AutoRenderHttpError(AutoRenderHttpError.__doc__)
-            (template_name, context) = response
-            return context
-        response = func(request, *args, **kwargs)
-        if isinstance(response, HttpResponse):
-            return response
-        (template_name, context) = response
-        template_name = context['template_name'] = (template_override or
-            template_name)
-        return render_to_response(template_name, context,
-                            context_instance=RequestContext(request))
-    return auto_render_decorator
 
 
 def pages_view(view):
@@ -101,7 +59,7 @@ def pages_view(view):
     def pages_view_decorator(request, *args, **kwargs):
         # if the current page is already there
         if(kwargs.get('current_page', False) or
-            kwargs.get('pages_navigation', False)):
+                kwargs.get('pages_navigation', False)):
             return view(request, *args, **kwargs)
 
         path = kwargs.pop('path', None)

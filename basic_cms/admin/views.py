@@ -3,13 +3,15 @@
 from basic_cms import settings
 from basic_cms.models import Page, Content
 from basic_cms.utils import get_placeholders
-from basic_cms.http import auto_render, get_language_from_request
+from basic_cms.http import get_language_from_request
 from basic_cms.permissions import PagePermission
 
-from django.shortcuts import get_object_or_404
+from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
+from django.template import RequestContext
+
 
 @csrf_exempt
 def change_status(request, page_id):
@@ -25,18 +27,22 @@ def change_status(request, page_id):
     raise Http404
 change_status = staff_member_required(change_status)
 
+
 def list_pages_ajax(request, invalid_move=False):
     """Render pages table for ajax function."""
     language = get_language_from_request(request)
     pages = Page.objects.root()
     context = {
-        'invalid_move':invalid_move,
+        'invalid_move': invalid_move,
         'language': language,
         'pages': pages,
     }
-    return "admin/basic_cms/page/change_list_table.html", context
+    return render_to_response("admin/basic_cms/page/change_list_table.html",
+        context,
+        context_instance=RequestContext(request)
+    )
 list_pages_ajax = staff_member_required(list_pages_ajax)
-list_pages_ajax = auto_render(list_pages_ajax)
+
 
 @csrf_exempt
 def modify_content(request, page_id, content_type, language_id):
@@ -63,6 +69,7 @@ def modify_content(request, page_id, content_type, language_id):
     raise Http404
 modify_content = staff_member_required(modify_content)
 
+
 @csrf_exempt
 def delete_content(request, page_id, language_id):
     page = get_object_or_404(Page, pk=page_id)
@@ -79,6 +86,7 @@ def delete_content(request, page_id, language_id):
     return HttpResponseRedirect(destination)
 delete_content = staff_member_required(delete_content)
 
+
 def traduction(request, page_id, language_id):
     """Traduction helper."""
     page = Page.objects.get(pk=page_id)
@@ -88,21 +96,21 @@ def traduction(request, page_id, language_id):
         Content.objects.get_content(page, language_id, "title")
         is None
     )
-    return 'pages/traduction_helper.html', {
-        'page':page,
-        'lang':lang,
-        'language_error':language_error,
-        'placeholders':placeholders,
-    }
+    return render_to_response('pages/traduction_helper.html', {
+            'page': page,
+            'lang': lang,
+            'language_error': language_error,
+            'placeholders': placeholders,
+    }, context_instance=RequestContext(request))
 traduction = staff_member_required(traduction)
-traduction = auto_render(traduction)
+
 
 def get_content(request, page_id, content_id):
     """Get the content for a particular page"""
     content = Content.objects.get(pk=content_id)
     return HttpResponse(content.body)
 get_content = staff_member_required(get_content)
-get_content = auto_render(get_content)
+
 
 @csrf_exempt
 def move_page(request, page_id, extra_context=None):
@@ -132,16 +140,16 @@ def move_page(request, page_id, extra_context=None):
             return list_pages_ajax(request, invalid_move)
     return HttpResponseRedirect('../../')
 
+
 def sub_menu(request, page_id):
     """Render the children of the requested page with the sub_menu
     template."""
     page = Page.objects.get(id=page_id)
     pages = page.children.all()
     page_languages = settings.PAGE_LANGUAGES
-    return "admin/basic_cms/page/sub_menu.html", {
-        'page':page,
-        'pages':pages,
-        'page_languages':page_languages,
-    }
+    return render_to_response("admin/basic_cms/page/sub_menu.html", {
+        'page': page,
+        'pages': pages,
+        'page_languages': page_languages,
+    }, context_instance=RequestContext(request))
 sub_menu = staff_member_required(sub_menu)
-sub_menu = auto_render(sub_menu)

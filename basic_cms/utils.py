@@ -1,11 +1,11 @@
 # -*- coding: utf-8 -*-
 """A collection of functions for Page CMS"""
+import json as simplejson
 from . import settings
 
 from django.template import TemplateDoesNotExist
 from django.template import loader, Context
 from django.utils import timezone
-from django.utils import simplejson
 from django.utils.translation import ugettext_lazy as _
 
 from datetime import datetime
@@ -54,7 +54,7 @@ def json_to_pages(json, user, preferred_lang=None):
     d = simplejson.loads(json)
     try:
         errors = validate_pages_json_data(d, preferred_lang)
-    except KeyError, e:
+    except KeyError as e:
         errors = [_('JSON file is invalid: %s') % (e.args[0],)]
 
     pages_created = []

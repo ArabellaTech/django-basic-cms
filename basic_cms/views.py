@@ -1,7 +1,7 @@
 """Default example views"""
 from basic_cms import settings
 from basic_cms.models import Page, PageAlias
-from basic_cms.http import auto_render, get_language_from_request, remove_slug
+from basic_cms.http import get_language_from_request, remove_slug
 from basic_cms.urlconf_registry import get_urlconf
 
 from django.http import Http404, HttpResponsePermanentRedirect
@@ -10,7 +10,7 @@ from django.core.urlresolvers import resolve, Resolver404
 from django.utils import translation
 from django.shortcuts import render_to_response
 from django.template import RequestContext
-from django.core.xheaders import populate_xheaders
+# from django.core.xheaders import populate_xheaders
 
 LANGUAGE_KEYS = [key for (key, value) in settings.PAGE_LANGUAGES]
 
@@ -80,14 +80,13 @@ class Details(object):
             if answer:
                 return answer
 
-        # do what the auto_render was used to do.
         if kwargs.get('only_context', False):
             return context
         template_name = kwargs.get('template_name', template_name)
         response = render_to_response(template_name,
             RequestContext(request, context))
         current_page = context['current_page']
-        populate_xheaders(request, response, Page, current_page.id)
+        # populate_xheaders(request, response, Page, current_page.id)
         return response
 
     def resolve_page(self, request, context, is_staff):
@@ -189,8 +188,6 @@ class Details(object):
         if result:
             view, args, kwargs = result
             kwargs.update(context)
-            # for now the view is called as is. Usage of
-            # the auto_render decorator could simplify a few things.
             return view(request, *args, **kwargs)
 
 

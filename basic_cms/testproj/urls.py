@@ -1,9 +1,7 @@
 import authority
 
-from django.conf.urls.defaults import url, include, patterns
-from django.conf.urls.defaults import handler404, handler500
+from django.conf.urls import include, patterns
 from django.contrib import admin
-from django.conf import settings
 from basic_cms.views import PageSitemap, MultiLanguagePageSitemap
 
 
@@ -24,9 +22,9 @@ urlpatterns = patterns('',
     #(r'^search/', include('haystack.urls')),
 
     (r'^sitemap\.xml$', 'django.contrib.sitemaps.views.sitemap',
-        {'sitemaps': {'pages':PageSitemap}}),
+        {'sitemaps': {'pages': PageSitemap}}),
 
     (r'^sitemap2\.xml$', 'django.contrib.sitemaps.views.sitemap',
-        {'sitemaps': {'pages':MultiLanguagePageSitemap}})
+        {'sitemaps': {'pages': MultiLanguagePageSitemap}})
 
 )

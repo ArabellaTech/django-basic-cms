@@ -6,24 +6,21 @@ from basic_cms.http import get_language_from_request, get_template_from_request
 from basic_cms.utils import get_placeholders
 from basic_cms.templatetags.pages_tags import PlaceholderNode
 from basic_cms.admin.utils import get_connected, make_inline_admin
-from basic_cms.admin.forms import PageForm
+from basic_cms.admin.forms import make_form
 from basic_cms.admin.views import traduction, get_content, sub_menu
-from basic_cms.admin.views import list_pages_ajax
 from basic_cms.admin.views import change_status, modify_content, delete_content
 from basic_cms.admin.views import move_page
 from basic_cms.admin.actions import export_pages_as_json, import_pages_from_json
 from basic_cms.permissions import PagePermission
-from basic_cms.http import auto_render
-import basic_cms.widgets
 
 from django import forms
 from django.contrib import admin
-from django.utils.translation import ugettext as _, ugettext_lazy
+from django.utils.translation import ugettext as _
 from django.utils.encoding import force_text
 from django.conf import settings as global_settings
-from django.http import HttpResponseRedirect, Http404
-from django.contrib.admin.util import unquote
+from django.http import Http404
 from django.contrib.admin.sites import AlreadyRegistered
+from django.db import models
 if global_settings.USE_I18N:
     from django.views.i18n import javascript_catalog
 else:
@@ -32,10 +29,40 @@ else:
 from os.path import join
 
 
+def create_page_model(placeholders=[]):
+    """
+    Create Page model
+    """
+    app_label = 'basic_cms'
+    module = 'basic_cms.models.test'
+
+    class Meta:
+        # Using type('Meta', ...) gives a dictproxy error during model creation
+        pass
+
+    # app_label must be set using the Meta inner class
+    setattr(Meta, 'app_label', app_label)
+
+    # Set up a dictionary to simulate declarations within a class
+    attrs = {'__module__': module, 'Meta': Meta}
+
+    # Add in any fields that were provided
+    for p in placeholders:
+        attrs[p.name] = models.TextField(blank=True)
+
+    attrs["slug"] = models.TextField()
+    attrs["title"] = models.TextField()
+
+    # Create the class, which automatically triggers ModelBase processing
+    model = type("Page", (Page,), attrs)
+
+    return model
+
+
 class PageAdmin(admin.ModelAdmin):
     """Page Admin class."""
 
-    form = PageForm
+    #form = PageForm
     exclude = ['author', 'parent']
     # these mandatory fields are not versioned
     mandatory_placeholders = ('title', 'slug')
@@ -84,7 +111,7 @@ class PageAdmin(admin.ModelAdmin):
 
     metadata_fields = [
         {'name': 'meta_title',
-        'field': forms.fields.CharField(required=False) },
+        'field': forms.fields.CharField(required=False)},
         {'name': 'meta_description',
         'field': forms.fields.CharField(required=False, widget=forms.widgets.Textarea()), },
         {'name': 'meta_keywords',
@@ -114,7 +141,7 @@ class PageAdmin(admin.ModelAdmin):
         )]
 
     def urls(self):
-        from django.conf.urls.defaults import patterns, url, include
+        from django.conf.urls import patterns, url
 
         # Admin-site-wide views.
         urlpatterns = patterns('',
@@ -192,7 +219,7 @@ class PageAdmin(admin.ModelAdmin):
                     language,
                     placeholder['name'],
                     data
-                )
+            )
 
         page.invalidate()
 
@@ -201,7 +228,6 @@ class PageAdmin(admin.ModelAdmin):
         Add fieldsets of placeholders to the list of already
         existing fieldsets.
         """
-        general_fields = list(self.general_fields)
         perms = PagePermission(request.user)
 
         # some ugly business to remove freeze_date
@@ -253,7 +279,10 @@ class PageAdmin(admin.ModelAdmin):
         """Get a :class:`Page <pages.admin.forms.PageForm>` for the
         :class:`Page <pages.models.Page>` and modify its fields depending on
         the request."""
-        form = super(PageAdmin, self).get_form(request, obj, **kwargs)
+        #form = super(PageAdmin, self).get_form(request, obj, **kwargs)
+        template = get_template_from_request(request, obj)
+        model = create_page_model(get_placeholders(template))
+        form = make_form(model)
 
         language = get_language_from_request(request)
         form.base_fields['language'].initial = language
@@ -333,8 +362,6 @@ class PageAdmin(admin.ModelAdmin):
             'language': get_language_from_request(request),
             'page_languages': settings.PAGE_LANGUAGES,
         }
-        template = get_template_from_request(request)
-        #extra_context['placeholders'] = get_placeholders(template)
         return super(PageAdmin, self).add_view(request, form_url,
                                                             extra_context)
 
@@ -432,12 +459,12 @@ try:
 except AlreadyRegistered:
     pass
 
+
 class ContentAdmin(admin.ModelAdmin):
     list_display = ('__unicode__', 'type', 'language', 'page')
     list_filter = ('page',)
     search_fields = ('body',)
 
-#admin.site.register(Content, ContentAdmin)
 
 class AliasAdmin(admin.ModelAdmin):
     list_display = ('page', 'url',)
@@ -447,4 +474,3 @@ try:
     admin.site.register(PageAlias, AliasAdmin)
 except AlreadyRegistered:
     pass
-

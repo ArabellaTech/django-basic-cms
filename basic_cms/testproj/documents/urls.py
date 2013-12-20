@@ -1,4 +1,4 @@
-from django.conf.urls.defaults import *
+from django.conf.urls import *
 from basic_cms.testproj.documents.views import document_view
 from basic_cms.http import pages_view
 
