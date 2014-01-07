@@ -18,6 +18,7 @@ from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.template import Template, RequestContext, Context, TemplateSyntaxError
 from django.template.loader import get_template_from_string
+from taggit.models import Tag
 
 import datetime
 
@@ -733,6 +734,16 @@ class UnitTestCase(TestCase):
             'get-page-slug'})
         context = Context({'current_page': page})
         self.assertEqual(template.render(context), u'get-page-slug')
+
+    def test_get_pages_with_tag(self):
+        """Test get_page template tag with page argument given as a page id"""
+        page = self.new_page({'slug': 'footer-page', 'somepage': 'get-footer-slug'})
+        tag = Tag.objects.create(name="footer")
+        page.tags.add(tag)
+        context = Context({})
+        pl1 = ('{% load pages_tags %}{% get_pages_with_tag "footer" as pages %}{% for page in pages %}{{ page.slug }}{% endfor %}')
+        template = get_template_from_string(pl1)
+        self.assertEqual(template.render(context), u'footer-page')
 
     def test_variable_disapear_in_block(self):
         """Try to test the disapearance of a context variable in a block."""

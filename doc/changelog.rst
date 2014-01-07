@@ -4,6 +4,11 @@
 
 This file describe new features and incompatibilites between released version of the CMS.
 
+Release 0.2.1
+==============
+
+    * Added get_pages_with_tag templatetag
+
 
 Release 0.2.0
 ==============

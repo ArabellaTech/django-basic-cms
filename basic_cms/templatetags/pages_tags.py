@@ -498,3 +498,40 @@ def language_content_up_to_date(page, language):
         page=page).order_by('-creation_date')[0].creation_date
     return lang_modified > last_modified[0].creation_date
 register.filter(language_content_up_to_date)
+
+
+def do_get_pages_with_tag(parser, token):
+    """
+    Return Pages with given tag
+
+    Syntax::
+
+        {% get_pages_with_tag <tag name> as <varname> %}
+
+    Example use:
+        {% get_pages_with_tag "footer" as pages %}
+    """
+    bits = token.split_contents()
+    if 4 != len(bits):
+        raise TemplateSyntaxError('%r expects 2 arguments' % bits[0])
+    if bits[-2] != 'as':
+        raise TemplateSyntaxError(
+            '%r expects "as" as the second last argument' % bits[0])
+    varname = bits[-1]
+    tag = parser.compile_filter(bits[1])
+    varname = bits[-1]
+    return GetPagesWithTagNode(tag, varname)
+register.tag('get_pages_with_tag', do_get_pages_with_tag)
+
+
+class GetPagesWithTagNode(template.Node):
+    """Get Pages with given tag node"""
+    def __init__(self, tag, varname):
+        self.tag = tag
+        self.varname = varname
+
+    def render(self, context):
+        tag = self.tag.resolve(context)
+        pages = Page.objects.filter(tags__name__in=[tag])
+        context[self.varname] = pages
+        return ''
