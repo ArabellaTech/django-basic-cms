@@ -125,7 +125,7 @@ URL that handles pages media. If not set the default value is::
 PAGE_UNIQUE_SLUG_REQUIRED
 ==================================
 
-Set ``PAGE_UNIQUE_SLUG_REQUIRED`` to ``True`` to enforce unique slug names
+Set ``PAGE_UNIQUE_SLUG_REQUIRED`` to ``False`` to not enforce unique slug names
 for all pages.
 
 PAGE_CONTENT_REVISION
