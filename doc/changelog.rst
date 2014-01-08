@@ -4,6 +4,14 @@
 
 This file describe new features and incompatibilites between released version of the CMS.
 
+
+Release 0.2.2
+==============
+
+    * Set default PAGE_UNIQUE_SLUG_REQUIRED to True
+    * Did redirect for old slug names
+
+
 Release 0.2.1
 ==============
 
