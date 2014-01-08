@@ -70,7 +70,7 @@ if PAGE_TINYMCE and "tinymce" not in getattr(settings, 'INSTALLED_APPS', []):
 # Set ``PAGE_UNIQUE_SLUG_REQUIRED`` to ``True`` to enforce unique slug names
 # for all pages.
 PAGE_UNIQUE_SLUG_REQUIRED = getattr(settings, 'PAGE_UNIQUE_SLUG_REQUIRED',
-                                    False)
+                                    True)
 
 # Set ``PAGE_CONTENT_REVISION`` to ``False`` to disable the recording of
 # pages revision information in the database
