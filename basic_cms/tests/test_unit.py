@@ -600,10 +600,10 @@ class UnitTestCase(TestCase):
         self.assertEqual(_get_context_page('/').status_code, 200)
         self.assertEqual(_get_context_page('/page1/').status_code, 200)
         self.assertEqual(_get_context_page('/page1/').status_code, 200)
-        self.assertEqual(_get_context_page('/page1/page2').status_code, 200)
-        self.assertEqual(_get_context_page('/page1/page2/').status_code, 200)
+        self.assertEqual(_get_context_page('/page1/page2').status_code, 301)
+        self.assertEqual(_get_context_page('/page1/page2/').status_code, 301)
         self.assertEqual(_get_context_page('/page1/page2/doc-%d' % doc.id
-            ).status_code, 200)
+            ).status_code, 301)
         self.assertRaises(Http404, _get_context_page,
             '/page1/page-wrong/doc-%d' % doc.id)
 

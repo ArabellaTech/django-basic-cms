@@ -23,8 +23,7 @@ class Details(object):
     All is rendered with the current page's template.
     """
 
-    def __call__(self, request, path=None, lang=None, delegation=True,
-            **kwargs):
+    def __call__(self, request, path=None, lang=None, delegation=True, **kwargs):
 
         current_page = False
 
@@ -53,6 +52,12 @@ class Details(object):
         is_staff = self.is_user_staff(request)
 
         current_page = self.resolve_page(request, context, is_staff)
+        if current_page and not current_page.is_first_root():
+            url = current_page.get_absolute_url(language=lang)
+            slug = current_page.get_complete_slug(language=lang)
+            current_url = request.get_full_path()
+            if url != path and url + '/' != current_url and slug != path:
+                return HttpResponsePermanentRedirect(url)
 
         # if no pages has been found, we will try to find it via an Alias
         if not current_page:
@@ -83,8 +88,7 @@ class Details(object):
         if kwargs.get('only_context', False):
             return context
         template_name = kwargs.get('template_name', template_name)
-        response = render_to_response(template_name,
-            RequestContext(request, context))
+        response = render_to_response(template_name, RequestContext(request, context))
         current_page = context['current_page']
         # populate_xheaders(request, response, Page, current_page.id)
         return response
@@ -93,8 +97,7 @@ class Details(object):
         """Return the appropriate page according to the path."""
         path = context['path']
         lang = context['lang']
-        page = Page.objects.from_path(path, lang,
-            exclude_drafts=(not is_staff))
+        page = Page.objects.from_path(path, lang, exclude_drafts=(not is_staff))
         if page:
             return page
         # if the complete path didn't worked out properly
@@ -105,8 +108,7 @@ class Details(object):
         if not settings.PAGE_USE_STRICT_URL:
             path = remove_slug(path)
             while path is not None:
-                page = Page.objects.from_path(path, lang,
-                    exclude_drafts=(not is_staff))
+                page = Page.objects.from_path(path, lang, exclude_drafts=(not is_staff))
                 # find a match. Is the page delegating?
                 if page:
                     if page.delegate_to:
