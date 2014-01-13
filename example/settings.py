@@ -175,8 +175,6 @@ HAYSTACK_CONNECTIONS = {
     },
 }
 
-PAGE_REAL_TIME_SEARCH = False
-
 COVERAGE_EXCLUDE_MODULES = (
     "pages.migrations.*",
     "pages.tests.*",

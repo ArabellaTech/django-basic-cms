@@ -7,7 +7,7 @@ django-basic-cms
 
 .. image:: https://coveralls.io/repos/YD-Technology/django-basic-cms/badge.png?branch=master
    :target: https://coveralls.io/r/YD-Technology/django-basic-cms/
-   
+
 .. image:: https://d2weczhvl823v0.cloudfront.net/YD-Technology/django-basic-cms/trend.png
    :alt: Bitdeli badge
    :target: https://bitdeli.com/free
@@ -33,7 +33,6 @@ http://django-basic-cms.readthedocs.org/
 TODO before 1.0
 ===============
 - better import/export
-- update to current version on Haystack
 - coverage > 90%
 - pep8
 - update documentation
