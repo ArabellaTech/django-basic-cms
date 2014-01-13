@@ -64,7 +64,7 @@ Here is the list of features you can enable/disable:
 Dependencies & Compatibility
 ============================
 
-  * Django 1.4, 1.5
+  * Django 1.4, 1.5, 1.6
   * Python 2.6, 2.7, 3.3
   * `django-haystack if used <http://haystacksearch.org/>`_
   * `django-authority for per object rights management <http://bitbucket.org/jezdez/django-authority/src/>`_.
