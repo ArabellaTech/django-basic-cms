@@ -2,13 +2,13 @@
 django-basic-cms
 ================
 
-.. image:: https://travis-ci.org/YD-Technology/django-basic-cms.png?branch=master
-   :target: http://travis-ci.org/YD-Technology/django-basic-cms
+.. image:: https://travis-ci.org/ArabellaTech/django-basic-cms.png?branch=master
+   :target: http://travis-ci.org/ArabellaTech/django-basic-cms
 
-.. image:: https://coveralls.io/repos/YD-Technology/django-basic-cms/badge.png?branch=master
-   :target: https://coveralls.io/r/YD-Technology/django-basic-cms/
+.. image:: https://coveralls.io/repos/ArabellaTech/django-basic-cms/badge.png?branch=master
+   :target: https://coveralls.io/r/ArabellaTech/django-basic-cms/
 
-.. image:: https://d2weczhvl823v0.cloudfront.net/YD-Technology/django-basic-cms/trend.png
+.. image:: https://d2weczhvl823v0.cloudfront.net/ArabellaTech/django-basic-cms/trend.png
    :alt: Bitdeli badge
    :target: https://bitdeli.com/free
 
@@ -20,7 +20,7 @@ dynamically appears in the page admin.
 
 This CMS is know to work on Django 1.4 and 1.5 with Python 2.6+ and 3.3
 
-.. image:: https://github.com/YD-Technology/django-basic-cms/raw/master/doc/admin-screenshot1.png
+.. image:: https://github.com/ArabellaTech/django-basic-cms/raw/master/doc/admin-screenshot1.png
 
 Documentation
 =============
