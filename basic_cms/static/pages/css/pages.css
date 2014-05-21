@@ -729,4 +729,6 @@ html[dir=rtl] .change-form .module-content .revisions {
 /* page link */
 .change-form .module-translation-helper .translation-helper-placeholder .externallink_broken,
 .change-form .module-translation-helper .translation-helper-placeholder .pagelink_broken { text-decoration: line-through; }
-
+#page-table-dnd{
+    clear:both;
+}
