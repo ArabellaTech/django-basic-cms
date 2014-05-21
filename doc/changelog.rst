@@ -4,6 +4,11 @@
 
 This file describe new features and incompatibilites between released version of the CMS.
 
+Release 0.2.3.1
+===============
+
+    * Firefox CSS fix
+
 
 Release 0.2.3
 ==============
