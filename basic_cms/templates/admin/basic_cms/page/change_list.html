@@ -23,7 +23,7 @@
 {% endblock %}
 
 {% block result_list %}
-    <div id="page-list" class="module changelist-results">
+    <div id="page-list" class="module changelist-results clearfix">
         {% include "admin/basic_cms/page/change_list_table.html" %}
     </div>
     {% if action_form and actions_on_bottom and cl.full_result_count %}{% admin_actions %}{% endif %}
