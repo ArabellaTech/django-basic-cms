@@ -4,6 +4,12 @@
 
 This file describe new features and incompatibilites between released version of the CMS.
 
+Release 0.2.4.1
+===============
+
+    * Fix solr index template
+    * Fix Admin edit cache
+
 Release 0.2.3.1
 ===============
 
