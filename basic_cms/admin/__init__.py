@@ -29,7 +29,7 @@ else:
 from os.path import join
 
 
-def create_page_model(placeholders=[]):
+def create_page_model(placeholders=None):
     """
     Create Page model
     """
@@ -39,6 +39,9 @@ def create_page_model(placeholders=[]):
     class Meta:
         # Using type('Meta', ...) gives a dictproxy error during model creation
         pass
+
+    if placeholders is None:
+        placeholders = []
 
     # app_label must be set using the Meta inner class
     setattr(Meta, 'app_label', app_label)
