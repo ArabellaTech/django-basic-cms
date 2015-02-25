@@ -24,20 +24,30 @@ class Command(BaseCommand):
                 except NotImplementedError:
                     # print default_storage.url(f)
                     if path[-1:] != os.sep:
-                        pf = default_storage.open(path, 'wr')
+                        pf = default_storage.open(path, 'rb')
                         print("Processing %s" % pf.name)
+                        # url = default_storage.url(path)
+                        # response = urllib2.urlopen(url)
+                        # image = response.read()
                         image = pf.read()
                         tmpfilehandle, tmpfilepath = tempfile.mkstemp()
                         # print tmpfilehandle
-                        tmpfilehandle = os.fdopen(tmpfilehandle, 'w')
+                        tmpfilehandle = os.fdopen(tmpfilehandle, 'wb')
                         # print tmpfilehandle
                         tmpfilehandle.write(image)
                         tmpfilehandle.close()
+                        # mime = magic.Magic(mime=True)
+                        # mime = mime.from_file(tmpfilepath)
+                        # print mime
+                        # print "suqeezing"
                         squeeze(tmpfilepath)
+                        #print mime.from_file(tmpfilepath)
                         tmpfilehandle = open(tmpfilepath)
-                        compressed_image = tmpfilehandle.read()
-                        pf.write(compressed_image)
+                        # compressed_image = tmpfilehandle.read()
+                        #pf.write(compressed_image)
                         pf.close()
+                        default_storage.save(path, tmpfilehandle)
+                        #pf.close()
                         os.remove(tmpfilepath)
 
             for d in data[0]:  # directories from list_dir
