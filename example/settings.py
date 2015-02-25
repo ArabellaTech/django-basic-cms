@@ -94,17 +94,18 @@ INSTALLED_APPS = (
     'django.contrib.sites',
     'django.contrib.staticfiles',
     'pages.testproj.documents',
-    #'taggit',
+    # 'taggit',
     'pages',
     'mptt',
-    #'tinymce',
+    # 'tinymce',
     # disabled to make "setup.py test" to work properly
-    #'south',
+    # 'south',
 
     # these 2 package don't create any dependecies
     'authority',
     # haystack change coverage score report by importing modules
     'haystack',
+    'image_diet',
 )
 
 PAGE_TINYMCE = False
@@ -114,10 +115,10 @@ PAGE_CONNECTED_MODELS = [{
     'model': 'pages.testproj.documents.models.Document',
     'form': 'pages.testproj.documents.models.DocumentForm',
     'options': {
-            'extra': 3,
-            'max_num': 10,
-        },
-},]
+        'extra': 3,
+        'max_num': 10,
+    },
+}]
 
 # Default language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -141,6 +142,7 @@ languages = list(PAGE_LANGUAGES)
 languages.append(('fr-fr', gettext_noop('French')))
 languages.append(('fr-be', gettext_noop('Belgium french')))
 LANGUAGES = languages
+
 
 # This enable you to map a language(s) to another one, these languages should
 # be in the LANGUAGES config
@@ -190,4 +192,3 @@ try:
     from local_settings import *
 except ImportError:
     pass
-
