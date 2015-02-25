@@ -1,8 +1,7 @@
 import tempfile
 import os
-import urllib2
 
-from django.core.management.base import BaseCommand, CommandError
+from django.core.management.base import BaseCommand  # , CommandError
 from django.core.files.storage import default_storage
 from basic_cms import settings
 from image_diet import squeeze
@@ -16,7 +15,6 @@ class Command(BaseCommand):
 
         def compress_files(data, dirtree):
             # print data
-            print dirtree
             for f in data[1]:  # files from listdir
                 path = os.sep.join(dirtree)
                 path = os.path.join(path, f)
@@ -26,10 +24,9 @@ class Command(BaseCommand):
                 except NotImplementedError:
                     # print default_storage.url(f)
                     if path[-1:] != os.sep:
-                        pf = default_storage.open(path)
-                        url = default_storage.url(path)
-                        response = urllib2.urlopen(url)
-                        image = response.read()
+                        pf = default_storage.open(path, 'wr')
+                        print("Processing %s" % pf.name)
+                        image = pf.read()
                         tmpfilehandle, tmpfilepath = tempfile.mkstemp()
                         # print tmpfilehandle
                         tmpfilehandle = os.fdopen(tmpfilehandle, 'w')
