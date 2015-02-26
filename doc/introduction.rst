@@ -75,7 +75,7 @@ Dependencies & Compatibility
   * `django-tinymce <http://code.google.com/p/django-tinymce/>`_ (if PAGE_TINYMCE = True)
   * Django Basic CMS is shipped with jQuery.
   * Compatible with MySQL, PostgreSQL, SQLite3, some issues are known with Oracle.
-  * `image_diet <https://github.com/ArabellaTech/image-diet>`_ `image_diet </image_diet>`_
+  * Compress images using `image_diet <https://github.com/ArabellaTech/image-diet>`_ (`Instalation </image_diet>`_)
 
 .. note::
 
