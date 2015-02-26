@@ -4,3 +4,4 @@ html5lib==1.0b3
 sphinxcontrib-aafig
 django-taggit>=0.11.1
 django-authority>=0.8
+image_diet>=0.7.1

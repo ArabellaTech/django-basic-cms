@@ -106,6 +106,7 @@ INSTALLED_APPS = (
     'authority',
     # haystack change coverage score report by importing modules
     #'haystack',
+    'image_diet'
 )
 
 PAGE_TINYMCE = False

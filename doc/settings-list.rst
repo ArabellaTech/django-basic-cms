@@ -222,3 +222,8 @@ PAGE_EXTRA_CONTEXT
 
 This setting is a function that can be defined if you need to pass extra
 context data to the pages templates.
+
+BASIC_CMS_COMPRESS_IMAGES
+=========================
+
+When set to True it will compress images uploaded by CMS. :ref: `Complete documentation on how to use this setting <image_diet>`

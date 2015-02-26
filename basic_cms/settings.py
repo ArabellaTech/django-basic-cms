@@ -222,5 +222,15 @@ PAGE_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
 # Set ``PAGE_UNIQUE_SLUG_REQUIRED`` to ``True`` to rename automaticaly a duplicate slug
 # another page as an identic slug
-PAGE_AUTOMATIC_SLUG_RENAMING = getattr(settings, 'PAGE_AUTOMATIC_SLUG_RENAMING',
-                                    False)
+PAGE_AUTOMATIC_SLUG_RENAMING = getattr(settings, 'PAGE_AUTOMATIC_SLUG_RENAMING', False)
+
+INSTALLED_APPS = getattr(settings, 'INSTALLED_APPS',
+                         ())
+
+BASIC_CMS_COMPRESS_IMAGES = getattr(settings, 'BASIC_CMS_COMPRESS_IMAGES', False)
+
+FILEBROWSER_DIRECTORY = False
+if 'filebrowser' in INSTALLED_APPS:
+    from filebrowser import settings as filebrowser_settigns
+    FILEBROWSER_DIRECTORY = getattr(settings, 'FILEBROWSER_DIRECTORY',
+                                    getattr(filebrowser_settigns, 'DIRECTORY', False))
