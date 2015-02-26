@@ -40,7 +40,6 @@ class Command(BaseCommand):
             except NotImplementedError:
                 if path[-1:] != os.sep:
                     pf = default_storage.open(path, 'rwb')
-                    print("Processing %s" % pf.name)
                     image = pf.read()
                     tmpfilehandle, tmpfilepath = tempfile.mkstemp()
                     tmpfilehandle = os.fdopen(tmpfilehandle, 'wb')
@@ -62,7 +61,7 @@ class Command(BaseCommand):
                     path = os.path.join(dir_path, f)
                     flagged_file_name = '.%s.%s' % (f, django_basic_cms_compressed_flag)
                     flag_path = os.path.join(dir_path, flagged_file_name)
-
+                    print("Processing %s" % path)
                     if new_only:
                         should_process_file = False
 
@@ -90,7 +89,10 @@ class Command(BaseCommand):
                 compress_files(d, dirtree, new_only)
                 dirtree.pop()  # remove last item, not needed anymore
 
-        if 'image_diet' in settings.INSTALLED_APPS and settings.BASIC_CMS_COMPRESS_IMAGES:
+        if settings.BASIC_CMS_COMPRESS_IMAGES:
+            if 'image_diet' not in settings.INSTALLED_APPS:
+                raise NotImplementedError("You need to install image_diet to use BASIC_CMS_COMPRESS_IMAGES")
+
             upload_dirs = [settings.PAGE_UPLOAD_ROOT, settings.FILEBROWSER_DIRECTORY]
             for directory in upload_dirs:
                 if directory:
