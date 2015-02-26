@@ -2,7 +2,7 @@
  Image_diet
 ===========
 
-For installation instructions plese visit `image diet documentation <https://github.com/ArabellaTech/image-diet>`
+For installation instructions plese visit `image diet documentation <https://github.com/ArabellaTech/image-diet>`_
 
 Enabling in CMS
 ===============
