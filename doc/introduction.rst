@@ -45,6 +45,7 @@ Key features
   * Directory-like page hierarchy (page can have the same name if they are not in the same directory).
   * Every page can have multiple alias URLs. It's especially useful to migrate websites.
   * :doc:`Possibility to integrate 3th party apps </3rd-party-apps>`.
+  * :doc: support for image_diet to compress images </image_diet>
 
 
 Other features
@@ -74,6 +75,7 @@ Dependencies & Compatibility
   * `django-tinymce <http://code.google.com/p/django-tinymce/>`_ (if PAGE_TINYMCE = True)
   * Django Basic CMS is shipped with jQuery.
   * Compatible with MySQL, PostgreSQL, SQLite3, some issues are known with Oracle.
+  * `image_diet <https://github.com/ArabellaTech/image-diet>` :doc: `image_diet </image_diet>`
 
 .. note::
 
