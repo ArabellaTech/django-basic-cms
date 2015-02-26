@@ -27,32 +27,36 @@ class Command(BaseCommand):
         timestamp = time.time()
         timestamp = datetime.datetime.fromtimestamp(timestamp).strftime('-%Y-%m-%d-%H:%M:%S')
 
+        def process_file(path):
+            """Process single file"""
+            # failsafe copy of file
+            copy = default_storage.open(path, 'rb')
+            default_storage.save(path + timestamp, copy)
+            copy.close()
+            try:
+                path = default_storage.path(path)
+                squeeze(path)
+            except NotImplementedError:
+                if path[-1:] != os.sep:
+                    pf = default_storage.open(path, 'rwb')
+                    print("Processing %s" % pf.name)
+                    image = pf.read()
+                    tmpfilehandle, tmpfilepath = tempfile.mkstemp()
+                    tmpfilehandle = os.fdopen(tmpfilehandle, 'wb')
+                    tmpfilehandle.write(image)
+                    tmpfilehandle.close()
+                    squeeze(tmpfilepath)
+                    tmpfilehandle = open(tmpfilepath)
+                    pf.close()
+                    default_storage.save(path, tmpfilehandle)
+                    os.remove(tmpfilepath)
+
         def compress_files(data, dirtree):
             for f in data[1]:  # files from listdir
                 if f and f.lower().endswith(('.png', '.jpg', '.jpeg', '.gif')):  # sometimes it is [u'']
                     path = os.sep.join(dirtree)
                     path = os.path.join(path, f)
-                    # failsafe copy of file
-                    copy = default_storage.open(path, 'rb')
-                    default_storage.save(path + timestamp, copy)
-                    copy.close()
-                    try:
-                        path = default_storage.path(path)
-                        squeeze(path)
-                    except NotImplementedError:
-                        if path[-1:] != os.sep:
-                            pf = default_storage.open(path, 'rwb')
-                            print("Processing %s" % pf.name)
-                            image = pf.read()
-                            tmpfilehandle, tmpfilepath = tempfile.mkstemp()
-                            tmpfilehandle = os.fdopen(tmpfilehandle, 'wb')
-                            tmpfilehandle.write(image)
-                            tmpfilehandle.close()
-                            squeeze(tmpfilepath)
-                            tmpfilehandle = open(tmpfilepath)
-                            pf.close()
-                            default_storage.save(path, tmpfilehandle)
-                            os.remove(tmpfilepath)
+                    process_file(path)
 
             for d in data[0]:  # directories from list_dir
                 dirtree.append(d)
