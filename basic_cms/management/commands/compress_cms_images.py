@@ -5,10 +5,21 @@ from django.core.management.base import BaseCommand  # , CommandError
 from django.core.files.storage import default_storage
 from basic_cms import settings
 from image_diet import squeeze
+from optparse import make_option
 
 
 class Command(BaseCommand):
-    help = "compress all cms images using image_diet"
+    help = "compress all cms images using image_diet. Creates a backup copy of compressed files"
+
+    option_list = BaseCommand.option_list + (
+        make_option(
+            "--recently_changed",
+            action='store_true',
+            default=False,
+            dest='recently_changed',
+            help='Compress only images changed during last 24 hours',
+        ),
+    )
 
     def handle(self, *args, **options):
 
