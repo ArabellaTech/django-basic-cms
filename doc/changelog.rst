@@ -4,6 +4,11 @@
 
 This file describe new features and incompatibilites between released version of the CMS.
 
+Release 0.2.5.1
+===============
+
+    * page.dump_json_data now accepts parameter get_children, defaults false.
+
 Release 0.2.5
 ===============
 
