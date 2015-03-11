@@ -441,7 +441,7 @@ class Page(MPTTModel):
         """Used in the admin menu to create the left margin."""
         return self.level * 2
 
-    def dump_json_data(self):
+    def dump_json_data(self, get_children=False):
         """
         Return a python dict representation of this page for use as part of
         a JSON export.
@@ -471,7 +471,7 @@ class Page(MPTTModel):
             out = {}
             for p in get_placeholders(self.get_template()):
                 if p.name in ('title', 'slug'):
-                    continue # these were already included
+                    continue  # these were already included
                 out[p.name] = language_content(p.name)
 
             for p in Content.objects.filter(type__in=['meta_title', 'meta_description', 'meta_keywords', 'meta_author', 'fb_page_type', 'fb_image']):
@@ -491,6 +491,11 @@ class Page(MPTTModel):
             return get_email() if get_email else user.email
 
         tags = [tag.name for tag in self.tags.all()]
+
+        children = []
+        if get_children:
+            for c in self.children.filter(status__in=[self.PUBLISHED, self.HIDDEN]):
+                children.append(c.dump_json_data())
 
         return {
             'complete_slug': dict(
@@ -518,7 +523,8 @@ class Page(MPTTModel):
                 ) if self.redirect_to is not None else None,
             'content': placeholder_content(),
             'content_language_updated_order': languages,
-            'tags': tags
+            'tags': tags,
+            'children': children
         }
 
     def update_redirect_to_from_json(self, redirect_to_complete_slugs):
