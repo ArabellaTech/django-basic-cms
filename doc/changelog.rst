@@ -4,6 +4,12 @@
 
 This file describe new features and incompatibilites between released version of the CMS.
 
+
+Release 0.2.5.2
+===============
+
+    * Remove Compress image support
+
 Release 0.2.5.1
 ===============
 

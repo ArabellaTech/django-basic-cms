@@ -227,8 +227,6 @@ PAGE_AUTOMATIC_SLUG_RENAMING = getattr(settings, 'PAGE_AUTOMATIC_SLUG_RENAMING',
 INSTALLED_APPS = getattr(settings, 'INSTALLED_APPS',
                          ())
 
-BASIC_CMS_COMPRESS_IMAGES = getattr(settings, 'BASIC_CMS_COMPRESS_IMAGES', False)
-
 FILEBROWSER_DIRECTORY = False
 if 'filebrowser' in INSTALLED_APPS:
     from filebrowser import settings as filebrowser_settigns
