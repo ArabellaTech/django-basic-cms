@@ -31,7 +31,8 @@ class CMSPagesApiTests(TestCase):
         self.assertEqual(response.status_code, 404)
         response = self.client.get(reverse('basic_cms_api', args=['terms']), data)
         self.assertEqual(response.status_code, 200)
-        self.assertJSONEqual(self.original_json_data, response.content)
+        # self.assertJSONEqual(self.original_json_data, response.content)
+        self.assertEqual(self.original_json_data, response.content)
 
         response = self.client.get(reverse('basic_cms_api', args=['terms']))
         self.assertEqual(response.status_code, 200)
