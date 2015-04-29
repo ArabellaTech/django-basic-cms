@@ -11,20 +11,26 @@ class CMSPagesApiTests(TestCase):
 
     fixtures = ['pages_tests.json', 'api.json']
 
-    def setUp(self):
+    # def setUp(self):
+    #     self.original_data = Page.objects.from_path('terms', 'eng')
+    #     self.original_json_data = json.dumps(self.original_data.dump_json_data())
+    #     self.original_html_data = render_to_string(self.original_data.template,
+    #                                                {"current_page": self.original_data})
+
+    def tests_basic_cms_api_access(self):
+        from django.test.client import Client
+        self.client = Client()
         self.original_data = Page.objects.from_path('terms', 'eng')
         self.original_json_data = json.dumps(self.original_data.dump_json_data())
         self.original_html_data = render_to_string(self.original_data.template,
                                                    {"current_page": self.original_data})
-
-    def tests_basic_cms_api_access(self):
         data = {
             'format': 'json'
         }
         response = self.client.get(reverse('basic_cms_api', args=['alamakota']), data)
-        print response.__dict__
         self.assertEqual(response.status_code, 404)
         response = self.client.get(reverse('basic_cms_api', args=['terms']), data)
+        # print response
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(self.original_json_data, response.content)
 
@@ -42,6 +48,10 @@ class CMSPagesApiTests(TestCase):
 
     def test_urls(self):
         from utils import links_append_domain
+        self.original_data = Page.objects.from_path('terms', 'eng')
+        self.original_json_data = json.dumps(self.original_data.dump_json_data())
+        self.original_html_data = render_to_string(self.original_data.template,
+                                                   {"current_page": self.original_data})
 
         body = """
             <a href="http://google.com">google.com</a>
