@@ -22,6 +22,7 @@ class CMSPagesApiTests(TestCase):
             'format': 'json'
         }
         response = self.client.get(reverse('basic_cms_api', args=['alamakota']), data)
+        print response.__dict__
         self.assertEqual(response.status_code, 404)
         response = self.client.get(reverse('basic_cms_api', args=['terms']), data)
         self.assertEqual(response.status_code, 200)
