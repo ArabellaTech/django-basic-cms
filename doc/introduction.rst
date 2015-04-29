@@ -72,6 +72,7 @@ Dependencies & Compatibility
   * `django-mptt-2 <http://github.com/batiste/django-mptt/>`_
   * `django-taggit <http://http://github.com/alex/django-taggit>`_
   * `django-rest-framework <http://www.django-rest-framework.org/>`_ since version 2.3.14
+  * `lxml <http://lxml.de/>`_
   * `html5lib <http://code.google.com/p/html5lib/>`_ (if PAGE_SANITIZE_USER_INPUT = True)
   * `django-tinymce <http://code.google.com/p/django-tinymce/>`_ (if PAGE_TINYMCE = True)
   * Django Basic CMS is shipped with jQuery.
