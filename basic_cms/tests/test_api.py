@@ -20,7 +20,7 @@ class CMSPagesApiTests(TestCase):
     def tests_basic_cms_api_access(self):
         from django.test.client import Client
         self.client = Client()
-        self.original_data = Page.objects.from_path('terms', 'eng')
+        self.original_data = Page.objects.from_path('terms', 'en-us')
         self.original_json_data = json.dumps(self.original_data.dump_json_data())
         self.original_html_data = render_to_string(self.original_data.template,
                                                    {"current_page": self.original_data})
@@ -30,7 +30,6 @@ class CMSPagesApiTests(TestCase):
         response = self.client.get(reverse('basic_cms_api', args=['alamakota']), data)
         self.assertEqual(response.status_code, 404)
         response = self.client.get(reverse('basic_cms_api', args=['terms']), data)
-        # print response
         self.assertEqual(response.status_code, 200)
         self.assertJSONEqual(self.original_json_data, response.content)
 
@@ -40,11 +39,11 @@ class CMSPagesApiTests(TestCase):
 
         response = self.client.get(reverse('basic_cms_api', args=['coaches']), {'format': 'json'})
         self.assertEqual(response.status_code, 200)
-        self.assertEqual(response.data['title']['eng'], 'coaches')
+        self.assertEqual(response.data['title']['en-us'], 'coaches')
         self.assertEqual(len(response.data['children']), 3)
-        self.assertEqual(response.data['children'][0]['title']['eng'], 'Judith Singer')
-        self.assertEqual(response.data['children'][1]['title']['eng'], 'Melissa Litwak')
-        self.assertEqual(response.data['children'][2]['title']['eng'], 'Joanna Schaffler')
+        self.assertEqual(response.data['children'][0]['title']['en-us'], 'Judith Singer')
+        self.assertEqual(response.data['children'][1]['title']['en-us'], 'Melissa Litwak')
+        self.assertEqual(response.data['children'][2]['title']['en-us'], 'Joanna Schaffler')
 
     def test_urls(self):
         from utils import links_append_domain
