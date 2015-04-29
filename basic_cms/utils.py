@@ -3,7 +3,7 @@
 from lxml import etree
 from urlparse import urljoin
 import json as simplejson
-from . import settings
+from basic_cms import settings
 
 from django.template import TemplateDoesNotExist
 from django.template import loader, Context

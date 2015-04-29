@@ -40,7 +40,7 @@ class CMSPagesApiTests(TestCase):
         self.assertEqual(response.data['children'][2]['title']['eng'], 'Joanna Schaffler')
 
     def test_urls(self):
-        from nutrimom.accounts.api import links_append_domain
+        from utils import links_append_domain
 
         body = """
             <a href="http://google.com">google.com</a>
