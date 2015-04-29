@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
 """A collection of functions for Page CMS"""
+from lxml import etree
+from urlparse import urljoin
 import json as simplejson
 from . import settings
 
@@ -339,3 +341,30 @@ def normalize_url(url):
     if len(url) > 1 and url.endswith('/'):
         url = url[0:len(url) - 1]
     return url
+
+
+def links_append_domain(html, base_url):
+    stripped = html.strip()
+    parser = etree.HTMLParser()
+    tree = etree.fromstring(stripped, parser).getroottree()
+    page = tree.getroot()
+    # lxml inserts a doctype if none exists, so only include it in
+    # the root if it was in the original html.
+    root = tree if stripped.startswith(tree.docinfo.doctype) else page
+
+    if not base_url.endswith('/'):
+        base_url += '/'
+
+    for attr in ('href', 'src'):
+        for item in page.xpath("//@%s" % attr):
+            parent = item.getparent()
+            if attr == 'href' and (parent.attrib[attr].startswith('#') or parent.attrib[attr].startswith('/#')):
+                continue
+            parent.attrib[attr] = urljoin(base_url, parent.attrib[attr].lstrip('/'))
+
+    kwargs = {}
+    # kwargs.setdefault('method', self.method)
+    kwargs.setdefault('pretty_print', False)
+    kwargs.setdefault('encoding', 'utf-8')  # As Ken Thompson intended
+    out = etree.tostring(root, **kwargs).decode(kwargs['encoding'])
+    return out
