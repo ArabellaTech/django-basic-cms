@@ -1,0 +1,18 @@
+include LICENSE
+include README.rst
+include MANIFEST.in
+recursive-include doc *
+recursive-include basic_cms *
+recursive-include requirements *
+recursive-include basic_cms/templates *
+recursive-include basic_cms/static *
+recursive-include basic_cms/locale *
+recursive-include basic_cms *.css
+recursive-include basic_cms *.js
+recursive-include basic_cms *.html
+recursive-include basic_cms *.mo
+recursive-include basic_cms *.po
+global-exclude *.pyc
+# this important to prune at the end
+prune example
+prune dist

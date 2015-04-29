@@ -1,0 +1,32 @@
+{% extends 'pages/pages_empty.html' %}
+{% load i18n pages_tags %}
+
+{% block header_placeholders %}
+    {% placeholder header_content with TinyMCE %}
+    {% imageplaceholder header_image %}
+    {% fileplaceholder header_mp4 %}
+    {% fileplaceholder header_ogg %}
+    {% placeholder loop_video with TextInput %}
+    {% placeholder fit_header_image with TextInput %}
+{% endblock %}
+
+{% block main %}
+    <main>
+
+            <div class="row cms_page-content_wrap">
+                <div class="columns small-12">
+
+                    <div class="cms_page-content">
+
+                        {% block Placeholders %}
+                            {% placeholder Body with TinyMCE %}
+                        {% endblock %}
+
+                    </div>
+
+                </div>
+            </div>
+
+        
+    </main>
+{% endblock %}
