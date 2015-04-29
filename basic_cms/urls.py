@@ -8,7 +8,7 @@ from basic_cms.api import BasicCMSAPI
 
 urlpatterns = patterns(
     '',
-    url(r'^api/(?P<slug>[-\w]+)/$', BasicCMSAPI.as_view(), name='basic_cms_api'),
+    url(r'^basic-cms-api/(?P<slug>[-\w]+)/$', BasicCMSAPI.as_view(), name='basic_cms_api'),
 )
 
 if settings.PAGE_USE_LANGUAGE_PREFIX:
