@@ -19,7 +19,7 @@ else:
                            # url(r'^$', details, name='pages-root'),
                            )
 
-urlpatterns = patterns(
+urlpatterns += patterns(
     '',
     url(r'^api/basic_cms/(?P<slug>[-\w]+)/$', BasicCMSAPI.as_view(), name='basic_cms_api'),
 )
