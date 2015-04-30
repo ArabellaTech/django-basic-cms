@@ -36,15 +36,15 @@ class CMSPagesApiTests(TestCase):
 
         response = self.client.get(reverse('basic_cms_api', args=['terms']))
         self.assertEqual(response.status_code, 200)
-        self.assertIn('Please read these Terms of Use', response.content)
+        self.assertIn('Please read these Terms of Use', response.content.decode("utf-8"))
 
         response = self.client.get(reverse('basic_cms_api', args=['coaches']), {'format': 'json'})
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['title']['en-us'], 'coaches')
         self.assertEqual(len(response.data['children']), 3)
-        self.assertEqual(response.data['children'][0]['title']['en-us'], 'Judith Singer')
-        self.assertEqual(response.data['children'][1]['title']['en-us'], 'Melissa Litwak')
-        self.assertEqual(response.data['children'][2]['title']['en-us'], 'Joanna Schaffler')
+        self.assertEqual(response.data['children'][0]['title']['en-us'].decode("utf-8"), 'Judith Singer')
+        self.assertEqual(response.data['children'][1]['title']['en-us'].decode("utf-8"), 'Melissa Litwak')
+        self.assertEqual(response.data['children'][2]['title']['en-us'].decode("utf-8"), 'Joanna Schaffler')
 
     def test_urls(self):
         from utils import links_append_domain
