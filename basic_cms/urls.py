@@ -1,6 +1,5 @@
 """Django page CMS urls module."""
 
-
 from django.conf.urls import url, patterns
 from basic_cms.views import details
 from basic_cms import settings
