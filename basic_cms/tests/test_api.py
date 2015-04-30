@@ -48,7 +48,7 @@ class CMSPagesApiTests(TestCase):
 
     def test_urls(self):
         from utils import links_append_domain
-        self.original_data = Page.objects.from_path('terms', 'eng')
+        self.original_data = Page.objects.from_path('terms', 'en-us')
         self.original_json_data = json.dumps(self.original_data.dump_json_data())
         self.original_html_data = render_to_string(self.original_data.template,
                                                    {"current_page": self.original_data})
