@@ -1,7 +1,13 @@
 # -*- coding: utf-8 -*-
 """A collection of functions for Page CMS"""
 from lxml import etree
-from urlparse import urljoin
+try:
+    # For Python 3.0 and later
+    from urllib.parse import urljoin
+except ImportError:
+    # Fall back to Python 2's urllib2
+    from urlparse import urljoin
+
 import json as simplejson
 from basic_cms import settings
 
