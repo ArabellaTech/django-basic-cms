@@ -49,20 +49,8 @@ class CMSPagesApiTests(TestCase):
     def test_urls(self):
         from utils import links_append_domain
 
-        body = """
-            <a href="http://google.com">google.com</a>
-            <a href="foo">foo</a>
-            <a href="#a">#a</a>
-            <a href="/#a">/#a</a>
-            <img src="http://x.com/x.jpg"/>
-            <img src="a.jpg"/>
+        body = """<a href="http://google.com">google.com</a><a href="foo">foo</a><a href="#a">#a</a><a href="/#a">/#a</a><img src="http://x.com/x.jpg"/><img src="a.jpg"/>
         """
-        return_body = """
-            <html><body><a href="http://google.com">google.com</a>
-            <a href="http://a.com/foo">foo</a>
-            <a href="#a">#a</a>
-            <a href="/#a">/#a</a>
-            <img src="http://x.com/x.jpg"/>
-            <img src="http://a.com/a.jpg"/></body></html>
+        return_body = """<html><body><a href="http://google.com">google.com</a><a href="http://a.com/foo">foo</a><a href="#a">#a</a><a href="/#a">/#a</a><img src="http://x.com/x.jpg"/><img src="http://a.com/a.jpg"/></body></html>
         """
         self.assertEqual(links_append_domain(body, 'http://a.com').strip(), return_body.strip())
