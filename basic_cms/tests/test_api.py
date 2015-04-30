@@ -42,9 +42,9 @@ class CMSPagesApiTests(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertEqual(response.data['title']['en-us'], 'coaches')
         self.assertEqual(len(response.data['children']), 3)
-        self.assertEqual(response.data['children'][0]['title']['en-us'].decode("utf-8"), 'Judith Singer')
-        self.assertEqual(response.data['children'][1]['title']['en-us'].decode("utf-8"), 'Melissa Litwak')
-        self.assertEqual(response.data['children'][2]['title']['en-us'].decode("utf-8"), 'Joanna Schaffler')
+        self.assertEqual(response.data['children'][0]['title']['en-us'], 'Judith Singer')
+        self.assertEqual(response.data['children'][1]['title']['en-us'], 'Melissa Litwak')
+        self.assertEqual(response.data['children'][2]['title']['en-us'], 'Joanna Schaffler')
 
     def test_urls(self):
         from utils import links_append_domain
