@@ -1,0 +1,60 @@
+Metadata-Version: 1.1
+Name: django-basic-cms
+Version: 0.2.6.2
+Summary: A tree based Django Basic CMS application
+Home-page: https://github.com/YD-Technology/django-basic-cms
+Author: YD Technology
+Author-email: team@ydtechnology.com
+License: BSD
+Download-URL: http://pypi.python.org/packages/source/d/django-basic-cms/django-basic-cms-0.2.6.2.tar.gz
+Description: ================
+        django-basic-cms
+        ================
+        
+        .. image:: https://travis-ci.org/ArabellaTech/django-basic-cms.png?branch=master
+           :target: http://travis-ci.org/ArabellaTech/django-basic-cms
+        
+        .. image:: https://coveralls.io/repos/ArabellaTech/django-basic-cms/badge.png?branch=master
+           :target: https://coveralls.io/r/ArabellaTech/django-basic-cms/
+        
+        .. image:: https://d2weczhvl823v0.cloudfront.net/ArabellaTech/django-basic-cms/trend.png
+           :alt: Bitdeli badge
+           :target: https://bitdeli.com/free
+        
+        This Django Basic CMS (based on Django Page CMS) enable you to create and administrate hierarchical pages in a simple and powerful way.
+        
+        Django Basic CMS is based around a placeholders concept. A placeholder is special template tag that
+        you use in your page templates. Every time you add a placeholder in your template  a field
+        dynamically appears in the page admin.
+        
+        This CMS is know to work on Django 1.4 and 1.5 with Python 2.6+ and 3.3
+        
+        .. image:: https://github.com/ArabellaTech/django-basic-cms/raw/master/doc/admin-screenshot1.png
+        
+        Documentation
+        =============
+        
+        For more informations about the product:
+        
+        http://django-basic-cms.readthedocs.org/
+        
+        
+        TODO before 1.0
+        ===============
+        - better import/export
+        - coverage > 90%
+        - pep8
+        - update documentation
+        
+Platform: UNKNOWN
+Classifier: Development Status :: 5 - Production/Stable
+Classifier: Environment :: Web Environment
+Classifier: Intended Audience :: Developers
+Classifier: License :: OSI Approved :: BSD License
+Classifier: Operating System :: OS Independent
+Classifier: Programming Language :: Python
+Classifier: Framework :: Django
+Classifier: Programming Language :: Python :: 2.6
+Classifier: Programming Language :: Python :: 2.7
+Classifier: Programming Language :: JavaScript
+Classifier: Topic :: Internet :: WWW/HTTP :: Site Management

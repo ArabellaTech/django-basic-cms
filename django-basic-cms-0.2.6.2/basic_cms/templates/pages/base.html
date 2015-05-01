@@ -1,0 +1,20 @@
+{% extends 'pages/pages_empty.html' %}
+{% load i18n pages_tags %}
+
+{% block main %}
+    {% block Placeholders %}
+        {% placeholder Body with TinyMCE %}
+    {% endblock %}
+    {% get_page current_page as header_data %}
+    {% get_content header_data "header_content" as cmspage_header_content %}
+    {% get_content header_data "header_image" as cmspage_header_image %}
+
+    {% get_content header_data "header_mp4" as cmspage_header_mp4 %}
+    {% get_content header_data "header_ogg" as cmspage_header_ogg %}
+    {% get_content header_data "loop_video" as cmspage_loop_header_video %}
+    {% get_content header_data "fit_header_image" as cmspage_fit_header_image %}
+    
+    {{ cmspage_header_content|safe }}
+    {{ cmspage_header_image|safe }}
+sehr gut
+{% endblock %}

@@ -1,0 +1,30 @@
+{% extends "admin/change_list.html" %}
+{% load admin_static admin_list i18n pages_tags %}
+
+{% block title %}{% trans "List of pages" %}{% endblock %}
+
+{% block bodyclass %}change-list{% endblock %}
+
+{% block coltype %}flex{% endblock %}
+
+{% block extrahead %}{{ block.super }}
+<script type="text/javascript">var static_url = "{{ STATIC_URL }}";</script>
+{% endblock %}
+
+{% block content %}
+    <form action="import-json/" method="post" enctype="multipart/form-data">
+        <div class="actions">
+        {% csrf_token %}
+        <label>Import pages: <input type="file" name="json" size="40" /></label>
+        <input type="submit" name="j" value="{% trans "Import" %}" />
+        </div>
+    </form>
+    {{ block.super }}
+{% endblock %}
+
+{% block result_list %}
+    <div id="page-list" class="module changelist-results clearfix">
+        {% include "admin/basic_cms/page/change_list_table.html" %}
+    </div>
+    {% if action_form and actions_on_bottom and cl.full_result_count %}{% admin_actions %}{% endif %}
+{% endblock %}
