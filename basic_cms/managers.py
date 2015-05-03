@@ -8,7 +8,10 @@ from django.db import models, connection
 from django.db.models import Q
 from django.core.cache import cache
 from django.core.exceptions import ObjectDoesNotExist
-from django.contrib.auth.models import SiteProfileNotAvailable
+try:
+    from django.contrib.auth.models import SiteProfileNotAvailable
+except ImportError:
+    SiteProfileNotAvailable = Exception
 from django.db.models import Avg, Max, Min, Count
 from django.contrib.sites.models import Site
 from django.conf import settings as global_settings
