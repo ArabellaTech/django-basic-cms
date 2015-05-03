@@ -6,7 +6,10 @@ from .managers import PageAliasManager, ISODATE_FORMAT
 from . import settings
 
 from django.db import models
-from django.contrib.auth.models import SiteProfileNotAvailable
+try:
+    from django.contrib.auth.models import SiteProfileNotAvailable
+except ImportError:
+    SiteProfileNotAvailable = Exception
 from django.db.models import Max
 from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
