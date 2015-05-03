@@ -6,6 +6,14 @@ try:
 except ImportError:
     coverage = None
 
+try:
+    from django import setup
+except ImportError:
+    # Django 1.6 and below does not require setup
+    setup = lambda: None
+else:
+    assert setup
+
 os.environ['DJANGO_SETTINGS_MODULE'] = 'basic_cms.testproj.test_settings'
 current_dirname = os.path.dirname(__file__)
 sys.path.insert(0, current_dirname)
@@ -83,8 +91,8 @@ class PageTestSuiteRunner(DjangoTestSuiteRunner):
 
         sys.exit(results)
 
-def build_suite():
 
+def build_suite():
     runner = PageTestSuiteRunner()
     runner.setup_test_environment()
     runner.setup_databases()
@@ -92,6 +100,7 @@ def build_suite():
 
 
 if __name__ == '__main__':
+    setup()
     runner = PageTestSuiteRunner()
     if len(sys.argv) > 1:
         runner.run_tests(test_labels=(sys.argv[1], ))

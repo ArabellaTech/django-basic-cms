@@ -15,7 +15,7 @@ from basic_cms.permissions import PagePermission
 
 from django import forms
 from django.contrib import admin
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_text
 from django.conf import settings as global_settings
 from django.http import Http404
