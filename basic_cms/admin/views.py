@@ -4,7 +4,6 @@ from basic_cms import settings
 from basic_cms.models import Page, Content
 from basic_cms.utils import get_placeholders
 from basic_cms.http import get_language_from_request
-from basic_cms.permissions import PagePermission
 
 from django.shortcuts import get_object_or_404, render_to_response
 from django.http import HttpResponse, Http404, HttpResponseRedirect
@@ -18,7 +17,7 @@ def change_status(request, page_id):
     """
     Switch the status of a page.
     """
-    perm = PagePermission(request.user).check('change', method='POST')
+    perm = request.user.has_perm('pages.change_page')
     if perm and request.method == 'POST':
         page = Page.objects.get(pk=page_id)
         page.status = int(request.POST['status'])
@@ -48,8 +47,7 @@ list_pages_ajax = staff_member_required(list_pages_ajax)
 def modify_content(request, page_id, content_type, language_id):
     """Modify the content of a page."""
     page = get_object_or_404(Page, pk=page_id)
-    perm = PagePermission(request.user).check('change', page=page,
-            lang=language_id, method='POST')
+    perm = request.user.has_perm('pages.change_page')
     if perm and request.method == 'POST':
         content = request.POST.get('content', False)
         if not content:
@@ -73,8 +71,7 @@ modify_content = staff_member_required(modify_content)
 @csrf_exempt
 def delete_content(request, page_id, language_id):
     page = get_object_or_404(Page, pk=page_id)
-    perm = PagePermission(request.user).check('delete', page=page,
-            lang=language_id, method='POST')
+    perm = request.user.has_perm('pages.delete_page')
     if not perm:
         raise Http404
 

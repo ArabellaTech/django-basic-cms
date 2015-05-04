@@ -3,7 +3,7 @@
 import os
 PROJECT_DIR = os.path.dirname(__file__)
 
-TEST_PROJ = 'basic_cms.testproj'
+TEST_PROJ = 'pages.testproj'
 
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
@@ -17,13 +17,16 @@ CACHE_BACKEND = 'locmem:///'
 
 MANAGERS = ADMINS
 
-TEST = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': ':memory:',
+        'NAME': 'test.db'
     }
 }
 
+# We still want to be ale to test with 1.1.X
+DATABASE_ENGINE = 'sqlite3'
+DATABASE_NAME = 'test.db'
 
 # Local time zone for this installation. Choices can be found here:
 # http://en.wikipedia.org/wiki/List_of_tz_zones_by_name
@@ -62,7 +65,8 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.debug",
     "django.core.context_processors.request",
     "django.core.context_processors.media",
-    "basic_cms.context_processors.media",
+    "pages.context_processors.media",
+    #"staticfiles.context_processors.static_url",
 )
 
 INTERNAL_IPS = ('127.0.0.1',)
@@ -72,7 +76,6 @@ MIDDLEWARE_CLASSES = (
     'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.middleware.doc.XViewMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware'
 )
 
@@ -91,33 +94,24 @@ INSTALLED_APPS = (
     'django.contrib.auth',
     'django.contrib.contenttypes',
     'django.contrib.sessions',
-    'django.contrib.admin.apps.SimpleAdminConfig',
+    'django.contrib.admin',
     'django.contrib.sites',
     'django.contrib.sitemaps',
-    TEST_PROJ + '.documents',
-    'taggit',
-    'basic_cms',
     'mptt',
+    'pages',
+    TEST_PROJ + '.documents',
+    #'tagging',
+    #'pages.plugins.jsonexport',
+    #'pages.plugins.pofiles',
+    #'staticfiles',
     #'tinymce',
     # disabled to make "setup.py test" to work properly
     #'south',
 
     # these 2 package don't create any dependecies
-    'authority',
     # haystack change coverage score report by importing modules
     #'haystack',
 )
-
-PAGE_TINYMCE = False
-
-PAGE_CONNECTED_MODELS = [{
-    'model': TEST_PROJ + '.documents.models.Document',
-    'form': TEST_PROJ + '.documents.models.DocumentForm',
-    'options': {
-            'extra': 3,
-            'max_num': 10,
-        },
-}]
 
 # Default language code for this installation. All choices can be found here:
 # http://www.i18nguy.com/unicode/language-identifiers.html
@@ -143,12 +137,9 @@ languages.append(('fr-be', gettext_noop('Belgium french')))
 languages.append(('it-it', gettext_noop('Italian')))
 LANGUAGES = languages
 
-
+# This enable you to map a language(s) to another one, these languages should
+# be in the LANGUAGES config
 def language_mapping(lang):
-    """
-    This enable you to map a language(s) to another one, these languages should
-    be in the LANGUAGES config
-    """
     if lang.startswith('fr'):
         # serve swiss french for everyone
         return 'fr-ch'
@@ -174,28 +165,18 @@ HAYSTACK_SEARCH_ENGINE = 'dummy'
 #HAYSTACK_WHOOSH_PATH = os.path.join(PROJECT_DIR, 'whoosh_index')
 
 COVERAGE_EXCLUDE_MODULES = (
-    "basic_cms.migrations.*",
-    "basic_cms.tests.*",
-    "basic_cms.urls",
-    "basic_cms.__init__",
-    "basic_cms.search_indexes",
-    "basic_cms.management.commands.*",
+    "pages.migrations.*",
+    "pages.tests.*",
+    "pages.urls",
+    "pages.__init__",
+    "pages.search_indexes",
+    "pages.management.commands.*",
 )
 
 COVERAGE_HTML_REPORT = True
 COVERAGE_BRANCH_COVERAGE = False
-
 PAGE_ENABLE_TESTS = True
 
-#TEST_RUNNER = 'example.test_runner.run_tests'
-
-#here = os.path.abspath(os.path.dirname(__file__))
-#NOSE_ARGS = [os.path.join(here, os.pardir, "pages", "tests"),
-#            "--cover3-package=pages",
-#            "--cover3-branch",
-#            "--with-coverage3",
-#            "--cover3-html",
-#            "--cover3-exclude=%s" % ",".join(COVERAGE_EXCLUDE_MODULES)]
 
 try:
     from local_settings import *

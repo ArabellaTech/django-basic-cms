@@ -5,4 +5,3 @@ lxml>=3.4.2
 djangorestframework==2.3.14
 sphinxcontrib-aafig
 django-taggit>=0.11.1
-django-authority>=0.8

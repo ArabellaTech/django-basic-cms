@@ -101,8 +101,6 @@ INSTALLED_APPS = (
     # disabled to make "setup.py test" to work properly
     # 'south',
 
-    # these 2 package don't create any dependecies
-    'authority',
     # haystack change coverage score report by importing modules
     'haystack',
 )
