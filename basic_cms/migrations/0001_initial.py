@@ -11,6 +11,7 @@ class Migration(migrations.Migration):
 
     dependencies = [
         ('taggit', '0001_initial'),
+        ('sites', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
@@ -51,6 +52,7 @@ class Migration(migrations.Migration):
                 ('author', models.ForeignKey(related_name=b'pages', verbose_name='author', to=settings.AUTH_USER_MODEL)),
                 ('parent', models.ForeignKey(related_name=b'children', verbose_name='parent', blank=True, to='basic_cms.Page', null=True)),
                 ('redirect_to', models.ForeignKey(related_name=b'redirected_pages', blank=True, to='basic_cms.Page', null=True)),
+                ('sites', models.ManyToManyField(default=[1], help_text='The site(s) the page is accessible at.', verbose_name='sites', to='sites.Site', related_name=b'pages')),
                 ('tags', taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', blank=True, help_text='A comma-separated list of tags.', verbose_name='Tags')),
             ],
             options={
