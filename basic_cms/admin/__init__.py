@@ -19,46 +19,12 @@ from django.utils.encoding import force_text
 from django.conf import settings as global_settings
 from django.http import Http404
 from django.contrib.admin.sites import AlreadyRegistered
-from django.db import models
 if global_settings.USE_I18N:
     from django.views.i18n import javascript_catalog
 else:
     from django.views.i18n import null_javascript_catalog as javascript_catalog
 
 from os.path import join
-
-
-def create_page_model(placeholders=None):
-    """
-    Create Page model
-    """
-    app_label = 'basic_cms'
-    module = 'basic_cms.models.test'
-
-    class Meta:
-        # Using type('Meta', ...) gives a dictproxy error during model creation
-        pass
-
-    if placeholders is None:
-        placeholders = []
-
-    # app_label must be set using the Meta inner class
-    setattr(Meta, 'app_label', app_label)
-
-    # Set up a dictionary to simulate declarations within a class
-    attrs = {'__module__': module, 'Meta': Meta}
-
-    # Add in any fields that were provided
-    for p in placeholders:
-        attrs[p.name] = models.TextField(blank=True)
-
-    attrs["slug"] = models.TextField()
-    attrs["title"] = models.TextField()
-
-    # Create the class, which automatically triggers ModelBase processing
-    model = type("Page", (Page,), attrs)
-
-    return model
 
 
 class PageAdmin(admin.ModelAdmin):
@@ -281,8 +247,7 @@ class PageAdmin(admin.ModelAdmin):
         the request."""
         #form = super(PageAdmin, self).get_form(request, obj, **kwargs)
         template = get_template_from_request(request, obj)
-        model = create_page_model(get_placeholders(template))
-        form = make_form(model)
+        form = make_form(self.model, get_placeholders(template))
 
         language = get_language_from_request(request)
         form.base_fields['language'].initial = language

@@ -6,10 +6,7 @@ from .managers import PageAliasManager, ISODATE_FORMAT
 from . import settings
 
 from django.db import models
-try:
-    from django.contrib.auth.models import SiteProfileNotAvailable
-except ImportError:
-    SiteProfileNotAvailable = Exception
+
 from django.db.models import Max
 from django.utils.translation import ugettext_lazy as _
 from django.utils.safestring import mark_safe
@@ -488,7 +485,7 @@ class Page(MPTTModel):
             """Allow a user's profile to return an email for the user."""
             try:
                 profile = user.get_profile()
-            except (SiteProfileNotAvailable, ObjectDoesNotExist, AttributeError):
+            except (ObjectDoesNotExist, AttributeError):
                 return user.email
             get_email = getattr(profile, 'get_email', None)
             return get_email() if get_email else user.email

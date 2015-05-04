@@ -62,10 +62,16 @@ class SlugFormMixin(forms.ModelForm):
         return slug
 
 
-def make_form(model_):
+def make_form(model_, placeholders):
 
     class PageForm(SlugFormMixin):
         """Form for page creation"""
+
+        def __init__(self, *args, **kwargs):
+            super(PageForm, self).__init__(*args, **kwargs)
+            for p in placeholders:
+                if not self.fields[p.ctype]:
+                    self.fields[p.ctype] = forms.TextField()
 
         err_dict = {
             'another_page_error': _('Another page with this slug already exists'),
