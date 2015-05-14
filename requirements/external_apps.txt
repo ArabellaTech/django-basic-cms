@@ -1,8 +1,8 @@
 Django>=1.4.2
 django-mptt>=0.4.1
-html5lib==1.0b5
+html5lib==1.0b6
 lxml>=3.4.2
-djangorestframework==3.1.1
+djangorestframework==3.1.2
 sphinxcontrib-aafig
 django-taggit>=0.11.1
 django-authority>=0.8
