@@ -8,6 +8,7 @@ from django.core.urlresolvers import reverse
 
 
 class CMSPagesApiTests(TestCase):
+    maxDiff = None
 
     fixtures = ['pages_tests.json', 'api.json']
 

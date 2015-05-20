@@ -11,6 +11,7 @@ except ImportError:
 import json as simplejson
 from basic_cms import settings
 
+from django import template
 from django.template import TemplateDoesNotExist
 from django.template import loader, Context
 from django.utils import timezone
@@ -175,6 +176,10 @@ def get_placeholders(template_name):
     return plist
 
 
+dummy_context = Context()
+dummy_context.template = template.Template("")
+
+
 def _placeholders_recursif(nodelist, plist, blist):
     """Recursively search into a template node list for PlaceholderNode
     node."""
@@ -185,7 +190,7 @@ def _placeholders_recursif(nodelist, plist, blist):
 
         # extends node?
         if hasattr(node, 'parent_name'):
-            _placeholders_recursif(node.get_parent(Context()).nodelist,
+            _placeholders_recursif(node.get_parent(dummy_context).nodelist,
                                                         plist, blist)
         # include node?
         elif hasattr(node, 'template') and hasattr(node.template, 'nodelist'):
