@@ -2,6 +2,10 @@
 django-basic-cms
 ================
 
+.. image:: https://requires.io/github/ArabellaTech/django-basic-cms/requirements.svg?branch=master
+     :target: https://requires.io/github/ArabellaTech/django-basic-cms/requirements/?branch=master
+     :alt: Requirements Status
+
 .. image:: https://travis-ci.org/ArabellaTech/django-basic-cms.png?branch=master
    :target: http://travis-ci.org/ArabellaTech/django-basic-cms
 
