@@ -392,8 +392,7 @@ class Page(MPTTModel):
 
         if not template:
             template = settings.PAGE_DEFAULT_TEMPLATE
-        print (template)
-        print ("models.py:396")
+
         return template
 
     def get_template_name(self):

@@ -142,7 +142,6 @@ class PageManager(models.Manager):
                 return root_pages[0]
             else:
                 return None
-
         slug = get_slug(complete_path)
         from basic_cms.models import Content
         page_ids = Content.objects.get_page_ids_by_slug(slug)
@@ -151,8 +150,8 @@ class PageManager(models.Manager):
             pages_list = pages_list.exclude(status=self.model.DRAFT)
         if len(pages_list) == 1:
             if(settings.PAGE_USE_STRICT_URL and
-                pages_list[0].get_complete_slug(lang) != complete_path):
-                    return None
+                    pages_list[0].get_complete_slug(lang) != complete_path):
+                return None
             return pages_list[0]
         # if more than one page is matching the slug,
         # we need to use the full URL

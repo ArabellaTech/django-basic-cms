@@ -36,9 +36,7 @@ class BasicCMSAPI(APIView):
             raise Http404("Page does not exist")
 
         if format == 'html':
-            data = RequestContext(request)
-            data['current_page'] = page
-            page = render_to_string(page.template, data)
+            page = render_to_string(page.template, {'current_page': page})
             base_url = request.build_absolute_uri('/')
             return Response({"html": links_append_domain(page, base_url)})
         else:
