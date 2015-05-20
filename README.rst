@@ -41,3 +41,9 @@ TODO before 1.0
 - coverage > 90%
 - pep8
 - update documentation
+
+
+.. image:: https://d2weczhvl823v0.cloudfront.net/ArabellaTech/django-basic-cms/trend.png
+   :alt: Bitdeli badge
+   :target: https://bitdeli.com/free
+
