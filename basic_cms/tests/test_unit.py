@@ -17,7 +17,13 @@ from django.contrib.auth.models import User
 from django.conf import settings
 from django.core.urlresolvers import reverse
 from django.template import Template, RequestContext, Context, TemplateSyntaxError
-from django.template.loader import get_template_from_string
+try:
+    from django.template.loader import get_template_from_string
+except ImportError:
+    def get_template_from_string(template_code):
+        from django.template import engines
+        template = engines['django'].from_string(template_code)
+        return template
 from taggit.models import Tag
 
 import datetime
