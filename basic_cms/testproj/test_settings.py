@@ -88,6 +88,21 @@ TEMPLATE_DIRS = (
     os.path.join(PROJECT_DIR, 'templates'),
 )
 
+TEMPLATES = [
+    {
+        'BACKEND': 'django.template.backends.django.DjangoTemplates',
+        'DIRS': TEMPLATE_DIRS,
+        'OPTIONS': {
+            'context_processors': TEMPLATE_CONTEXT_PROCESSORS
+        },
+    },
+    # {
+    #     'BACKEND': 'django.template.backends.jinja2.Jinja2',
+    #     'DIRS': [
+    #         '/home/html/jinja2',
+    #     ],
+    # },
+]
 CACHE_BACKEND = "locmem:///?timeout=300&max_entries=6000"
 
 INSTALLED_APPS = (

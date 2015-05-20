@@ -161,6 +161,8 @@ def get_placeholders(template_name):
     """
     try:
         temp = loader.get_template(template_name)
+        print template_name
+        print temp
     except TemplateDoesNotExist:
         return []
 
