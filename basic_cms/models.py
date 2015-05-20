@@ -191,11 +191,9 @@ class Page(MPTTModel):
         # delete content cache, frozen or not
         for name in p_names:
             # frozen
-            cache.delete(PAGE_CONTENT_DICT_KEY %
-                (self.id, name, 1))
+            cache.delete(PAGE_CONTENT_DICT_KEY % (self.id, name, 1))
             # not frozen
-            cache.delete(PAGE_CONTENT_DICT_KEY %
-                (self.id, name, 0))
+            cache.delete(PAGE_CONTENT_DICT_KEY % (self.id, name, 0))
 
         cache.delete(self.PAGE_URL_KEY % (self.id))
 
@@ -394,7 +392,8 @@ class Page(MPTTModel):
 
         if not template:
             template = settings.PAGE_DEFAULT_TEMPLATE
-
+        print template
+        print "models.py:396"
         return template
 
     def get_template_name(self):

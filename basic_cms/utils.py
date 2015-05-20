@@ -161,14 +161,16 @@ def get_placeholders(template_name):
     """
     try:
         temp = loader.get_template(template_name)
-        # FIXME!!
-        # print template_name
-        # print temp
     except TemplateDoesNotExist:
         return []
 
     plist, blist = [], []
-    _placeholders_recursif(temp.nodelist, plist, blist)
+    try:
+        # django 1.8
+        _placeholders_recursif(temp.template.nodelist, plist, blist)
+    except AttributeError:
+        # django 1.7
+        _placeholders_recursif(temp.nodelist, plist, blist)
     return plist
 
 
