@@ -22,6 +22,9 @@ def get_setting(*args, **kwargs):
     return kwargs.get('default_value', None)
 
 
+# templates setting for django 1.8
+TEMPLATES = get_setting('TEMPLATES', raise_error=True)
+
 # The path to default template
 PAGE_DEFAULT_TEMPLATE = get_setting('PAGE_DEFAULT_TEMPLATE',
     'DEFAULT_PAGE_TEMPLATE', raise_error=True)
