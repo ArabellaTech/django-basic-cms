@@ -64,22 +64,23 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.i18n",
     "django.core.context_processors.debug",
     "django.core.context_processors.request",
-    "django.contrib.messages.context_processors.messages"
+    "django.contrib.messages.context_processors.messages",
     "django.core.context_processors.media",
     "basic_cms.context_processors.media",
 )
 
 # for django.1.8.x
-
-TEMPLATE_CONTEXT_PROCESSORS = (
-    "django.contrib.auth.context_processors.auth",
-    "django.template.context_processors.i18n",
-    "django.template.context_processors.debug",
-    "django.template.context_processors.request",
-    "django.contrib.messages.context_processors.messages",
-    "django.template.context_processors.media",
-    "basic_cms.context_processors.media",
-)
+import django
+if django.VERSION >= (1, 8):
+    TEMPLATE_CONTEXT_PROCESSORS = (
+        "django.contrib.auth.context_processors.auth",
+        "django.template.context_processors.i18n",
+        "django.template.context_processors.debug",
+        "django.template.context_processors.request",
+        "django.contrib.messages.context_processors.messages",
+        "django.template.context_processors.media",
+        "basic_cms.context_processors.media",
+    )
 
 INTERNAL_IPS = ('127.0.0.1',)
 

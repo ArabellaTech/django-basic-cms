@@ -170,6 +170,7 @@ def get_placeholders(template_name):
         _placeholders_recursif(temp.template.nodelist, plist, blist)
     except AttributeError:
         # django 1.7
+        # raise
         _placeholders_recursif(temp.nodelist, plist, blist)
     return plist
 
