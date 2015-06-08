@@ -11,16 +11,14 @@ from basic_cms.admin.views import traduction, get_content, sub_menu
 from basic_cms.admin.views import change_status, modify_content, delete_content
 from basic_cms.admin.views import move_page
 from basic_cms.admin.actions import export_pages_as_json, import_pages_from_json
-from basic_cms.permissions import PagePermission
 
 from django import forms
 from django.contrib import admin
-from django.utils.translation import ugettext as _
+from django.utils.translation import ugettext_lazy as _
 from django.utils.encoding import force_text
 from django.conf import settings as global_settings
 from django.http import Http404
 from django.contrib.admin.sites import AlreadyRegistered
-from django.db import models
 if global_settings.USE_I18N:
     from django.views.i18n import javascript_catalog
 else:
@@ -29,43 +27,9 @@ else:
 from os.path import join
 
 
-def create_page_model(placeholders=None):
-    """
-    Create Page model
-    """
-    app_label = 'basic_cms'
-    module = 'basic_cms.models.test'
-
-    class Meta:
-        # Using type('Meta', ...) gives a dictproxy error during model creation
-        pass
-
-    if placeholders is None:
-        placeholders = []
-
-    # app_label must be set using the Meta inner class
-    setattr(Meta, 'app_label', app_label)
-
-    # Set up a dictionary to simulate declarations within a class
-    attrs = {'__module__': module, 'Meta': Meta}
-
-    # Add in any fields that were provided
-    for p in placeholders:
-        attrs[p.name] = models.TextField(blank=True)
-
-    attrs["slug"] = models.TextField()
-    attrs["title"] = models.TextField()
-
-    # Create the class, which automatically triggers ModelBase processing
-    model = type("Page", (Page,), attrs)
-
-    return model
-
-
 class PageAdmin(admin.ModelAdmin):
     """Page Admin class."""
 
-    #form = PageForm
     exclude = ['author', 'parent']
     # these mandatory fields are not versioned
     mandatory_placeholders = ('title', 'slug')
@@ -231,7 +195,6 @@ class PageAdmin(admin.ModelAdmin):
         Add fieldsets of placeholders to the list of already
         existing fieldsets.
         """
-        perms = PagePermission(request.user)
 
         # some ugly business to remove freeze_date
         # from the field list
@@ -241,9 +204,9 @@ class PageAdmin(admin.ModelAdmin):
         }
 
         default_fieldsets = list(self.fieldsets)
-        if not perms.check('freeze'):
+        if not request.user.has_perm('pages.can_freeze'):
             general_module['fields'].remove('freeze_date')
-        if not perms.check('publish'):
+        if not request.user.has_perm('pages.can_publish'):
             general_module['fields'].remove('status')
 
         default_fieldsets[0][1] = general_module
@@ -284,8 +247,7 @@ class PageAdmin(admin.ModelAdmin):
         the request."""
         #form = super(PageAdmin, self).get_form(request, obj, **kwargs)
         template = get_template_from_request(request, obj)
-        model = create_page_model(get_placeholders(template))
-        form = make_form(model)
+        form = make_form(self.model, get_placeholders(template))
 
         language = get_language_from_request(request)
         form.base_fields['language'].initial = language
@@ -371,21 +333,16 @@ class PageAdmin(admin.ModelAdmin):
     def has_add_permission(self, request):
         """Return ``True`` if the current user has permission to add a new
         page."""
-        lang = get_language_from_request(request)
-        return PagePermission(request.user).check('add', lang=lang)
+        return request.user.has_perm('pages.add_page')
 
     def has_change_permission(self, request, obj=None):
         """Return ``True`` if the current user has permission
         to change the page."""
-        lang = get_language_from_request(request)
-        return PagePermission(request.user).check('change', page=obj,
-            lang=lang, method=request.method)
+        return request.user.has_perm('pages.change_page')
 
     def has_delete_permission(self, request, obj=None):
         """Return ``True`` if the current user has permission on the page."""
-        lang = get_language_from_request(request)
-        return PagePermission(request.user).check('change', page=obj,
-            lang=lang)
+        return request.user.has_perm('pages.delete_page')
 
     def list_pages(self, request, template_name=None, extra_context=None):
         """List root pages"""
@@ -404,9 +361,8 @@ class PageAdmin(admin.ModelAdmin):
         if settings.PAGE_HIDE_SITES:
             pages = pages.filter(sites=settings.SITE_ID)
 
-        perms = PagePermission(request.user)
         context = {
-            'can_publish': perms.check('publish'),
+            'can_publish': request.user.has_perm('pages.can_publish'),
             'language': language,
             'name': _("page"),
             'pages': pages,

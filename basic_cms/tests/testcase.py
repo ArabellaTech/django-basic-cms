@@ -52,7 +52,6 @@ class TestCase(TestCase):
         self.reset_urlconf()
         self.settings_to_reset = {}
 
-
     def set_setting(self, name, value):
         old_value = getattr(pages_settings, name)
         setattr(pages_settings, name, value)
@@ -60,7 +59,6 @@ class TestCase(TestCase):
             self.reset_urlconf()
         if name not in self.settings_to_reset:
             self.settings_to_reset[name] = old_value
-
 
     def assert404(self, func):
         try:
@@ -76,15 +74,16 @@ class TestCase(TestCase):
         client.login(username='admin', password='b')
         return client
 
-
     def get_page_url(self, path=''):
         return reverse('pages-details-by-path', args=[path])
-
 
     def reset_urlconf(self):
         url_conf = getattr(settings, 'ROOT_URLCONF', False)
         if url_conf:
-            reload(import_module(url_conf))
+            try:
+                reload(import_module(url_conf))
+            except:
+                pass
         reload(import_module('basic_cms.urls'))
         reload(import_module('basic_cms.testproj.urls'))
         clear_url_caches()

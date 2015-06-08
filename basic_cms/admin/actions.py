@@ -20,16 +20,14 @@ def export_pages_as_json(modeladmin, request, queryset):
 export_pages_as_json.short_description = _("Export pages as JSON")
 
 
-@transaction.commit_on_success
-def import_pages_from_json(request,
-        template_name='admin/basic_cms/page/import_pages.html'):
+@transaction.atomic
+def import_pages_from_json(request, template_name='admin/basic_cms/page/import_pages.html'):
     try:
         j = request.FILES['json']
     except KeyError:
         return redirect('admin:page-index')
 
-    errors, pages_created = json_to_pages(j.read(), request.user,
-        get_language_from_request(request))
+    errors, pages_created = json_to_pages(j.read(), request.user, get_language_from_request(request))
 
     return render_to_response(template_name, {
         'errors': errors,

@@ -1,13 +1,12 @@
 language: python
 python:
-  - "2.6"
   - "2.7"
   - "3.3"
+  - "3.4"
 
 env:
-  - DJANGO="django==1.6 --use-mirrors"
-  - DJANGO="django==1.5 --use-mirrors"
-  - DJANGO="django==1.4.2 --use-mirrors"
+  - DJANGO="django==1.8 --use-mirrors"
+  - DJANGO="django==1.7.7 --use-mirrors"
 
 install:
  - pip install -r requirements/external_apps.txt --use-mirrors
@@ -20,8 +19,8 @@ script:
 
 matrix:
   exclude:
-    - python: "3.3"
-      env: DJANGO="django==1.4.2 --use-mirrors"
+    - python: "3.4"
+      env: DJANGO="django==1.7.7 --use-mirrors"
 
 after_success:
   - coverage report --omit="basic_cms/tests/*" -m

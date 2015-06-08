@@ -3,6 +3,13 @@
 from django.template import Template, RequestContext, Context
 from django.template import RequestContext, TemplateDoesNotExist
 from django.template import loader
+try:
+    from django.template.loader import get_template_from_string
+except ImportError:
+    def get_template_from_string(template_code):
+        from django.template import engines
+        template = engines['django'].from_string(template_code)
+        return template
 import django
 
 from basic_cms.models import Page, Content
@@ -212,7 +219,7 @@ class RegressionTestCase(TestCase):
         context = Context({'current_page': page, 'lang':'en-us'})
 
         pl1 = """{% load pages_tags %}{% pages_dynamic_tree_menu "wrong-slug" %}"""
-        template = loader.get_template_from_string(pl1)
+        template = get_template_from_string(pl1)
         self.assertEqual(template.render(context), u'\n')
 
     def test_placeholder_bug(self):

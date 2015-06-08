@@ -1,8 +1,17 @@
 # -*- coding: utf-8 -*-
 """A collection of functions for Page CMS"""
-import json as simplejson
-from . import settings
+from lxml import etree
+try:
+    # For Python 3.0 and later
+    from urllib.parse import urljoin
+except ImportError:
+    # Fall back to Python 2's urllib2
+    from urlparse import urljoin
 
+import json as simplejson
+from basic_cms import settings
+
+from django import template
 from django.template import TemplateDoesNotExist
 from django.template import loader, Context
 from django.utils import timezone
@@ -157,8 +166,18 @@ def get_placeholders(template_name):
         return []
 
     plist, blist = [], []
-    _placeholders_recursif(temp.nodelist, plist, blist)
+    try:
+        # django 1.8
+        _placeholders_recursif(temp.template.nodelist, plist, blist)
+    except AttributeError:
+        # django 1.7
+        # raise
+        _placeholders_recursif(temp.nodelist, plist, blist)
     return plist
+
+
+dummy_context = Context()
+dummy_context.template = template.Template("")
 
 
 def _placeholders_recursif(nodelist, plist, blist):
@@ -171,10 +190,10 @@ def _placeholders_recursif(nodelist, plist, blist):
 
         # extends node?
         if hasattr(node, 'parent_name'):
-            _placeholders_recursif(node.get_parent(Context()).nodelist,
+            _placeholders_recursif(node.get_parent(dummy_context).nodelist,
                                                         plist, blist)
         # include node?
-        elif hasattr(node, 'template'):
+        elif hasattr(node, 'template') and hasattr(node.template, 'nodelist'):
             _placeholders_recursif(node.template.nodelist, plist, blist)
 
         # Is it a placeholder?
@@ -339,3 +358,30 @@ def normalize_url(url):
     if len(url) > 1 and url.endswith('/'):
         url = url[0:len(url) - 1]
     return url
+
+
+def links_append_domain(html, base_url):
+    stripped = html.strip()
+    parser = etree.HTMLParser()
+    tree = etree.fromstring(stripped, parser).getroottree()
+    page = tree.getroot()
+    # lxml inserts a doctype if none exists, so only include it in
+    # the root if it was in the original html.
+    root = tree if stripped.startswith(tree.docinfo.doctype) else page
+
+    if not base_url.endswith('/'):
+        base_url += '/'
+
+    for attr in ('href', 'src'):
+        for item in page.xpath("//@%s" % attr):
+            parent = item.getparent()
+            if attr == 'href' and (parent.attrib[attr].startswith('#') or parent.attrib[attr].startswith('/#')):
+                continue
+            parent.attrib[attr] = urljoin(base_url, parent.attrib[attr].lstrip('/'))
+
+    kwargs = {}
+    # kwargs.setdefault('method', self.method)
+    kwargs.setdefault('pretty_print', False)
+    kwargs.setdefault('encoding', 'utf-8')  # As Ken Thompson intended
+    out = etree.tostring(root, **kwargs).decode(kwargs['encoding'])
+    return out

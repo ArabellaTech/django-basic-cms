@@ -8,7 +8,7 @@ Django Basic CMS is based around a placeholders concept. A placeholder is specia
 you use in your page templates. Every time you add a placeholder in your template  a field
 dynamically appears in the page admin.
 
-The project code repository is found at this address: http://github.com/YD-Technology/django-basic-cms
+The project code repository is found at this address: http://github.com/ArabellaTech/django-basic-cms
 
 .. contents::
     :local:
@@ -45,6 +45,7 @@ Key features
   * Directory-like page hierarchy (page can have the same name if they are not in the same directory).
   * Every page can have multiple alias URLs. It's especially useful to migrate websites.
   * :doc:`Possibility to integrate 3th party apps </3rd-party-apps>`.
+  * experimental api support
 
 
 Other features
@@ -64,12 +65,15 @@ Here is the list of features you can enable/disable:
 Dependencies & Compatibility
 ============================
 
-  * Django 1.4, 1.5, 1.6
-  * Python 2.6, 2.7, 3.3
+  * Django 1.7, 1.8
+  * Python 2.7, 3.3
+  * Django 1.6 and earlier - check versions below 0.3.0.
   * `django-haystack if used <http://haystacksearch.org/>`_
   * `django-authority for per object rights management <http://bitbucket.org/jezdez/django-authority/src/>`_.
   * `django-mptt-2 <http://github.com/batiste/django-mptt/>`_
   * `django-taggit <http://http://github.com/alex/django-taggit>`_
+  * `django-rest-framework <http://www.django-rest-framework.org/>`_ since version 2.3.14
+  * `lxml <http://lxml.de/>`_
   * `html5lib <http://code.google.com/p/html5lib/>`_ (if PAGE_SANITIZE_USER_INPUT = True)
   * `django-tinymce <http://code.google.com/p/django-tinymce/>`_ (if PAGE_TINYMCE = True)
   * Django Basic CMS is shipped with jQuery.
@@ -82,7 +86,7 @@ Dependencies & Compatibility
 How to contribute
 ==================
 
-I recommend to `create a clone on github  <http://github.com/YD-Technology/django-basic-cms>`_ and
+I recommend to `create a clone on github  <http://github.com/ArabellaTech/django-basic-cms>`_ and
 make your modifications in your branch. There is a things that is nice to do:
 
   * Follow the pep08, and the 79 characters rules.
@@ -98,19 +102,19 @@ make your modifications in your branch. There is a things that is nice to do:
 Ask for help
 ============
 
-`Django Basic CMS Github <https://github.com/YD-Technology/django-basic-cms>`_
+`Django Basic CMS Github <https://github.com/ArabellaTech/django-basic-cms>`_
 
 Test it
 -------
 
 To test this CMS checkout the code with git::
 
-    $ git clone git://github.com/YD-Technology/django-basic-cms.git django-basic-cms
+    $ git clone git://github.com/ArabellaTech/django-basic-cms.git django-basic-cms
 
 Install the dependencies::
 
     $ sudo easy_install pip
-    $ wget -c http://github.com/YD-Technology/django-basic-cms/raw/master/requirements/external_apps.txt
+    $ wget -c http://github.com/ArabellaTech/django-basic-cms/raw/master/requirements/external_apps.txt
     $ sudo pip install -r external_apps.txt
 
 And then, run the development server::
@@ -122,7 +126,7 @@ And then, run the development server::
     $ python manage.py manage.py runserver
 
 
-YD-Technology CMS try to keep the code base stable. The test coverage is higher
+ArabellaTech CMS try to keep the code base stable. The test coverage is higher
 than 80% and we try to keep it this way. To run the test suite::
 
     python setup.py test
@@ -135,7 +139,7 @@ than 80% and we try to keep it this way. To run the test suite::
 Handling images and files
 ---------------------------
 
-YD-Technology include a image placeholder for basic needs. For a more advanced
+ArabellaTech include a image placeholder for basic needs. For a more advanced
 files browser you could use django-filebrowser:
 
   * http://code.google.com/p/django-filebrowser/

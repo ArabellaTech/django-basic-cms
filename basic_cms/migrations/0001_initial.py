@@ -1,182 +1,85 @@
 # -*- coding: utf-8 -*-
-import datetime
-from south.db import db
-from south.v2 import SchemaMigration
-from django.db import models
+from __future__ import unicode_literals
 
-from basic_cms.settings import PAGE_USER_MODEL
-
-
-class Migration(SchemaMigration):
-
-    def forwards(self, orm):
-        # Adding model 'Page'
-        db.create_table(u'basic_cms_page', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('author', self.gf('django.db.models.fields.related.ForeignKey')(related_name='pages', to=orm[PAGE_USER_MODEL])),
-            ('parent', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='children', null=True, to=orm['basic_cms.Page'])),
-            ('creation_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 9, 6, 0, 0))),
-            ('publication_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('publication_end_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('last_modification_date', self.gf('django.db.models.fields.DateTimeField')()),
-            ('status', self.gf('django.db.models.fields.IntegerField')(default=0)),
-            ('template', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
-            ('delegate_to', self.gf('django.db.models.fields.CharField')(max_length=100, null=True, blank=True)),
-            ('freeze_date', self.gf('django.db.models.fields.DateTimeField')(null=True, blank=True)),
-            ('redirect_to_url', self.gf('django.db.models.fields.CharField')(max_length=200, null=True, blank=True)),
-            ('redirect_to', self.gf('django.db.models.fields.related.ForeignKey')(blank=True, related_name='redirected_pages', null=True, to=orm['basic_cms.Page'])),
-            ('lft', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-            ('rght', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-            ('tree_id', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-            ('level', self.gf('django.db.models.fields.PositiveIntegerField')(db_index=True)),
-        ))
-        db.send_create_signal(u'basic_cms', ['Page'])
-
-        # Adding M2M table for field sites on 'Page'
-        m2m_table_name = db.shorten_name(u'basic_cms_page_sites')
-        db.create_table(m2m_table_name, (
-            ('id', models.AutoField(verbose_name='ID', primary_key=True, auto_created=True)),
-            ('page', models.ForeignKey(orm[u'basic_cms.page'], null=False)),
-            ('site', models.ForeignKey(orm[u'sites.site'], null=False))
-        ))
-        db.create_unique(m2m_table_name, ['page_id', 'site_id'])
-
-        # Adding model 'Content'
-        db.create_table(u'basic_cms_content', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('language', self.gf('django.db.models.fields.CharField')(max_length=5)),
-            ('body', self.gf('django.db.models.fields.TextField')()),
-            ('type', self.gf('django.db.models.fields.CharField')(max_length=100, db_index=True)),
-            ('page', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['basic_cms.Page'])),
-            ('creation_date', self.gf('django.db.models.fields.DateTimeField')(default=datetime.datetime(2013, 9, 6, 0, 0))),
-        ))
-        db.send_create_signal(u'basic_cms', ['Content'])
-
-        # Adding model 'PageAlias'
-        db.create_table(u'basic_cms_pagealias', (
-            (u'id', self.gf('django.db.models.fields.AutoField')(primary_key=True)),
-            ('page', self.gf('django.db.models.fields.related.ForeignKey')(to=orm['basic_cms.Page'], null=True, blank=True)),
-            ('url', self.gf('django.db.models.fields.CharField')(unique=True, max_length=255)),
-        ))
-        db.send_create_signal(u'basic_cms', ['PageAlias'])
+from django.db import models, migrations
+import basic_cms.utils
+from django.conf import settings
+import taggit.managers
 
 
-    def backwards(self, orm):
-        # Deleting model 'Page'
-        db.delete_table(u'basic_cms_page')
+class Migration(migrations.Migration):
 
-        # Removing M2M table for field sites on 'Page'
-        db.delete_table(db.shorten_name(u'basic_cms_page_sites'))
+    dependencies = [
+        ('taggit', '0001_initial'),
+        ('sites', '0001_initial'),
+        migrations.swappable_dependency(settings.AUTH_USER_MODEL),
+    ]
 
-        # Deleting model 'Content'
-        db.delete_table(u'basic_cms_content')
-
-        # Deleting model 'PageAlias'
-        db.delete_table(u'basic_cms_pagealias')
-
-
-    models = {
-        PAGE_USER_MODEL: {
-            'Meta': {'object_name': PAGE_USER_MODEL.split('.')[-1]},
-            'date_joined': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'email': ('django.db.models.fields.EmailField', [], {'max_length': '75', 'blank': 'True'}),
-            'first_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'groups': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Group']", 'symmetrical': 'False', 'blank': 'True'}),
-            'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'is_active': ('django.db.models.fields.BooleanField', [], {'default': 'True'}),
-            'is_staff': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'is_superuser': ('django.db.models.fields.BooleanField', [], {'default': 'False'}),
-            'last_login': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime.now'}),
-            'last_name': ('django.db.models.fields.CharField', [], {'max_length': '30', 'blank': 'True'}),
-            'password': ('django.db.models.fields.CharField', [], {'max_length': '128'}),
-            'user_permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': "orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'}),
-            'username': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '30'})
-        },
-        u'auth.group': {
-            'Meta': {'object_name': 'Group'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '80'}),
-            'permissions': ('django.db.models.fields.related.ManyToManyField', [], {'to': u"orm['auth.Permission']", 'symmetrical': 'False', 'blank': 'True'})
-        },
-        u'auth.permission': {
-            'Meta': {'ordering': "(u'content_type__app_label', u'content_type__model', u'codename')", 'unique_together': "((u'content_type', u'codename'),)", 'object_name': 'Permission'},
-            'codename': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['contenttypes.ContentType']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        },
-        u'basic_cms.content': {
-            'Meta': {'object_name': 'Content'},
-            'body': ('django.db.models.fields.TextField', [], {}),
-            'creation_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 9, 6, 0, 0)'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'language': ('django.db.models.fields.CharField', [], {'max_length': '5'}),
-            'page': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['basic_cms.Page']"}),
-            'type': ('django.db.models.fields.CharField', [], {'max_length': '100', 'db_index': 'True'})
-        },
-        u'basic_cms.page': {
-            'Meta': {'ordering': "['tree_id', 'lft']", 'object_name': 'Page'},
-            'author': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "'pages'", 'to': "orm['%s']" % PAGE_USER_MODEL}),
-            'creation_date': ('django.db.models.fields.DateTimeField', [], {'default': 'datetime.datetime(2013, 9, 6, 0, 0)'}),
-            'delegate_to': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'freeze_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'last_modification_date': ('django.db.models.fields.DateTimeField', [], {}),
-            'level': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'lft': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'parent': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'children'", 'null': 'True', 'to': u"orm['basic_cms.Page']"}),
-            'publication_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'publication_end_date': ('django.db.models.fields.DateTimeField', [], {'null': 'True', 'blank': 'True'}),
-            'redirect_to': ('django.db.models.fields.related.ForeignKey', [], {'blank': 'True', 'related_name': "'redirected_pages'", 'null': 'True', 'to': u"orm['basic_cms.Page']"}),
-            'redirect_to_url': ('django.db.models.fields.CharField', [], {'max_length': '200', 'null': 'True', 'blank': 'True'}),
-            'rght': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'}),
-            'sites': ('django.db.models.fields.related.ManyToManyField', [], {'default': '[1]', 'related_name': "'pages'", 'symmetrical': 'False', 'to': u"orm['sites.Site']"}),
-            'status': ('django.db.models.fields.IntegerField', [], {'default': '0'}),
-            'template': ('django.db.models.fields.CharField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'tree_id': ('django.db.models.fields.PositiveIntegerField', [], {'db_index': 'True'})
-        },
-        u'basic_cms.pagealias': {
-            'Meta': {'object_name': 'PageAlias'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'page': ('django.db.models.fields.related.ForeignKey', [], {'to': u"orm['basic_cms.Page']", 'null': 'True', 'blank': 'True'}),
-            'url': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '255'})
-        },
-        u'contenttypes.contenttype': {
-            'Meta': {'ordering': "('name',)", 'unique_together': "(('app_label', 'model'),)", 'object_name': 'ContentType', 'db_table': "'django_content_type'"},
-            'app_label': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'model': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '100'})
-        },
-        u'sites.site': {
-            'Meta': {'ordering': "('domain',)", 'object_name': 'Site', 'db_table': "'django_site'"},
-            'domain': ('django.db.models.fields.CharField', [], {'max_length': '100'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '50'})
-        },
-        u'taggit.tag': {
-            'Meta': {'object_name': 'Tag'},
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'unique': 'True', 'max_length': '100'}),
-            'slug': ('django.db.models.fields.SlugField', [], {'unique': 'True', 'max_length': '100'})
-        },
-        u'taggit.taggeditem': {
-            'Meta': {'object_name': 'TaggedItem'},
-            'content_type': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "u'taggit_taggeditem_tagged_items'", 'to': u"orm['contenttypes.ContentType']"}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'object_id': ('django.db.models.fields.IntegerField', [], {'db_index': 'True'}),
-            'tag': ('django.db.models.fields.related.ForeignKey', [], {'related_name': "u'taggit_taggeditem_items'", 'to': u"orm['taggit.Tag']"})
-        },
-        u'universities.university': {
-            'Meta': {'object_name': 'University'},
-            'description': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'domain': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            u'id': ('django.db.models.fields.AutoField', [], {'primary_key': 'True'}),
-            'info': ('django.db.models.fields.TextField', [], {'blank': 'True'}),
-            'logo': ('django.db.models.fields.files.ImageField', [], {'max_length': '100', 'null': 'True', 'blank': 'True'}),
-            'name': ('django.db.models.fields.CharField', [], {'max_length': '255'}),
-            'slug': ('django.db.models.fields.SlugField', [], {'max_length': '50'})
-        }
-    }
-
-    complete_apps = ['basic_cms']
+    operations = [
+        migrations.CreateModel(
+            name='Content',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('language', models.CharField(max_length=5, verbose_name='language')),
+                ('body', models.TextField(verbose_name='body')),
+                ('type', models.CharField(max_length=100, verbose_name='type', db_index=True)),
+                ('creation_date', models.DateTimeField(default=basic_cms.utils.now_utc, verbose_name='creation date', editable=False)),
+            ],
+            options={
+                'get_latest_by': 'creation_date',
+                'verbose_name': 'content',
+                'verbose_name_plural': 'contents',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='Page',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('creation_date', models.DateTimeField(default=basic_cms.utils.now_utc, verbose_name='creation date', editable=False)),
+                ('publication_date', models.DateTimeField(help_text='When the page should go\n            live. Status must be "Published" for page to go live.', null=True, verbose_name='publication date', blank=True)),
+                ('publication_end_date', models.DateTimeField(help_text='When to expire the page.\n            Leave empty to never expire.', null=True, verbose_name='publication end date', blank=True)),
+                ('last_modification_date', models.DateTimeField(verbose_name='last modification date')),
+                ('status', models.IntegerField(default=0, verbose_name='status', choices=[(1, 'Published'), (3, 'Hidden'), (0, 'Draft')])),
+                ('template', models.CharField(max_length=100, null=True, verbose_name='template', blank=True)),
+                ('delegate_to', models.CharField(max_length=100, null=True, verbose_name='delegate to', blank=True)),
+                ('freeze_date', models.DateTimeField(help_text="Don't publish any content\n            after this date.", null=True, verbose_name='freeze date', blank=True)),
+                ('redirect_to_url', models.CharField(max_length=200, null=True, blank=True)),
+                ('lft', models.PositiveIntegerField(editable=False, db_index=True)),
+                ('rght', models.PositiveIntegerField(editable=False, db_index=True)),
+                ('tree_id', models.PositiveIntegerField(editable=False, db_index=True)),
+                ('level', models.PositiveIntegerField(editable=False, db_index=True)),
+                ('author', models.ForeignKey(related_name=b'pages', verbose_name='author', to=settings.AUTH_USER_MODEL)),
+                ('parent', models.ForeignKey(related_name=b'children', verbose_name='parent', blank=True, to='basic_cms.Page', null=True)),
+                ('redirect_to', models.ForeignKey(related_name=b'redirected_pages', blank=True, to='basic_cms.Page', null=True)),
+                ('sites', models.ManyToManyField(default=[1], help_text='The site(s) the page is accessible at.', verbose_name='sites', to='sites.Site', related_name=b'pages')),
+                ('tags', taggit.managers.TaggableManager(to='taggit.Tag', through='taggit.TaggedItem', blank=True, help_text='A comma-separated list of tags.', verbose_name='Tags')),
+            ],
+            options={
+                'ordering': ['tree_id', 'lft'],
+                'get_latest_by': 'publication_date',
+                'verbose_name': 'page',
+                'verbose_name_plural': 'pages',
+                'permissions': [('can_freeze', 'Can freeze page'), ('can_publish', 'Can publish page'), ('can_manage_en_gb', 'Manage Base'), ('can_manage_eng', 'Manage English')],
+            },
+            bases=(models.Model,),
+        ),
+        migrations.CreateModel(
+            name='PageAlias',
+            fields=[
+                ('id', models.AutoField(verbose_name='ID', serialize=False, auto_created=True, primary_key=True)),
+                ('url', models.CharField(unique=True, max_length=255)),
+                ('page', models.ForeignKey(verbose_name='page', blank=True, to='basic_cms.Page', null=True)),
+            ],
+            options={
+                'verbose_name_plural': 'Aliases',
+            },
+            bases=(models.Model,),
+        ),
+        migrations.AddField(
+            model_name='content',
+            name='page',
+            field=models.ForeignKey(verbose_name='page', to='basic_cms.Page'),
+            preserve_default=True,
+        ),
+    ]

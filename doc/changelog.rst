@@ -4,6 +4,28 @@
 
 This file describe new features and incompatibilites between released version of the CMS.
 
+
+Release 0.2.5.3
+===============
+
+    * Fix after removing compress image support
+
+
+Release 0.2.5.2
+===============
+
+    * Remove compress image support
+
+Release 0.2.5.1
+===============
+
+    * page.dump_json_data now accepts parameter get_children, defaults false.
+
+Release 0.2.5
+===============
+
+    * Compress image support
+
 Release 0.2.4.1
 ===============
 
@@ -15,6 +37,11 @@ Release 0.2.3.1
 
     * Firefox CSS fix
 
+Release 0.3.0
+=============
+
+    * Dropped support of Django < 1.7
+    * Added support of Django 1.7 and 1.8
 
 Release 0.2.3
 ==============

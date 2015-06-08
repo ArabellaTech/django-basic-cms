@@ -22,6 +22,9 @@ def get_setting(*args, **kwargs):
     return kwargs.get('default_value', None)
 
 
+# templates setting for django 1.8
+TEMPLATES = get_setting('TEMPLATES', raise_error=True)
+
 # The path to default template
 PAGE_DEFAULT_TEMPLATE = get_setting('PAGE_DEFAULT_TEMPLATE',
     'DEFAULT_PAGE_TEMPLATE', raise_error=True)
@@ -222,5 +225,13 @@ PAGE_USER_MODEL = getattr(settings, 'AUTH_USER_MODEL', 'auth.User')
 
 # Set ``PAGE_UNIQUE_SLUG_REQUIRED`` to ``True`` to rename automaticaly a duplicate slug
 # another page as an identic slug
-PAGE_AUTOMATIC_SLUG_RENAMING = getattr(settings, 'PAGE_AUTOMATIC_SLUG_RENAMING',
-                                    False)
+PAGE_AUTOMATIC_SLUG_RENAMING = getattr(settings, 'PAGE_AUTOMATIC_SLUG_RENAMING', False)
+
+INSTALLED_APPS = getattr(settings, 'INSTALLED_APPS',
+                         ())
+
+FILEBROWSER_DIRECTORY = False
+if 'filebrowser' in INSTALLED_APPS:
+    from filebrowser import settings as filebrowser_settigns
+    FILEBROWSER_DIRECTORY = getattr(settings, 'FILEBROWSER_DIRECTORY',
+                                    getattr(filebrowser_settigns, 'DIRECTORY', False))

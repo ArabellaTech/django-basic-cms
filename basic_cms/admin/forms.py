@@ -62,7 +62,7 @@ class SlugFormMixin(forms.ModelForm):
         return slug
 
 
-def make_form(model_):
+def make_form(model_, placeholders):
 
     class PageForm(SlugFormMixin):
         """Form for page creation"""
