@@ -25,9 +25,9 @@ if django.VERSION >= (1, 5) and django.VERSION < (1, 7):
 elif django.VERSION >= (1, 7):
     # try:
     #     from django.contrib.auth import get_user_model
-    #     User = settings.AUTH_USER_MODEL
+    #  User = settings.AUTH_USER_MODEL
     # except AttributeError, ImportError:
-        from django.contrib.auth.models import User
+    User = None
 else:
     from django.contrib.auth.models import User
 
@@ -49,9 +49,16 @@ class PageManager(models.Manager):
             return super(PageManager, self).get_query_set().filter(
                 sites=global_settings.SITE_ID)
 
+    def get_user_model(self):
+        if User is None:
+            from django.contrib.auth import get_user_model
+            return get_user_model()
+        return User
+
     def populate_pages(self, parent=None, child=5, depth=5):
         """Create a population of :class:`Page <pages.models.Page>`
         for testing purpose."""
+        User = self.get_user_model()
         from basic_cms.models import Content
         author = User.objects.all()[0]
         if depth == 0:
@@ -73,6 +80,7 @@ class PageManager(models.Manager):
 
         :param site_id: specify the id of the site object to filter with.
         """
+        User = self.get_user_model()
         if settings.PAGE_USE_SITE_ID:
             if not site_id:
                 site_id = settings.SITE_ID
@@ -81,20 +89,24 @@ class PageManager(models.Manager):
 
     def root(self):
         """Return a :class:`QuerySet` of pages without parent."""
+        User = self.get_user_model()
         return self.on_site().filter(parent__isnull=True)
 
     def navigation(self):
         """Creates a :class:`QuerySet` of the published root pages."""
+        User = self.get_user_model()
         return self.on_site().filter(
                 status=self.model.PUBLISHED).filter(parent__isnull=True)
 
     def hidden(self):
         """Creates a :class:`QuerySet` of the hidden pages."""
+        User = self.get_user_model()
         return self.on_site().filter(status=self.model.HIDDEN)
 
     def filter_published(self, queryset):
         """Filter the given pages :class:`QuerySet` to obtain only published
         page."""
+        User = self.get_user_model()
         if settings.PAGE_USE_SITE_ID:
             queryset = queryset.filter(sites=settings.SITE_ID)
 
@@ -114,11 +126,13 @@ class PageManager(models.Manager):
     def published(self):
         """Creates a :class:`QuerySet` of published
         :class:`Page <pages.models.Page>`."""
+        User = self.get_user_model()
         return self.filter_published(self)
 
     def drafts(self):
         """Creates a :class:`QuerySet` of drafts using the page's
         :attr:`Page.publication_date`."""
+        User = self.get_user_model()
         pub = self.on_site().filter(status=self.model.DRAFT)
         if settings.PAGE_SHOW_START_DATE:
             pub = pub.filter(publication_date__gte=datetime.now())
@@ -127,12 +141,14 @@ class PageManager(models.Manager):
     def expired(self):
         """Creates a :class:`QuerySet` of expired using the page's
         :attr:`Page.publication_end_date`."""
+        User = self.get_user_model()
         return self.on_site().filter(
             publication_end_date__lte=datetime.now())
 
     def from_path(self, complete_path, lang, exclude_drafts=True):
         """Return a :class:`Page <pages.models.Page>` according to
         the page's path."""
+        User = self.get_user_model()
         if complete_path.endswith("/"):
             complete_path = complete_path[:-1]
         # just return the root page
@@ -177,6 +193,7 @@ class PageManager(models.Manager):
 
         messages is a list of strings warnings/messages about this import
         """
+        User = self.get_user_model()
         page = None
         parent = None
         parent_required = True
@@ -209,6 +226,7 @@ class PageManager(models.Manager):
             Allow the user profile class to look up a user by email
             address
             """
+            User = self.get_user_model()
             # bit of an unpleasant hack that requres the logged-in
             # user has a profile, but I don't want to reproduce the
             # code in get_profile() here
@@ -267,6 +285,7 @@ class PageManager(models.Manager):
 
         from basic_cms.models import Content
         def create_content(lang, ctype, body):
+            User = self.get_user_model()
             Content.objects.create_content_if_changed(page, lang, ctype, body)
 
         for lang in d['content_language_updated_order']:
@@ -285,11 +304,18 @@ class PageManager(models.Manager):
 class ContentManager(models.Manager):
     """:class:`Content <pages.models.Content>` manager methods"""
 
+    def get_user_model(self):
+        if User is None:
+            from django.contrib.auth import get_user_model
+            return get_user_model()
+        return User
+
     PAGE_CONTENT_DICT_KEY = "page_content_dict_%d_%s_%d"
 
     def sanitize(self, content):
         """Sanitize a string in order to avoid possible XSS using
         ``html5lib``."""
+        User = self.get_user_model()
         import html5lib
         from html5lib import sanitizer
         p = html5lib.HTMLParser(tokenizer=sanitizer.HTMLSanitizer)
@@ -305,6 +331,7 @@ class ContentManager(models.Manager):
         :param ctype: the content type.
         :param body: the content of the Content object.
         """
+        User = self.get_user_model()
         if settings.PAGE_SANITIZE_USER_INPUT:
             body = self.sanitize(body)
         try:
@@ -327,6 +354,7 @@ class ContentManager(models.Manager):
         :param ctype: the content type.
         :param body: the content of the Content object.
         """
+        User = self.get_user_model()
         if settings.PAGE_SANITIZE_USER_INPUT:
             body = self.sanitize(body)
         try:
@@ -352,6 +380,7 @@ class ContentManager(models.Manager):
     def get_content_object(self, page, language, ctype):
         """Gets the latest published :class:`Content <pages.models.Content>`
         for a particular page, language and placeholder type."""
+        User = self.get_user_model()
         params = {
             'language': language,
             'type': ctype,
@@ -370,6 +399,7 @@ class ContentManager(models.Manager):
         :param ctype: the content type.
         :param language_fallback: fallback to another language if ``True``.
         """
+        User = self.get_user_model()
         if not language:
             language = settings.PAGE_DEFAULT_LANGUAGE
 
@@ -413,6 +443,7 @@ class ContentManager(models.Manager):
 
         :param slug: the wanted slug.
         """
+        User = self.get_user_model()
         content = self.filter(type='slug', body=slug)
         if settings.PAGE_USE_SITE_ID:
             content = content.filter(page__sites__id=settings.SITE_ID)
@@ -430,6 +461,7 @@ class ContentManager(models.Manager):
 
         :param slug: the wanted slug.
         """
+        User = self.get_user_model()
         ids = self.filter(type='slug', body=slug).values('page_id').annotate(
             max_creation_date=Max('creation_date')
         )
@@ -451,6 +483,7 @@ class PageAliasManager(models.Manager):
         :param path: the complete path to the page
         :param lang: not used
         """
+        User = self.get_user_model()
         from basic_cms.models import PageAlias
 
         url = normalize_url(path)
