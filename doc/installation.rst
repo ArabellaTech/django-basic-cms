@@ -232,5 +232,6 @@ If you want to use it set ``PAGE_TAGGING`` at ``True`` into your setting file an
         'mptt',
         'tagging',
         'basic_cms',
+        'templateaddons',
         ...
     )
