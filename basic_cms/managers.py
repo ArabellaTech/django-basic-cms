@@ -471,6 +471,12 @@ class ContentManager(models.Manager):
 class PageAliasManager(models.Manager):
     """:class:`PageAlias <pages.models.PageAlias>` manager."""
 
+    def get_user_model(self):
+        if User is None:
+            from django.contrib.auth import get_user_model
+            return get_user_model()
+        return User
+
     def from_path(self, request, path, lang):
         """
         Resolve a request to an alias. returns a
