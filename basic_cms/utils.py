@@ -25,6 +25,11 @@ JSON_PAGE_EXPORT_VERSION = 4
 JSON_PAGE_EXPORT_INDENT = 2
 
 
+def get_user_model():
+    from django.contrib.auth import get_user_model
+    return get_user_model()
+
+
 def now_utc():
     return datetime.utcnow().replace(tzinfo=timezone.utc)
 
