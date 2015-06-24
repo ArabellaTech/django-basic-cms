@@ -23,7 +23,7 @@ you use in your page templates. Every time you add a placeholder in your templat
 dynamically appears in the page admin.
 
 This CMS is know to work on Django 1.7 and 1.8 with Python 2.6+ and 3.3 and 3.4 from version 0.3.0
-Version prior 0.3.0 work with Djangl 1.5 and 1.6 along with Python 2.6+/3.3.
+Version prior 0.3.0 work with Django 1.5 and 1.6 along with Python 2.6+/3.3.
 
 .. image:: https://github.com/ArabellaTech/django-basic-cms/raw/master/doc/admin-screenshot1.png
 

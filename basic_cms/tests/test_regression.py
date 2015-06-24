@@ -15,6 +15,7 @@ import django
 from basic_cms.models import Page, Content
 from basic_cms.tests.testcase import TestCase
 
+
 class RegressionTestCase(TestCase):
     """Django page CMS test suite class"""
 
