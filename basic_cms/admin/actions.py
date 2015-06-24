@@ -12,7 +12,7 @@ JSON_PAGE_EXPORT_FILENAME = 'basic_cms_pages.json'
 
 
 def export_pages_as_json(modeladmin, request, queryset):
-    response = HttpResponse(mimetype="application/json")
+    response = HttpResponse(content_type="application/json")
     response['Content-Disposition'] = 'attachment; filename=%s' % (
         JSON_PAGE_EXPORT_FILENAME,)
     response.write(pages_to_json(queryset))
