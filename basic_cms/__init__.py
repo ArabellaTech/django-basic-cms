@@ -8,3 +8,5 @@ __homepage__ = "https://github.com/YD-Technology/django-basic-cms"
 __docformat__ = "restructuredtext"
 __doc__ = 'A tree based Django Basic CMS application'
 __license__ = 'BSD'
+
+default_app_config = 'basic_cms.app_config.BasicCmsConfig'
