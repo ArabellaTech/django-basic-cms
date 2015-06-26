@@ -12,7 +12,7 @@ def page_templates_loading_check(app_configs, **kwargs):
 
     for page_template in settings.PAGE_TEMPLATES:
         try:
-            loader.find_template(page_template[0])
+            loader.get_template(page_template[0])
         except template.TemplateDoesNotExist:
             errors.append(checks.Warning(
                     'Django cannot find template %s' % page_template[0],
