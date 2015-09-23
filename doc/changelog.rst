@@ -4,6 +4,20 @@
 
 This file describe new features and incompatibilites between released version of the CMS.
 
+Release 0.3.9
+=============
+
+    * Added AUTHORS
+    * Fixed LICENSE
+
+
+Release 0.3.0
+=============
+
+    * Dropped support of Django < 1.7
+    * Added support of Django 1.7 and 1.8
+
+
 
 Release 0.2.5.3
 ===============
@@ -36,12 +50,6 @@ Release 0.2.3.1
 ===============
 
     * Firefox CSS fix
-
-Release 0.3.0
-=============
-
-    * Dropped support of Django < 1.7
-    * Added support of Django 1.7 and 1.8
 
 Release 0.2.3
 ==============
