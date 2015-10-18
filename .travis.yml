@@ -7,11 +7,11 @@ python:
 
 env:
   - DJANGO="django==1.8"
-  - DJANGO="django==1.7.7 --use-mirrors"
+  - DJANGO="django==1.7.7"
 
 install:
- - pip install -r requirements/external_apps.txt --use-mirrors
- - pip install -r requirements/extra_apps.txt --use-mirrors
+ - pip install -r requirements/external_apps.txt
+ - pip install -r requirements/extra_apps.txt
  - pip install coverage coveralls
  - pip install $DJANGO
 
