@@ -6,7 +6,7 @@ python:
   - "3.5"
 
 env:
-  - DJANGO="django==1.8 --use-mirrors"
+  - DJANGO="django==1.8"
   - DJANGO="django==1.7.7 --use-mirrors"
 
 install:
