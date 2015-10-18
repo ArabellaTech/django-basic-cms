@@ -21,9 +21,9 @@ script:
 matrix:
   exclude:
     - python: "3.4"
-      env: DJANGO="django==1.7.7 --use-mirrors"
+      env: DJANGO="django==1.7.7"
     - python: "3.5"
-      env: DJANGO="django==1.7.7 --use-mirrors"
+      env: DJANGO="django==1.7.7"
 
 after_success:
   - coverage report --omit="basic_cms/tests/*" -m
