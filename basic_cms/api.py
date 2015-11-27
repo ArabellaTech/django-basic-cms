@@ -5,7 +5,6 @@ from django.utils.translation import get_language
 from django.http import Http404
 from django.utils.safestring import mark_safe
 from django.utils.functional import lazy
-from django.template import RequestContext
 
 from rest_framework.views import APIView
 from rest_framework.response import Response
@@ -34,9 +33,8 @@ class BasicCMSAPI(APIView):
         page = Page.objects.from_path(slug, lang)
         if page is None:
             raise Http404("Page does not exist")
-
         if format == 'html':
-            page = render_to_string(page.template, {'current_page': page})
+            page = render_to_string(page.template, {'current_page': page}, request=request)
             base_url = request.build_absolute_uri('/')
             return Response({"html": links_append_domain(page, base_url)})
         else:
