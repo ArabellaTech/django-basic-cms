@@ -4,6 +4,22 @@
 
 This file describe new features and incompatibilites between released version of the CMS.
 
+Release 0.3.12
+=============
+
+    * Added missing migration
+
+
+Release 0.3.11
+=============
+
+    * Api error fix
+
+Release 0.3.10
+=============
+
+    * Documentation update
+
 Release 0.3.9
 =============
 
