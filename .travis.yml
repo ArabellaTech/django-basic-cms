@@ -11,8 +11,7 @@ env:
 
 before_install:
  - case "$DJANGO" in
-    "") ;;
-    
+
     "django==1.7.7")
       pip install django-mptt==0.6.0
 
