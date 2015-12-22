@@ -6,8 +6,15 @@ python:
   - "3.5"
 
 env:
-  - DJANGO="django==1.8"
+  - DJANGO="django>=1.8,<1.8.999"
   - DJANGO="django==1.7.7"
+
+before_install:
+ - case "$DJANGO" in
+    "") ;;
+    
+    "django==1.7.7")
+      pip install django-mptt==0.6.0
 
 install:
  - pip install -r requirements/external_apps.txt
