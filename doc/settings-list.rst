@@ -227,3 +227,9 @@ PAGE_EXTRA_CONTEXT
 
 This setting is a function that can be defined if you need to pass extra
 context data to the pages templates.
+
+
+PAGE_ADD_API
+==================================
+
+Add django-rest-framework api. True by default.

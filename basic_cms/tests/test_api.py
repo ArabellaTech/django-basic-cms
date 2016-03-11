@@ -55,3 +55,8 @@ class CMSPagesApiTests(TestCase):
         return_body = """<html><body><a href="http://google.com">google.com</a><a href="http://a.com/foo">foo</a><a href="#a">#a</a><a href="/#a">/#a</a><img src="http://x.com/x.jpg"/><img src="http://a.com/a.jpg"/></body></html>
         """
         self.assertEqual(links_append_domain(body, 'http://a.com').strip(), return_body.strip())
+
+    def test_hide_api(self):
+        self.set_setting("PAGE_ADD_API", False)
+        response = self.client.get('/pages/basic-cms-api/foo/')
+        self.assertEqual(response.status_code, 404)

@@ -4,6 +4,12 @@
 
 This file describe new features and incompatibilites between released version of the CMS.
 
+Release 0.3.13
+=============
+
+    * Allow to hide api via settings.PAGE_ADD_API
+
+
 Release 0.3.12
 =============
 

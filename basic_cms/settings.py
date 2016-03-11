@@ -235,3 +235,6 @@ if 'filebrowser' in INSTALLED_APPS:
     from filebrowser import settings as filebrowser_settigns
     FILEBROWSER_DIRECTORY = getattr(settings, 'FILEBROWSER_DIRECTORY',
                                     getattr(filebrowser_settigns, 'DIRECTORY', False))
+
+
+PAGE_ADD_API = getattr(settings, 'PAGE_ADD_API', True)
