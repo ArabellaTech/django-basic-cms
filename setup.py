@@ -1,8 +1,11 @@
 # -*- coding: utf-8 -*-
-from setuptools import setup, find_packages
-from pkg_resources import require, DistributionNotFound
 import basic_cms
 import os
+
+from pkg_resources import DistributionNotFound
+from pkg_resources import require
+from setuptools import find_packages
+from setuptools import setup
 package_name = 'django-basic-cms'
 
 
@@ -62,7 +65,7 @@ setup(
     packages=find_packages(exclude=['example', 'example.*']),
     # very important for the binary distribution to include the templates.
     package_data={'basic_cms': data_dirs},
-    #include_package_data=True, # include package data under svn source control
+    # include_package_data=True, # include package data under svn source control
     zip_safe=False,
     classifiers=[
         'Development Status :: 5 - Production/Stable',
