@@ -14,4 +14,4 @@ def document_view(request, *args, **kwargs):
     context['in_document_view'] = True
     rcontext = RequestContext(request, context)
 
-    return render_to_response('pages/examples/index.html', rcontext)
+    return render_to_response('pages/examples/index.html', rcontext.flatten())

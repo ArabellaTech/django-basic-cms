@@ -5,7 +5,7 @@ from basic_cms.models import Page, Content
 from basic_cms.utils import get_placeholders
 from basic_cms.http import get_language_from_request
 
-from django.shortcuts import get_object_or_404, render_to_response
+from django.shortcuts import get_object_or_404, render_to_response, render
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
@@ -36,10 +36,7 @@ def list_pages_ajax(request, invalid_move=False):
         'language': language,
         'pages': pages,
     }
-    return render_to_response("admin/basic_cms/page/change_list_table.html",
-        context,
-        context_instance=RequestContext(request)
-    )
+    return render(request, "admin/basic_cms/page/change_list_table.html", context)
 list_pages_ajax = staff_member_required(list_pages_ajax)
 
 
@@ -78,7 +75,7 @@ def delete_content(request, page_id, language_id):
     for c in Content.objects.filter(page=page, language=language_id):
         c.delete()
 
-    destination = request.REQUEST.get('next', request.META.get('HTTP_REFERER',
+    destination = request.GET.get('next', request.META.get('HTTP_REFERER',
         '/admin/basic_cms/page/%s/' % page_id))
     return HttpResponseRedirect(destination)
 delete_content = staff_member_required(delete_content)
@@ -93,12 +90,12 @@ def traduction(request, page_id, language_id):
         Content.objects.get_content(page, language_id, "title")
         is None
     )
-    return render_to_response('pages/traduction_helper.html', {
+    return render(request, 'pages/traduction_helper.html', {
             'page': page,
             'lang': lang,
             'language_error': language_error,
             'placeholders': placeholders,
-    }, context_instance=RequestContext(request))
+    })
 traduction = staff_member_required(traduction)
 
 
@@ -144,9 +141,9 @@ def sub_menu(request, page_id):
     page = Page.objects.get(id=page_id)
     pages = page.children.all()
     page_languages = settings.PAGE_LANGUAGES
-    return render_to_response("admin/basic_cms/page/sub_menu.html", {
+    return render(request, "admin/basic_cms/page/sub_menu.html", {
         'page': page,
         'pages': pages,
         'page_languages': page_languages,
-    }, context_instance=RequestContext(request))
+    })
 sub_menu = staff_member_required(sub_menu)

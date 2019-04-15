@@ -110,7 +110,7 @@ class UnitTestCase(TestCase):
         p1 = self.new_page(content={'inher': 'parent-content'})
         p2 = self.new_page()
         template = django.template.loader.get_template('pages/tests/test7.html')
-        context = Context({'current_page': p2, 'lang': 'en-us'})
+        context = {'current_page': p2, 'lang': 'en-us'}
         self.assertEqual(template.render(context), '')
 
         p2.move_to(p1, position='first-child')
@@ -118,7 +118,7 @@ class UnitTestCase(TestCase):
 
     def test_get_page_template_tag(self):
         """Test get_page template tag."""
-        context = Context({})
+        context = {}
         pl1 = """{% load pages_tags %}{% get_page "get-page-slug" as toto %}{{ toto }}"""
         template = get_template_from_string(pl1)
         self.assertEqual(template.render(context), u'None')
@@ -128,7 +128,7 @@ class UnitTestCase(TestCase):
     def test_placeholder_all_syntaxes(self):
         """Test placeholder syntaxes."""
         page = self.new_page()
-        context = Context({'current_page': page, 'lang': 'en-us'})
+        context = {'current_page': page, 'lang': 'en-us'}
 
         pl1 = """{% load pages_tags %}{% placeholder title as hello %}"""
         template = get_template_from_string(pl1)
@@ -142,16 +142,16 @@ class UnitTestCase(TestCase):
         setattr(settings, "DEBUG", True)
 
         page = self.new_page({'wrong': '{% wrong %}'})
-        context = Context({'current_page': page, 'lang': 'en-us'})
+        context = {'current_page': page, 'lang': 'en-us'}
 
         pl2 = """{% load pages_tags %}{% placeholder wrong parsed %}"""
         template = get_template_from_string(pl2)
         from basic_cms.placeholders import PLACEHOLDER_ERROR
         error = PLACEHOLDER_ERROR % {
             'name': 'wrong',
-            'error': "Invalid block tag: 'wrong'",
+            'error': "Invalid block tag on line 1: 'wrong'. Did you forget to register or load this tag?",
         }
-        self.assertEqual(template.render(context), error)
+        self.assertEqual(error, template.render(context))
 
         # generate errors
         pl3 = """{% load pages_tags %}{% placeholder %}"""
@@ -177,13 +177,13 @@ class UnitTestCase(TestCase):
         setattr(settings, "DEBUG", True)
         page = self.new_page({'title': '<b>{{ "hello"|capfirst }}</b>'})
         page.save()
-        context = Context({'current_page': page, 'lang': 'en-us'})
+        context = {'current_page': page, 'lang': 'en-us'}
         pl_parsed = """{% load pages_tags %}{% placeholder title parsed %}"""
         template = get_template_from_string(pl_parsed)
         self.assertEqual(template.render(context), '<b>Hello</b>')
         setattr(settings, "DEBUG", False)
         page = self.new_page({'title': '<b>{{ "hello"|wrong_filter }}</b>'})
-        context = Context({'current_page': page, 'lang': 'en-us'})
+        context = {'current_page': page, 'lang': 'en-us'}
         self.assertEqual(template.render(context), u'')
 
     def test_video(self):
@@ -192,7 +192,7 @@ class UnitTestCase(TestCase):
             'title': 'video-page',
             'video': 'http://www.youtube.com/watch?v=oHg5SJYRHA0\\\\'
         })
-        context = Context({'current_page': page, 'lang': 'en-us'})
+        context = {'current_page': page, 'lang': 'en-us'}
         pl1 = """{% load pages_tags %}{% videoplaceholder video %}"""
         template = get_template_from_string(pl1)
         self.assertNotEqual(template.render(context), '')
@@ -216,7 +216,7 @@ class UnitTestCase(TestCase):
         page = self.new_page()
         template = django.template.loader.get_template(
                 'pages/tests/untranslated.html')
-        context = Context({'current_page': page, 'lang': 'en-us'})
+        context = {'current_page': page, 'lang': 'en-us'}
         self.assertEqual(template.render(context), '')
 
     def test_urlconf_registry(self):
@@ -686,7 +686,7 @@ class UnitTestCase(TestCase):
 
     def test_get_page_template_tag_with_page_arg_as_id(self):
         """Test get_page template tag with page argument given as a page id"""
-        context = Context({})
+        context = {}
         pl1 = """{% load pages_tags %}{% get_page 1 as toto %}{{ toto }}"""
         template = get_template_from_string(pl1)
         self.new_page({'id': 1, 'slug': 'get-page-slug'})
@@ -694,24 +694,24 @@ class UnitTestCase(TestCase):
 
     def test_get_page_template_tag_with_variable_containing_page_id(self):
         """Test get_page template tag with page argument given as a page id"""
-        context = Context({})
+        context = {}
         pl1 = ('{% load pages_tags %}{% placeholder somepage as page_id %}'
             '{% get_page page_id as toto %}{{ toto }}')
         template = get_template_from_string(pl1)
         page = self.new_page({'id': 1, 'slug': 'get-page-slug',
             'somepage': '1'})
-        context = Context({'current_page': page})
+        context = {'current_page': page}
         self.assertEqual(template.render(context), u'get-page-slug')
 
     def test_get_page_template_tag_with_variable_containing_page_slug(self):
         """Test get_page template tag with page argument given as a page id"""
-        context = Context({})
+        context = {}
         pl1 = ('{% load pages_tags %}{% placeholder somepage as slug %}'
             '{% get_page slug as toto %}{{ toto }}')
         template = get_template_from_string(pl1)
         page = self.new_page({'slug': 'get-page-slug', 'somepage':
             'get-page-slug'})
-        context = Context({'current_page': page})
+        context = {'current_page': page}
         self.assertEqual(template.render(context), u'get-page-slug')
 
     def test_get_pages_with_tag(self):
@@ -719,7 +719,7 @@ class UnitTestCase(TestCase):
         page = self.new_page({'slug': 'footer-page', 'somepage': 'get-footer-slug'})
         tag = Tag.objects.create(name="footer")
         page.tags.add(tag)
-        context = Context({})
+        context = {}
         pl1 = ('{% load pages_tags %}{% get_pages_with_tag "footer" as pages %}{% for page in pages %}{{ page.slug }}{% endfor %}')
         template = get_template_from_string(pl1)
         self.assertEqual(template.render(context), u'footer-page')
@@ -735,7 +735,7 @@ class UnitTestCase(TestCase):
 
         template = get_template_from_string(tpl)
         page = self.new_page({'slug': 'get-page-slug'})
-        context = Context({'current_page': page})
+        context = {'current_page': page}
         self.assertEqual(template.render(context), u'get-page-slug')
 
     def test_get_filename(self):

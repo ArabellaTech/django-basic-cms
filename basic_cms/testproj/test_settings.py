@@ -95,12 +95,12 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = TEST_PROJ + '.urls'
 
-TEMPLATE_DIRS = (
+TEMPLATE_DIRS = [
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
     os.path.join(PROJECT_DIR, 'templates'),
-)
+]
 
 TEMPLATES = [
     {
@@ -216,6 +216,11 @@ COVERAGE_HTML_REPORT = True
 COVERAGE_BRANCH_COVERAGE = False
 
 PAGE_ENABLE_TESTS = True
+
+ALLOWED_HOSTS = [
+    'page-request-host',
+    'localhost',
+]
 
 #TEST_RUNNER = 'example.test_runner.run_tests'
 

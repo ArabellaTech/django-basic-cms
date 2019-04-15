@@ -2,7 +2,7 @@
 from . import settings
 from django.contrib import admin
 from django.forms import ModelForm
-from django.core.urlresolvers import get_mod_func
+from django.urls import get_mod_func
 import django
 
 # TODO: get rid of this
