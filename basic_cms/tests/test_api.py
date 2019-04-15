@@ -4,7 +4,7 @@ from basic_cms.tests.testcase import TestCase
 
 import json
 from django.template.loader import render_to_string
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 
 
 class CMSPagesApiTests(TestCase):

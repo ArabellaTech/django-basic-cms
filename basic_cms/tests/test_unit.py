@@ -11,11 +11,11 @@ from basic_cms.views import details
 from basic_cms.templatetags.pages_tags import get_page_from_string_or_id
 
 import django
-from django.utils import unittest
+import unittest
 from django.http import Http404
 from django.contrib.auth.models import User
 from django.conf import settings
-from django.core.urlresolvers import reverse
+from django.urls import reverse
 from django.template import Template, RequestContext, Context, TemplateSyntaxError
 try:
     from django.template.loader import get_template_from_string

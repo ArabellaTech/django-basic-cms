@@ -182,13 +182,19 @@ def get_placeholders(template_name):
 
 
 dummy_context = Context()
-dummy_context.template = template.Template("")
 
 
 def _placeholders_recursif(nodelist, plist, blist):
     """Recursively search into a template node list for PlaceholderNode
     node."""
     # I needed to do this lazy import to compile the documentation
+    if dummy_context.template is None:
+        # US30595: Dummy template initialization at module level causes loading of
+        # django apps which in turn leads to loading of basic_cms.models module.
+        # basic_cms.models have import on .utils module which creates a cricular
+        # dependency and hence a failure on "manage.py check".
+        # Hence forced to load this only on demand.
+        dummy_context.template = template.Template("")
     from django.template.loader_tags import BlockNode
 
     for node in nodelist:

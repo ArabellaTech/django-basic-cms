@@ -4,11 +4,10 @@ from basic_cms import settings as pages_settings
 from basic_cms.testproj import test_settings
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 from django.template import TemplateDoesNotExist
 from django.contrib.sites.models import Site
-from django.utils.importlib import import_module
-from django.core.urlresolvers import clear_url_caches
+from importlib import import_module
+from django.urls import clear_url_caches, reverse
 
 from imp import reload
 
