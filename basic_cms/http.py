@@ -1,5 +1,5 @@
 """Page CMS functions related to the ``request`` object."""
-from . import settings
+from basic_cms import settings
 
 from django.core.handlers.base import BaseHandler
 from django.core.handlers.wsgi import WSGIRequest
