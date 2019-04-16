@@ -195,13 +195,23 @@ def _placeholders_recursif(nodelist, plist, blist):
         # dependency and hence a failure on "manage.py check".
         # Hence forced to load this only on demand.
         dummy_context.template = template.Template("")
+
     from django.template.loader_tags import BlockNode
 
     for node in nodelist:
 
         # extends node?
         if hasattr(node, 'parent_name'):
-            _placeholders_recursif(node.get_parent(dummy_context).nodelist,
+            try:
+                parent_template = node.get_parent(dummy_context)
+            except TemplateDoesNotExist as e:
+                parent_template_name = node.parent_name.resolve(dummy_context)
+                parent_template = loader.get_template(parent_template_name)
+                if hasattr(parent_template, 'template'):
+                    parent_template = parent_template.template
+                if not hasattr(parent_template, 'nodelist'):
+                    raise e
+            _placeholders_recursif(parent_template.nodelist,
                                                         plist, blist)
         # include node?
         elif hasattr(node, 'template') and hasattr(node.template, 'nodelist'):

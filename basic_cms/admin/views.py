@@ -9,7 +9,6 @@ from django.shortcuts import get_object_or_404, render_to_response, render
 from django.http import HttpResponse, Http404, HttpResponseRedirect
 from django.contrib.admin.views.decorators import staff_member_required
 from django.views.decorators.csrf import csrf_exempt
-from django.template import RequestContext
 
 
 @csrf_exempt

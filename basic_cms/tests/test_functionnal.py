@@ -292,7 +292,7 @@ class FunctionnalTestCase(TestCase):
         page_data['template'] = 'pages/examples/nice.html'
         response = c.post('/admin/basic_cms/page/add/', page_data)
         page = Page.objects.all()[0]
-        response = c.get('/admin/basic_cms/page/%d/' % page.id)
+        response = c.get(reverse('admin:basic_cms_page_change', args=[page.id]))
         self.assertEqual(response.status_code, 200)
 
         self.assertContains(response, 'name="right-column"', 1)

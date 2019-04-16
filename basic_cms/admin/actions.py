@@ -1,8 +1,7 @@
 from django.utils.translation import ugettext_lazy as _
 from django.http import HttpResponse
 from django.db import transaction
-from django.shortcuts import redirect, render_to_response
-from django.template import RequestContext
+from django.shortcuts import redirect, render_to_response, render
 
 from ..http import get_language_from_request
 from ..utils import pages_to_json, json_to_pages
@@ -29,9 +28,9 @@ def import_pages_from_json(request, template_name='admin/basic_cms/page/import_p
 
     errors, pages_created = json_to_pages(j.read(), request.user, get_language_from_request(request))
 
-    return render_to_response(template_name, {
+    return render(request, template_name, {
         'errors': errors,
         'pages_created': pages_created,
         'app_label': 'pages',
         'opts': Page._meta,
-    }, RequestContext(request))
+    })

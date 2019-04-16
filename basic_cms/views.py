@@ -9,7 +9,6 @@ from django.contrib.sitemaps import Sitemap
 from django.urls import resolve, Resolver404
 from django.utils import translation
 from django.shortcuts import render_to_response, render
-from django.template import RequestContext
 # from django.core.xheaders import populate_xheaders
 
 LANGUAGE_KEYS = [key for (key, value) in settings.PAGE_LANGUAGES]
