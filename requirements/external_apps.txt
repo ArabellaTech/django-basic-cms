@@ -4,5 +4,5 @@ html5lib==1.0b8
 lxml>=3.4.2
 djangorestframework>=3.7.7
 sphinxcontrib-aafig
-django-taggit>=0.23.1
+django-taggit>=0.23.0
 django-templateaddons>=0.1
