@@ -7,6 +7,8 @@ import django
 from django.urls import reverse
 
 import datetime
+import time
+import pytz
 
 
 class FunctionnalTestCase(TestCase):
@@ -261,12 +263,12 @@ class FunctionnalTestCase(TestCase):
         page = Page.objects.all()[0]
 
         page_data['body'] = 'changed body'
-        response = c.post('/admin/basic_cms/page/%d/' % page.id, page_data)
+        response = c.post(reverse('admin:basic_cms_page_change', args=[page.id]), page_data)
         self.assertEqual(Content.objects.get_content(page, 'en-us', 'body'),
                          'changed body')
 
         page_data['body'] = 'changed body 2'
-        response = c.post('/admin/basic_cms/page/%d/' % page.id, page_data)
+        response = c.post(reverse('admin:basic_cms_page_change', args=[page.id]), page_data)
         page.invalidate()
         self.assertEqual(Content.objects.get_content(page, 'en-us', 'body'),
                          'changed body 2')
@@ -690,9 +692,11 @@ class FunctionnalTestCase(TestCase):
         self.assertRedirects(response, '/admin/basic_cms/page/')
         page = Page.objects.from_path('before', None)
         self.assertEqual(page.freeze_date, None)
-        limit = datetime.datetime.now()
+        # Naive datetime does not work
+        limit = datetime.datetime.now(tz=pytz.utc)
         page.freeze_date = limit
         page.save()
+        self.assertEqual(page.slug(), 'before')
 
         page_data['title'] = 'after'
         page_data['slug'] = 'after'

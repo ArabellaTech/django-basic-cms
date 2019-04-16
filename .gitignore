@@ -14,5 +14,6 @@ coverage.xml
 six*
 
 .coverage
-
 coverage
+
+*.log
