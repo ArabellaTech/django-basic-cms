@@ -7,9 +7,9 @@ except ImportError:
     coverage = None
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'basic_cms.testproj.test_settings'
-current_dirname = os.path.dirname(__file__)
-sys.path.insert(0, current_dirname)
-sys.path.insert(0, os.path.join(current_dirname, '..'))
+# current_dirname = os.path.dirname(__file__)
+# sys.path.insert(0, current_dirname)
+# sys.path.insert(0, os.path.join(current_dirname, '..'))
 
 from django import setup
 setup()
