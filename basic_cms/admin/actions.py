@@ -3,9 +3,9 @@ from django.http import HttpResponse
 from django.db import transaction
 from django.shortcuts import redirect, render_to_response, render
 
-from ..http import get_language_from_request
-from ..utils import pages_to_json, json_to_pages
-from ..models import Page
+from basic_cms.http import get_language_from_request
+from basic_cms.utils import pages_to_json, json_to_pages
+from basic_cms.models import Page
 
 JSON_PAGE_EXPORT_FILENAME = 'basic_cms_pages.json'
 

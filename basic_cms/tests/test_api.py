@@ -48,7 +48,7 @@ class CMSPagesApiTests(TestCase):
         self.assertEqual(response.data['children'][2]['title']['en-us'], 'Joanna Schaffler')
 
     def test_urls(self):
-        from utils import links_append_domain
+        from basic_cms.utils import links_append_domain
 
         body = """<a href="http://google.com">google.com</a><a href="foo">foo</a><a href="#a">#a</a><a href="/#a">/#a</a><img src="http://x.com/x.jpg"/><img src="a.jpg"/>
         """
