@@ -6,10 +6,9 @@ from basic_cms.urlconf_registry import get_urlconf
 
 from django.http import Http404, HttpResponsePermanentRedirect
 from django.contrib.sitemaps import Sitemap
-from django.core.urlresolvers import resolve, Resolver404
+from django.urls import resolve, Resolver404
 from django.utils import translation
-from django.shortcuts import render_to_response
-from django.template import RequestContext
+from django.shortcuts import render_to_response, render
 # from django.core.xheaders import populate_xheaders
 
 LANGUAGE_KEYS = [key for (key, value) in settings.PAGE_LANGUAGES]
@@ -88,7 +87,7 @@ class Details(object):
         if kwargs.get('only_context', False):
             return context
         template_name = kwargs.get('template_name', template_name)
-        response = render_to_response(template_name, RequestContext(request, context))
+        response = render(request, template_name, context)
         current_page = context['current_page']
         # populate_xheaders(request, response, Page, current_page.id)
         return response

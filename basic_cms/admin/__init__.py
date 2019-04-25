@@ -108,10 +108,10 @@ class PageAdmin(admin.ModelAdmin):
         )]
 
     def urls(self):
-        from django.conf.urls import patterns, url
+        from django.conf.urls import url
 
         # Admin-site-wide views.
-        urlpatterns = patterns('',
+        urlpatterns = [
             url(r'^$', self.list_pages, name='page-index'),
             url(r'^(?P<page_id>[0-9]+)/traduction/(?P<language_id>[-\w]+)/$',
                 traduction, name='page-traduction'),
@@ -129,7 +129,7 @@ class PageAdmin(admin.ModelAdmin):
                 change_status, name='page-change-status'),
             url(r'^import-json/$',
                 self.import_pages, name='import-pages-from-json'),
-        )
+        ]
         urlpatterns += super(PageAdmin, self).urls
 
         return urlpatterns

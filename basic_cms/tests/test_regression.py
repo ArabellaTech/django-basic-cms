@@ -81,7 +81,7 @@ class RegressionTestCase(TestCase):
         from basic_cms.http import get_request_mock
         request = get_request_mock()
         temp = loader.get_template('pages/tests/test2.html')
-        render = temp.render(RequestContext(request, {}))
+        render = temp.render(RequestContext(request, {}).flatten())
         self.assertTrue('test-162-slug' in render)
 
     def test_bug_172(self):
@@ -100,13 +100,13 @@ class RegressionTestCase(TestCase):
         from basic_cms.http import get_request_mock
         request = get_request_mock()
         temp = loader.get_template('pages/tests/test3.html')
-        render = temp.render(RequestContext(request, {'page':page}))
+        render = temp.render(RequestContext(request, {'page':page}).flatten())
         self.assertTrue('title-en-us' in render)
 
         render = temp.render(RequestContext(
             request,
             {'page':page, 'lang':'fr-ch'}
-        ))
+        ).flatten())
         self.assertTrue('title-fr-ch' in render)
 
 
@@ -116,7 +116,7 @@ class RegressionTestCase(TestCase):
         from basic_cms.http import get_request_mock
         request = get_request_mock()
         temp = loader.get_template('pages/tests/test4.html')
-        render = temp.render(RequestContext(request, {}))
+        render = temp.render(RequestContext(request, {}).flatten())
         self.assertTrue(page.title() in render)
 
     def test_bug_178(self):
@@ -124,7 +124,7 @@ class RegressionTestCase(TestCase):
         from basic_cms.http import get_request_mock
         request = get_request_mock()
         temp = loader.get_template('pages/tests/test5.html')
-        render = temp.render(RequestContext(request, {'page':None}))
+        render = temp.render(RequestContext(request, {'page':None}).flatten())
 
     def test_language_fallback_bug(self):
         """Language fallback doesn't work properly."""
@@ -156,7 +156,7 @@ class RegressionTestCase(TestCase):
         page1 = Content.objects.get_content_slug_by_slug('page1').page
         page1.invalidate()
         c = Content.objects.get_content(page1, 'en-us', 'title')
-        self.assertEqual(c, page_data['title'])
+        self.assertEqual(c, 'title &amp;')
 
     def test_bug_181(self):
         c = self.get_admin_client()
@@ -189,7 +189,7 @@ class RegressionTestCase(TestCase):
         request = get_request_mock()
         temp = loader.get_template('pages/tests/test7.html')
         temp = loader.get_template('pages/tests/test6.html')
-        render = temp.render(RequestContext(request, {'current_page':page}))
+        render = temp.render(RequestContext(request, {'current_page':page}).flatten())
 
         self.assertTrue('t1_'+page.get_url_path() in render)
         self.assertTrue('t2_'+page.get_url_path() in render)
@@ -217,7 +217,7 @@ class RegressionTestCase(TestCase):
         http://code.google.com/p/django-page-cms/issues/detail?id=209
         """
         page = self.new_page()
-        context = Context({'current_page': page, 'lang':'en-us'})
+        context = {'current_page': page, 'lang':'en-us'}
 
         pl1 = """{% load pages_tags %}{% pages_dynamic_tree_menu "wrong-slug" %}"""
         template = get_template_from_string(pl1)
@@ -229,7 +229,7 @@ class RegressionTestCase(TestCase):
         """
         p1 = self.new_page(content={'slug':'test', 'one':'one', 'two': 'two'})
         template = django.template.loader.get_template('pages/tests/extends.html')
-        context = Context({'current_page': p1, 'lang':'en-us'})
+        context = {'current_page': p1, 'lang':'en-us'}
         renderer = template.render(context)
         self.assertTrue('one' in renderer)
         self.assertTrue('two' in renderer)
