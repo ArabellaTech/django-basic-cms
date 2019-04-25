@@ -156,7 +156,7 @@ class RegressionTestCase(TestCase):
         page1 = Content.objects.get_content_slug_by_slug('page1').page
         page1.invalidate()
         c = Content.objects.get_content(page1, 'en-us', 'title')
-        self.assertEqual(c, page_data['title'])
+        self.assertEqual(c, 'title &amp;')
 
     def test_bug_181(self):
         c = self.get_admin_client()
