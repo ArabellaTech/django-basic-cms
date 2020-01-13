@@ -7,15 +7,15 @@ except ImportError:
     coverage = None
 
 os.environ['DJANGO_SETTINGS_MODULE'] = 'basic_cms.testproj.test_settings'
-current_dirname = os.path.dirname(__file__)
-sys.path.insert(0, current_dirname)
-sys.path.insert(0, os.path.join(current_dirname, '..'))
+# current_dirname = os.path.dirname(__file__)
+# sys.path.insert(0, current_dirname)
+# sys.path.insert(0, os.path.join(current_dirname, '..'))
 
 from django import setup
 setup()
 
 from django.test.runner import DiscoverRunner
-from django.db.models import get_app, get_apps
+from django.apps import apps
 import fnmatch
 
 # necessary for "python setup.py test"
@@ -92,6 +92,10 @@ def build_suite():
     runner.setup_test_environment()
     runner.setup_databases()
     return runner.build_suite(test_labels=('basic_cms',), extra_tests=None)
+
+
+def get_app(app_label):
+    return apps.get_app_config(app_label).models_module
 
 
 if __name__ == '__main__':

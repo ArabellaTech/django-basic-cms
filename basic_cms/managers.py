@@ -273,11 +273,9 @@ class ContentManager(models.Manager):
     def sanitize(self, content):
         """Sanitize a string in order to avoid possible XSS using
         ``html5lib``."""
-        import html5lib
-        from html5lib import sanitizer
-        p = html5lib.HTMLParser(tokenizer=sanitizer.HTMLSanitizer)
-        dom_tree = p.parseFragment(content)
-        return dom_tree.text
+        from html5lib import parseFragment, serialize
+        dom_tree = parseFragment(content)
+        return serialize(dom_tree, sanitize=True)
 
     def set_or_create_content(self, page, language, ctype, body):
         """Set or create a :class:`Content <pages.models.Content>` for a

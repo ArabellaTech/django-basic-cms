@@ -4,11 +4,10 @@ from basic_cms import settings as pages_settings
 from basic_cms.testproj import test_settings
 from django.conf import settings
 from django.contrib.auth.models import User
-from django.core.urlresolvers import reverse
 from django.template import TemplateDoesNotExist
 from django.contrib.sites.models import Site
-from django.utils.importlib import import_module
-from django.core.urlresolvers import clear_url_caches
+from importlib import import_module
+from django.urls import clear_url_caches, reverse
 
 from imp import reload
 
@@ -44,6 +43,15 @@ class TestCase(TestCase):
         self.old_url_conf = getattr(settings, 'ROOT_URLCONF')
         setattr(settings, 'ROOT_URLCONF', 'basic_cms.testproj.urls')
         clear_url_caches()
+        from django.contrib.auth import get_user_model
+        User = get_user_model()
+        admin_user = User.objects.get(username='admin')
+        if admin_user:
+            admin_user.set_password('b')
+            admin_user.save()
+        exists = User.objects.filter(username='batiste').count() > 0
+        if not exists:
+            User.objects.create_superuser('batiste', email=None, password='b')
 
     def tearDown(self):
         setattr(settings, 'ROOT_URLCONF', self.old_url_conf)
@@ -71,8 +79,17 @@ class TestCase(TestCase):
     def get_admin_client(self):
         from django.test.client import Client
         client = Client()
-        client.login(username='admin', password='b')
+        result = self.login(client, username='admin', password='b')
         return client
+
+    def login(self, test_client, username, password):
+        result = test_client.login(username=username, password=password)
+        # from django.contrib.auth import get_user_model
+        # User = get_user_model()
+        # result = test_client.force_login(User())
+        # from django.contrib.auth.models import AnonymousUser
+        # result = test_client.force_login(AnonymousUser())
+        return result
 
     def get_page_url(self, path=''):
         return reverse('pages-details-by-path', args=[path])

@@ -4,8 +4,11 @@ from basic_cms.models import Page, Content, PageAlias
 from basic_cms.tests.testcase import TestCase
 
 import django
+from django.urls import reverse
 
 import datetime
+import time
+import pytz
 
 
 class FunctionnalTestCase(TestCase):
@@ -103,16 +106,16 @@ class FunctionnalTestCase(TestCase):
     def test_edit_page(self):
         """Test that a page can edited via the admin."""
         c = self.get_admin_client()
-        c.login(username='batiste', password='b')
+        self.login(c, username='batiste', password='b')
         page_data = self.get_new_page_data()
         response = c.post('/admin/basic_cms/page/add/', page_data)
         self.assertRedirects(response, '/admin/basic_cms/page/')
         page = Page.objects.all()[0]
-        response = c.get('/admin/basic_cms/page/%d/' % page.id)
+        response = c.get(reverse('admin:basic_cms_page_change', args=[page.id]))
         self.assertEqual(response.status_code, 200)
         page_data['title'] = 'changed title'
         page_data['body'] = 'changed body'
-        response = c.post('/admin/basic_cms/page/%d/' % page.id, page_data)
+        response = c.post(reverse('admin:basic_cms_page_change', args=[page.id]), page_data)
         self.assertRedirects(response, '/admin/basic_cms/page/')
         page = Page.objects.get(id=page.id)
         self.assertEqual(page.title(), 'changed title')
@@ -134,7 +137,7 @@ class FunctionnalTestCase(TestCase):
         setattr(pages_settings, "SITE_ID", 2)
 
         c = self.get_admin_client()
-        c.login(username='batiste', password='b')
+        self.login(c, username='batiste', password='b')
         page_data = self.get_new_page_data()
         page_data["sites"] = [2]
         response = c.post('/admin/basic_cms/page/add/', page_data)
@@ -191,7 +194,7 @@ class FunctionnalTestCase(TestCase):
         """Test post a page with different languages
         and test that the admin views works correctly."""
         c = self.get_admin_client()
-        c.login(username='batiste', password='b')
+        self.login(c, username='batiste', password='b')
 
         # test that the client language setting is used in add page admin
         c.cookies["django_language"] = 'de'
@@ -217,13 +220,13 @@ class FunctionnalTestCase(TestCase):
         else:
             major, middle = [int(v) for v in django_version]
         if major >= 1 and middle > 0:
-            response = c.get('/admin/basic_cms/page/%d/?language=de' % page.id)
+            response = c.get(reverse('admin:basic_cms_page_change', args=[page.id]) + '?language=de')
             self.assertContains(response, 'value="de"')
 
         # add a french version of the same page
         page_data["language"] = 'fr-ch'
         page_data["title"] = 'french title'
-        response = c.post('/admin/basic_cms/page/%d/' % page.id, page_data)
+        response = c.post(reverse('admin:basic_cms_page_change', args=[page.id]), page_data)
         self.assertRedirects(response, '/admin/basic_cms/page/')
 
         # test that the frontend view use the good parameters
@@ -254,18 +257,18 @@ class FunctionnalTestCase(TestCase):
     def test_revision(self):
         """Test that a page can edited several times."""
         c = self.get_admin_client()
-        c.login(username='batiste', password='b')
+        self.login(c, username='batiste', password='b')
         page_data = self.get_new_page_data()
         response = c.post('/admin/basic_cms/page/add/', page_data)
         page = Page.objects.all()[0]
 
         page_data['body'] = 'changed body'
-        response = c.post('/admin/basic_cms/page/%d/' % page.id, page_data)
+        response = c.post(reverse('admin:basic_cms_page_change', args=[page.id]), page_data)
         self.assertEqual(Content.objects.get_content(page, 'en-us', 'body'),
                          'changed body')
 
         page_data['body'] = 'changed body 2'
-        response = c.post('/admin/basic_cms/page/%d/' % page.id, page_data)
+        response = c.post(reverse('admin:basic_cms_page_change', args=[page.id]), page_data)
         page.invalidate()
         self.assertEqual(Content.objects.get_content(page, 'en-us', 'body'),
                          'changed body 2')
@@ -284,12 +287,12 @@ class FunctionnalTestCase(TestCase):
         the admin
         """
         c = self.get_admin_client()
-        c.login(username='batiste', password='b')
+        self.login(c, username='batiste', password='b')
         page_data = self.get_new_page_data()
         page_data['template'] = 'pages/examples/nice.html'
         response = c.post('/admin/basic_cms/page/add/', page_data)
         page = Page.objects.all()[0]
-        response = c.get('/admin/basic_cms/page/%d/' % page.id)
+        response = c.get(reverse('admin:basic_cms_page_change', args=[page.id]))
         self.assertEqual(response.status_code, 200)
 
         self.assertContains(response, 'name="right-column"', 1)
@@ -300,7 +303,7 @@ class FunctionnalTestCase(TestCase):
         """
         self.set_setting("PAGE_UNIQUE_SLUG_REQUIRED", False)
         c = self.get_admin_client()
-        c.login(username='batiste', password='b')
+        self.login(c, username='batiste', password='b')
 
         page_data = self.get_new_page_data()
         page_data['title'] = 'parent title'
@@ -337,7 +340,7 @@ class FunctionnalTestCase(TestCase):
     def test_page_admin_view(self):
         """Test page admin view"""
         c = self.get_admin_client()
-        c.login(username='batiste', password='b')
+        result = self.login(c, username='batiste', password='b')
         page_data = self.get_new_page_data()
         page_data['slug'] = 'page-1'
         response = c.post('/admin/basic_cms/page/add/', page_data)
@@ -375,7 +378,7 @@ class FunctionnalTestCase(TestCase):
         """Test page aliasing system"""
 
         c = self.get_admin_client()
-        c.login(username='batiste', password='b')
+        self.login(c, username='batiste', password='b')
 
         # create some pages
         page_data = self.get_new_page_data()
@@ -433,7 +436,7 @@ class FunctionnalTestCase(TestCase):
     def test_page_valid_targets(self):
         """Test page valid_targets method"""
         c = self.get_admin_client()
-        c.login(username='batiste', password='b')
+        self.login(c, username='batiste', password='b')
         page_data = self.get_new_page_data()
         page_data['slug'] = 'root'
         response = c.post('/admin/basic_cms/page/add/', page_data)
@@ -447,13 +450,13 @@ class FunctionnalTestCase(TestCase):
 
         root_page = Content.objects.get_content_slug_by_slug('root').page
         self.assertEqual(len(root_page.valid_targets()), 0)
-        self.assertEqual(str(c1.valid_targets()),
+        self.assertEqual(str(list(c1.valid_targets())),
                          "[<Page: root>]")
 
     def test_ajax_language(self):
         """Test that language is working properly"""
         c = self.get_admin_client()
-        c.login(username='batiste', password='b')
+        self.login(c, username='batiste', password='b')
         # Activate a language other than settings.LANGUAGE_CODE
         response = c.post('/i18n/setlang/', {'language': 'fr-ch'})
         try:
@@ -485,7 +488,7 @@ class FunctionnalTestCase(TestCase):
 
         Content.objects.get_content_slug_by_slug('child-2').page
 
-        self.assertEqual(str(Page.objects.all()),
+        self.assertEqual(str(list(Page.objects.all())),
                          "[<Page: root>, <Page: child-2>, <Page: child-1>]")
 
         """
@@ -517,7 +520,7 @@ class FunctionnalTestCase(TestCase):
         Test that the default view can only return the context
         """
         c = self.get_admin_client()
-        c.login(username='batiste', password='b')
+        self.login(c, username='batiste', password='b')
         page_data = self.get_new_page_data()
         page_data['slug'] = 'page1'
         # create a page for the example otherwise you will get a Http404 error
@@ -541,7 +544,7 @@ class FunctionnalTestCase(TestCase):
         using the admin interface
         """
         c = self.get_admin_client()
-        c.login(username='batiste', password='b')
+        self.login(c, username='batiste', password='b')
         page_data = self.get_new_page_data()
         page_data['slug'] = 'root'
 
@@ -562,20 +565,20 @@ class FunctionnalTestCase(TestCase):
 
         child_2 = Content.objects.get_content_slug_by_slug('child-2').page
 
-        self.assertEqual(str(Page.objects.all()),
+        self.assertEqual(str(list(Page.objects.all())),
                          "[<Page: root>, <Page: child-2>, <Page: child-1>]")
         # move page 1 in the first position
         response = c.post('/admin/basic_cms/page/%d/move-page/' % child_1.id,
                           {'position': 'first-child', 'target': root_page.id})
 
-        self.assertEqual(str(Page.objects.all()),
+        self.assertEqual(str(list(Page.objects.all())),
                          "[<Page: root>, <Page: child-1>, <Page: child-2>]")
 
         # move page 2 in the first position
         response = c.post('/admin/basic_cms/page/%d/move-page/' % child_2.id,
                           {'position': 'left', 'target': child_1.id})
 
-        self.assertEqual(str(Page.objects.all()),
+        self.assertEqual(str(list(Page.objects.all())),
                          "[<Page: root>, <Page: child-2>, <Page: child-1>]")
 
         # try to create a sibling with the same slug, via left, right
@@ -610,10 +613,10 @@ class FunctionnalTestCase(TestCase):
 
         # try to change the page 2 slug into page 1
         page_data['slug'] = 'child-1'
-        response = c.post('/admin/basic_cms/page/%d/' % child_2.id, page_data)
+        response = c.post(reverse('admin:basic_cms_page_change', args=[child_2.id]), page_data)
         self.assertEqual(response.status_code, 200)
         setattr(pages_settings, "PAGE_UNIQUE_SLUG_REQUIRED", True)
-        response = c.post('/admin/basic_cms/page/%d/' % child_2.id, page_data)
+        response = c.post(reverse('admin:basic_cms_page_change', args=[child_2.id]), page_data)
         self.assertEqual(response.status_code, 200)
 
     def test_tree(self):
@@ -621,7 +624,7 @@ class FunctionnalTestCase(TestCase):
         Test that the navigation tree works properly with mptt.
         """
         c = self.get_admin_client()
-        c.login(username='batiste', password='b')
+        self.login(c, username='batiste', password='b')
         page_data = self.get_new_page_data()
         page_data['slug'] = 'page1'
         c.post('/admin/basic_cms/page/add/', page_data)
@@ -629,7 +632,7 @@ class FunctionnalTestCase(TestCase):
         c.post('/admin/basic_cms/page/add/', page_data)
         page_data['slug'] = 'page3'
         c.post('/admin/basic_cms/page/add/', page_data)
-        self.assertEqual(str(Page.objects.navigation()),
+        self.assertEqual(str(list(Page.objects.navigation())),
                          "[<Page: page1>, <Page: page2>, <Page: page3>]")
 
         p1 = Content.objects.get_content_slug_by_slug('page1').page
@@ -639,13 +642,13 @@ class FunctionnalTestCase(TestCase):
         p2.move_to(p1, 'left')
         p2.save()
 
-        self.assertEqual(str(Page.objects.navigation()),
+        self.assertEqual(str(list(Page.objects.navigation())),
                          "[<Page: page2>, <Page: page1>, <Page: page3>]")
 
         p3.move_to(p2, 'left')
         p3.save()
 
-        self.assertEqual(str(Page.objects.navigation()),
+        self.assertEqual(str(list(Page.objects.navigation())),
                          "[<Page: page3>, <Page: page2>, <Page: page1>]")
 
         p1 = Content.objects.get_content_slug_by_slug('page1').page
@@ -655,13 +658,13 @@ class FunctionnalTestCase(TestCase):
         p3.move_to(p1, 'first-child')
         p2.move_to(p1, 'first-child')
 
-        self.assertEqual(str(Page.objects.navigation()),
+        self.assertEqual(str(list(Page.objects.navigation())),
                          "[<Page: page1>]")
 
         p3 = Content.objects.get_content_slug_by_slug('page3').page
         p3.move_to(p1, 'left')
 
-        self.assertEqual(str(Page.objects.navigation()),
+        self.assertEqual(str(list(Page.objects.navigation())),
                          "[<Page: page3>, <Page: page1>]")
 
     def test_page_redirect_to_url(self):
@@ -689,15 +692,18 @@ class FunctionnalTestCase(TestCase):
         self.assertRedirects(response, '/admin/basic_cms/page/')
         page = Page.objects.from_path('before', None)
         self.assertEqual(page.freeze_date, None)
-        limit = datetime.datetime.now()
+        # Naive datetime does not work
+        limit = datetime.datetime.now(tz=pytz.utc)
         page.freeze_date = limit
         page.save()
+        self.assertEqual(page.slug(), 'before')
 
         page_data['title'] = 'after'
         page_data['slug'] = 'after'
         # this post erase the limit
-        response = c.post('/admin/basic_cms/page/%d/' % page.id, page_data)
-        self.assertRedirects(response, '/admin/basic_cms/page/')
+        change_url = reverse("admin:basic_cms_page_change", args=[page.id])
+        response = c.post(change_url, page_data)
+        self.assertRedirects(response, reverse("admin:basic_cms_page_changelist"))
 
         page = Page.objects.from_path('after', None)
         page.freeze_date = limit
@@ -748,7 +754,7 @@ class FunctionnalTestCase(TestCase):
         unstranslated_string = 'the untranslated string'
         page_data['untrans'] = unstranslated_string
         page_data['template'] = 'pages/tests/untranslated.html'
-        response = c.post('/admin/basic_cms/page/add/', page_data)
+        response = c.post(reverse('admin:basic_cms_page_add'), page_data)
         self.assertRedirects(response, '/admin/basic_cms/page/')
 
         page = Page.objects.from_path('untranslated', None)
@@ -758,7 +764,9 @@ class FunctionnalTestCase(TestCase):
         )
 
         page_data['untrans'] = ''
-        response = c.get('/admin/basic_cms/page/%d/?language=fr-ch' % page.id)
+        change_url = reverse('admin:basic_cms_page_change', args=[page.id])
+        change_url += '?language=fr-ch'
+        response = c.get(change_url)
         self.assertContains(response, unstranslated_string)
 
     def test_root_page(self):
